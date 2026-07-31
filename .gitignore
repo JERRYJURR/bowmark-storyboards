@@ -1,0 +1,4 @@
+# internal working docs — briefs, reviews, specs stay out of the public repo
+/*.md
+.claude/
+.DS_Store

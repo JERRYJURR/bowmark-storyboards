@@ -1,0 +1,217 @@
+/* Bowmark storyboards — low-fi wireframe kit. Grayscale only, deliberately unstyled. */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink: #161616;
+  --mid: #767676;
+  --line: #9a9a9a;
+  --faint: #d9d9d9;
+  --bg: #fafafa;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --sans: -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.45;
+}
+
+/* ---------- wireframe primitives ---------- */
+
+.wf { border: 1.5px dashed var(--line); background: #fff; }
+
+.hatch {
+  background: repeating-linear-gradient(45deg, transparent 0 7px, #d2d2d2 7px 8.5px), #f2f2f2;
+  border: 1.5px dashed var(--line);
+}
+
+.chip {
+  font: 10px/1.5 var(--mono);
+  color: #555;
+  background: #ebebeb;
+  border: 1px solid var(--faint);
+  border-radius: 3px;
+  padding: 1px 7px;
+  display: inline-block;
+  letter-spacing: 0.02em;
+}
+
+.note { font: 11px/1.5 var(--mono); color: var(--mid); }
+
+.fn {
+  font: 12px/1.4 var(--mono);
+  border: 1.5px solid var(--ink);
+  background: #fff;
+  padding: 5px 10px;
+  display: inline-block;
+}
+
+.cap {
+  font: 13px/1.4 var(--mono);
+  font-weight: 700;
+  border: 1.5px solid var(--ink);
+  outline: 1.5px solid var(--ink);
+  outline-offset: 3px;
+  background: #fff;
+  padding: 7px 14px;
+  display: inline-block;
+}
+
+.beat {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(26px, 3.6vw, 44px);
+  letter-spacing: -0.01em;
+  max-width: 22ch;
+}
+
+.beat small { display: block; font-size: 0.45em; font-weight: 400; color: var(--mid); margin-top: 10px; }
+
+/* ---------- fixed page furniture ---------- */
+
+.board-head {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 16px;
+  background: rgba(250,250,250,.92);
+  border-bottom: 1px solid var(--faint);
+  font: 12px var(--mono);
+}
+.board-head a { color: var(--ink); }
+.board-head .spacer { flex: 1; }
+
+.scene-chip {
+  position: absolute; bottom: 14px; left: 14px; z-index: 50;
+  font: 11px/1.6 var(--mono);
+  background: #1c1c1c; color: #eee;
+  padding: 6px 12px; border-radius: 4px;
+  max-width: 380px;
+}
+.scene-chip b { color: #fff; }
+
+/* ---------- navbar wireframe (baseline #6) ---------- */
+
+.wnav {
+  display: flex; align-items: center; gap: 22px;
+  padding: 14px 28px; border-bottom: 1.5px dashed var(--line);
+  font: 13px var(--mono); background: #fff;
+}
+.wnav .logo { font-weight: 700; border: 1.5px solid var(--ink); padding: 3px 10px; }
+.wnav .spacer { flex: 1; }
+.wnav .cta { border: 1.5px solid var(--ink); background: #1c1c1c; color: #fff; padding: 5px 14px; }
+
+/* ---------- scroll scene machinery ---------- */
+
+.scene { position: relative; }
+.scene .pin {
+  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.kf { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .35s; pointer-events: none; }
+.kf.on { opacity: 1; pointer-events: auto; }
+
+/* progress bar strip used by percent/tide mechanics */
+.pbar { height: 10px; background: #e7e7e7; border: 1px solid var(--line); position: relative; }
+.pbar > i { position: absolute; inset: 0; right: auto; background: #454545; width: calc(var(--p,0) * 100%); }
+
+/* ---------- browser mockup ---------- */
+
+.browser { width: min(760px, 82vw); border: 1.5px solid var(--ink); background: #fff; }
+.browser .bbar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border-bottom: 1.5px solid var(--ink);
+}
+.browser .dot { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--ink); }
+.browser .addr {
+  flex: 1; border: 1.5px dashed var(--line); font: 11px var(--mono);
+  color: var(--mid); padding: 4px 10px; background: #f6f6f6;
+}
+.browser .bbody { min-height: 300px; padding: 14px; position: relative; }
+
+/* generic site wireframe innards */
+.site-row { display: flex; gap: 10px; margin-bottom: 10px; }
+.blk { border: 1.5px dashed var(--line); background: #f1f1f1; min-height: 34px; flex: 1;
+       display:flex; align-items:center; justify-content:center; }
+.blk .note { padding: 2px 6px; text-align: center; }
+
+/* ---------- chat / tool-call mockup ---------- */
+
+.chat { width: min(560px, 85vw); border: 1.5px solid var(--ink); background: #fff; padding: 16px; }
+.msg { border: 1.5px dashed var(--line); padding: 9px 12px; margin-bottom: 10px; font-size: 13px; }
+.msg.user { background: #efefef; margin-left: 12%; }
+.toolcard { border: 1.5px solid var(--ink); padding: 9px 12px; margin-bottom: 10px; font: 12px var(--mono); background: #f7f7f7; }
+.toolcard .note { margin-top: 4px; }
+
+/* ---------- code block wireframe ---------- */
+
+.code { font: 12px/1.7 var(--mono); border: 1.5px solid var(--ink); background: #1e1e1e; color: #ddd;
+        padding: 14px 16px; white-space: pre; overflow-x: auto; }
+.code .c { color: #888; }
+
+/* ---------- functional-half wireframe strips ---------- */
+
+.fsec { max-width: 1060px; margin: 0 auto; padding: 56px 24px; border-bottom: 1.5px dashed var(--faint); }
+.fsec h2 { font-size: 24px; margin-bottom: 6px; letter-spacing: -0.01em; }
+.fsec .fhead { display: flex; align-items: baseline; gap: 12px; margin-bottom: 22px; }
+
+.race { display: grid; gap: 14px; }
+.race .side { border: 1.5px solid var(--ink); background: #fff; padding: 12px; }
+.race .sidehead { display: flex; justify-content: space-between; font: 11px var(--mono); color: var(--mid); margin-bottom: 8px; }
+.race .rec { height: 130px; }
+.nums { display: flex; gap: 18px; font: 12px var(--mono); margin-top: 10px; align-items: baseline; }
+.nums b { font-size: 17px; }
+.tbar { height: 14px; border: 1px solid var(--line); background: #eee; position: relative; margin-top: 10px; }
+.tbar > i { position: absolute; left: 0; top: 0; bottom: 0; background: #3f3f3f; }
+
+.tabs { display: flex; gap: 8px; margin: 22px 0 12px; }
+.tabs .chip.on { background: #1c1c1c; color: #fff; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.tile { border: 1.5px dashed var(--line); background: #fff; padding: 12px 10px; font: 12px var(--mono);
+        display: flex; flex-direction: column; gap: 7px; }
+.tile .logo-ph { width: 22px; height: 22px; border: 1.5px solid var(--ink); border-radius: 50%; }
+
+.twopane { display: grid; grid-template-columns: 230px 1fr; gap: 14px; }
+.twopane .rail { border: 1.5px dashed var(--line); background: #fff; padding: 12px; font: 12px var(--mono); }
+.rail .grp { margin-bottom: 12px; }
+.rail .grp b { display: block; margin-bottom: 5px; }
+.rail .grp span { display: block; color: var(--mid); padding: 2px 0 2px 10px; }
+.twopane .detail { border: 1.5px solid var(--ink); background: #fff; padding: 16px; }
+
+.faqrow { border-top: 1.5px dashed var(--faint); padding: 12px 4px; }
+.faqrow b { font-size: 14px; }
+.faqrow p { font-size: 13px; color: var(--mid); max-width: 68ch; margin-top: 4px; }
+
+.footer { display: flex; gap: 18px; padding: 26px; font: 12px var(--mono); color: var(--mid);
+          border-top: 1.5px solid var(--ink); align-items: center; }
+
+/* evidence rail (variant 3) */
+.evrail {
+  position: fixed; top: 52px; right: 14px; z-index: 40;
+  width: 250px; border: 1.5px solid var(--ink); background: #fff;
+  font: 10.5px/1.7 var(--mono); padding: 9px 12px;
+  display: none;
+}
+.evrail.show { display: block; }
+.evrail b { display: block; border-bottom: 1px dashed var(--faint); margin-bottom: 5px; padding-bottom: 3px; }
+
+/* index page */
+.cover { max-width: 900px; margin: 0 auto; padding: 90px 24px 60px; }
+.cover h1 { font-size: 40px; letter-spacing: -0.02em; margin-bottom: 8px; }
+.cover .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 30px 0; }
+.cover .card { border: 1.5px solid var(--ink); background: #fff; padding: 18px; display: block; color: var(--ink); text-decoration: none; }
+.cover .card:hover { background: #f0f0f0; }
+.cover .card h3 { font-size: 18px; margin: 8px 0 6px; }
+.cover .card p { font-size: 13px; color: var(--mid); }
+.cover table { border-collapse: collapse; font-size: 12.5px; width: 100%; margin-top: 10px; }
+.cover td, .cover th { border: 1px solid var(--faint); padding: 7px 9px; text-align: left; vertical-align: top; }
+.cover th { background: #efefef; font-family: var(--mono); font-size: 11px; }
+
+@media (max-width: 720px) {
+  .twopane { grid-template-columns: 1fr; }
+  .evrail { display: none !important; }
+}
