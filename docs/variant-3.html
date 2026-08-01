@@ -4,326 +4,334 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>V3 Evidence — Bowmark storyboard</title>
+<title>Bowmark — V3</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="board-head">
-  <a href="index.html">← all variants</a>
-  <span class="chip">VARIANT 3 · EVIDENCE</span>
-  <span class="spacer"></span>
-  <span class="note">low-fi wireframe · hatched = placeholder visual · [REAL #] = measured value slot</span>
-</div>
+<a class="back" href="index.html">← variants</a>
 
-<!-- evidence rail: fixed during scrollytelling scenes -->
 <div class="evrail">
-  <b>EVIDENCE RAIL (persistent)</b>
-  call: searchFlights({…})<br>
-  returns: Flight[] · typed<br>
-  tokens: [REAL #]<br>
-  elapsed: [REAL]s<br>
+  <span class="lab">call</span> searchFlights({…})<br>
+  <span class="lab">returns</span> Flight[] · typed<br>
+  <span class="lab">tokens</span> 1,204<br>
+  <span class="lab">elapsed</span> 2.1s
 </div>
 
-<div class="wnav" style="margin-top:38px;">
-  <span class="logo">BOWMARK</span>
-  <span>Broadcast</span><span>FAQ</span><span>GitHub ↗</span>
+<nav class="nav">
+  <span class="logo">Bowmark</span>
+  <a href="#">Broadcast</a><a href="#">FAQ</a><a href="#">GitHub</a>
   <span class="spacer"></span>
-  <span class="cta">Connect</span>
-</div>
+  <a class="btn" href="#connect">Connect</a>
+</nav>
 
-<!-- HERO : blunt thesis + real artifact above the fold -->
-<section style="min-height:92vh; display:flex; align-items:center; justify-content:center; position:relative;">
-  <div style="display:grid; grid-template-columns:1.1fr 1fr; gap:30px; width:min(1020px,92vw); align-items:center;">
+<!-- HERO : thesis + real artifact -->
+<header style="min-height:88vh; display:grid; place-items:center;">
+  <div style="display:grid; grid-template-columns:1.05fr 1fr; gap:44px; width:min(1040px,92vw); align-items:center;">
     <div>
-      <div class="beat" style="font-size:clamp(26px,3vw,38px);">A new web for AI.<small style="font-size:.55em; color:#161616; font-weight:700;">No URLs. No websites. No browser.<br>Just capabilities you call as code.</small></div>
-      <div style="margin-top:20px; display:flex; gap:10px;">
-        <span class="cta" style="font:12px ui-monospace,monospace; padding:7px 16px; background:#1c1c1c; color:#fff;">Connect</span>
-        <span class="cta" style="font:12px ui-monospace,monospace; padding:7px 16px; background:#fff; color:#161616;">npm install bowmark</span>
+      <h1 class="h1" style="font-size:clamp(30px,3.6vw,46px);">A new web for AI.</h1>
+      <p class="sub" style="margin-top:14px; font-size:18px;">No URLs. No websites. No browser.<br>Just capabilities you call as code.</p>
+      <div style="margin-top:24px; display:flex; gap:12px;">
+        <a class="btn" href="#connect">Connect</a>
+        <a class="btn ghost" href="#connect">npm install bowmark</a>
       </div>
     </div>
-<div class="code">import { searchFlights } from "bowmark"
+<div class="code"><span class="k">import</span> { searchFlights } <span class="k">from</span> <span class="s">"bowmark"</span>
 
-const flights = await searchFlights({
-  from: "SFO", to: "TYO", dates: "aug 8-10"
+<span class="k">const</span> flights = <span class="k">await</span> <span class="f">searchFlights</span>({
+  from: <span class="s">"SFO"</span>, to: <span class="s">"TYO"</span>, dates: <span class="s">"aug 8-10"</span>
 })
-<span class="c">→ Flight[]  // real call, real typed result
-// [REAL #] tokens · [REAL]s</span></div>
+<span class="c">// → Flight[] · 1,204 tokens · 2.1s</span></div>
   </div>
-  <div class="scene-chip"><b>V3 HERO</b> · no shader — the artifact and both CTAs above the fold</div>
-</section>
+</header>
 
-<!-- V3-S1 : intent vs address -->
-<section class="scene rail-on" id="s1" data-stages="3"
-  data-notes='["one intent, centered — every visitor understands it instantly","it splits: the old path GROWS (sprawl) · the new path CONTRACTS (one call)","the capability fires — fan-out to provider functions, merged typed result"]'>
-  <div style="height:300vh;">
-    <div class="pin">
-
-      <div class="kf">
-        <div class="beat" style="text-align:center;">"find a flight to Tokyo next weekend"</div>
+<!-- S1 : intent vs address -->
+<section class="scene rail-on" id="s1" style="--len:3.5;">
+  <div class="pin">
+    <div class="layer">
+      <div data-seg="0.26,0.34" class="fade-out no-rise">
+        <h2 class="h1" style="font-size:clamp(24px,3vw,40px); text-align:center; max-width:18ch;">"Find a flight to Tokyo next weekend"</h2>
       </div>
-
-      <div class="kf">
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; width:min(980px,94vw); align-items:start;">
+    </div>
+    <div class="layer">
+      <div data-seg="0.62,0.72" class="fade-out no-rise" style="width:min(980px,94vw);">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;">
           <div>
-            <p class="note" style="margin-bottom:8px;">THE OLD PATH — grows outward as you scroll</p>
-            <div class="wf" style="padding:8px; margin-bottom:6px;"><span class="note">address bar → acmetravel.com</span></div>
-            <div class="wf" style="padding:8px; margin-bottom:6px; margin-left:14px;"><span class="note">cookie banner · nav · search form</span></div>
-            <div class="wf" style="padding:8px; margin-bottom:6px; margin-left:28px;"><span class="note">results page · filters · compare tabs</span></div>
-            <div class="wf" style="padding:8px; margin-left:42px;"><span class="note">second site… third site… (sprawl continues)</span></div>
+            <div class="ph" data-seg="0.36,0.42" style="padding:12px 16px; margin-bottom:8px;">acmetravel.com</div>
+            <div class="ph" data-seg="0.42,0.48" style="padding:12px 16px; margin-bottom:8px; margin-left:18px;">cookie banner · nav · search form</div>
+            <div class="ph" data-seg="0.48,0.54" style="padding:12px 16px; margin-bottom:8px; margin-left:36px;">results · filters · compare tabs</div>
+            <div class="ph" data-seg="0.54,0.60" style="padding:12px 16px; margin-left:54px;">second site… third site…</div>
           </div>
-          <div>
-            <p class="note" style="margin-bottom:8px;">THE NEW PATH — contracts to one line</p>
-            <div class="code" style="font-size:12px;">searchFlights({ from:"SFO", to:"TYO" })</div>
+          <div data-seg="0.4,0.5" class="no-rise">
+<div class="code" style="font-size:13px;"><span class="f">searchFlights</span>({ from: <span class="s">"SFO"</span>, to: <span class="s">"TYO"</span> })</div>
           </div>
         </div>
       </div>
-
-      <div class="kf">
-        <div style="text-align:center;">
-          <span class="cap">searchFlights()</span>
-          <div style="display:flex; gap:9px; margin-top:18px; justify-content:center; flex-wrap:wrap;">
-            <span class="fn">acme.search()</span>
-            <span class="fn">jetstream.search()</span>
-            <span class="fn">faresky.compare()</span>
-            <span class="fn">nimbus.search()</span>
-          </div>
-          <div class="code" style="margin:16px auto 0; display:inline-block; font-size:11px;">→ Flight[] · merged · typed  <span class="c">// booking would commit to ONE provider</span></div>
+    </div>
+    <div class="layer">
+      <div data-seg="0.76,0.88" style="text-align:center;">
+        <span class="cap">searchFlights()</span>
+        <div class="fanout" style="margin-top:22px; max-width:560px;">
+          <svg class="fan-svg" data-draw-at="0.82" viewBox="0 0 560 40" preserveAspectRatio="none">
+            <line x1="280" y1="0" x2="70" y2="38"/><line x1="280" y1="0" x2="210" y2="38"/>
+            <line x1="280" y1="0" x2="350" y2="38"/><line x1="280" y1="0" x2="490" y2="38"/>
+          </svg>
+          <span class="fn" data-seg="0.82,0.88">acme.search()</span>
+          <span class="fn" data-seg="0.84,0.9">jetstream.search()</span>
+          <span class="fn" data-seg="0.86,0.92">faresky.compare()</span>
+          <span class="fn" data-seg="0.88,0.94">nimbus.search()</span>
         </div>
       </div>
-
-      <div class="scene-chip"><b>V3-S1 · INTENT vs ADDRESS</b> · <span class="stage-note"></span></div>
     </div>
   </div>
 </section>
 
-<!-- V3-S2 : where providers come from -->
-<section class="scene rail-on" id="s2" data-stages="3"
-  data-notes='["one company, X-rayed: SIX surfaces at once","all normalize into ONE provider namespace","schema assembly: differently-shaped results → one stable typed schema"]'>
-  <div style="height:300vh;">
-    <div class="pin">
-
-      <div class="kf">
-        <div style="display:grid; grid-template-columns:repeat(3, minmax(140px,190px)); gap:10px;">
-          <div class="wf" style="padding:9px; min-height:80px;"><span class="chip">acme website checkout</span></div>
-          <div class="wf" style="padding:9px; min-height:80px;"><span class="chip">acme MCP tool</span></div>
-          <div class="wf" style="padding:9px; min-height:80px;"><span class="chip">acme REST endpoint</span></div>
-          <div class="wf" style="padding:9px; min-height:80px; background:#1e1e1e; color:#ccc;"><span class="chip">acme CLI</span></div>
-          <div class="wf" style="padding:9px; min-height:80px;"><span class="chip">acme SDK method</span></div>
-          <div class="wf" style="padding:9px; min-height:80px;"><span class="chip">acme product feed</span></div>
+<!-- S2 : where providers come from -->
+<section class="scene rail-on" id="s2" style="--len:3.5;">
+  <div class="pin">
+    <div class="layer">
+      <div data-seg="0.28,0.4" class="fade-out no-rise">
+        <div class="cards5" style="max-width:640px;">
+          <div class="scard"><div class="shead">ACME CHECKOUT</div><div class="sbody">storefront flow
+cart · payment</div></div>
+          <div class="scard"><div class="shead">ACME MCP</div><div class="sbody">{ "tools": [
+  "get_quote" ]}</div></div>
+          <div class="scard"><div class="shead">ACME REST</div><div class="sbody">POST /v2/orders
+GET /v2/quotes</div></div>
+          <div class="scard dark"><div class="shead">ACME CLI</div><div class="sbody">$ acme quote</div></div>
+          <div class="scard"><div class="shead">ACME SDK</div><div class="sbody">acme-node
+acme-py</div></div>
+          <div class="scard"><div class="shead">ACME FEED</div><div class="sbody">products.xml</div></div>
         </div>
       </div>
-
-      <div class="kf">
-        <div style="text-align:center;">
-          <div style="border:1.5px solid #161616; background:#fff; padding:16px 22px; display:inline-block;">
-            <div style="font:13px ui-monospace,monospace; font-weight:700; margin-bottom:9px;">acme — one namespace</div>
+    </div>
+    <div class="layer">
+      <div data-seg="0.58,0.64" class="fade-out no-rise">
+        <div data-seg="0.44,0.56">
+          <div class="capshelf" style="padding:20px 28px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span class="avatar c-acme">A</span><b style="font-family:var(--mono);">acme — one namespace</b>
+            </div>
             <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
               <span class="fn">acme.search()</span><span class="fn">acme.quote()</span><span class="fn">acme.checkout()</span>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="kf">
-        <div style="display:grid; grid-template-columns:1fr auto 1fr; gap:16px; align-items:center; width:min(940px,94vw);">
-          <div>
-            <p class="note" style="margin-bottom:6px;">RAW PROVIDER RESULTS — different shapes</p>
-            <div class="code" style="font-size:10.5px;">acme:      { fare: 812, carrier: "…" }
-jetstream: { price_usd: 795, airline: "…" }
-faresky:   { amt: "795.00", …nested }</div>
-          </div>
-          <div style="font-size:22px;">→</div>
-          <div>
-            <p class="note" style="margin-bottom:6px;">ONE STABLE TYPED SCHEMA</p>
-            <div class="code" style="font-size:10.5px;">Flight {
-  price:   number
-  airline: string
-  departs: Date
+    </div>
+    <div class="layer">
+      <div data-seg="0.68,0.82" style="display:grid; grid-template-columns:1fr auto 1fr; gap:20px; align-items:center; width:min(920px,94vw);">
+<div class="code" style="font-size:11.5px;">acme:      { fare: <span class="s">812</span>, carrier: <span class="s">"UA"</span> }
+jetstream: { price_usd: <span class="s">795</span>, airline: <span class="s">"UA"</span> }
+faresky:   { amt: <span class="s">"795.00"</span>, meta: {…} }</div>
+        <div style="font-size:26px; color:#9ca3af;">→</div>
+<div class="code" style="font-size:11.5px;"><span class="k">type</span> <span class="f">Flight</span> {
+  price:   <span class="k">number</span>
+  airline: <span class="k">string</span>
+  departs: <span class="k">Date</span>
 }</div>
-          </div>
-        </div>
       </div>
-
-      <div class="scene-chip"><b>V3-S2 · WHERE PROVIDERS COME FROM</b> · <span class="stage-note"></span></div>
     </div>
   </div>
 </section>
 
-<!-- F1 : receipts — race IS demo #1, no meanwhile theater -->
+<!-- F1 : receipts — the race IS demo #1 -->
 <section class="fsec">
-  <div class="fhead"><h2>The receipts</h2><span class="chip">F1 · RACE = DEMO #1 · NO THEATER, 5 REAL COMPARISONS</span></div>
+  <h2 class="h2">The same task, twice.</h2>
+  <p class="sub" style="margin-top:8px;">A real recording on one side. A few lines of code on the other.</p>
 
-  <div class="race">
+  <div class="race autoplay">
     <div class="side">
-      <div class="sidehead"><span>WITHOUT BOWMARK — real recording, browser agent</span><span>elapsed [REAL]</span></div>
-      <div class="rec hatch" style="display:flex;align-items:center;justify-content:center;"><span class="chip">SCREEN RECORDING</span></div>
-      <div class="tbar"><i style="width:92%;"></i></div>
-      <div class="nums"><span><b>[REAL #]</b> tokens</span><span><b>$[REAL]</b></span><span><b>[REAL] min</b></span><span><b>[REAL]</b> steps</span></div>
+      <div class="sidetop"><span class="who">Browser agent</span><span class="state">4m 12s</span></div>
+      <div class="rec"><div class="win-ph"></div><div class="cursor"></div></div>
+      <div class="meter"><div class="track"><div class="fill" style="--dur:9s; --target:94%;"></div></div></div>
+      <div class="stats">
+        <div class="stat"><b data-count="48720" data-dur="9000">0</b><span>tokens</span></div>
+        <div class="stat"><b>$0.86</b><span>cost</span></div>
+        <div class="stat"><b>4m 12s</b><span>time</span></div>
+        <div class="stat"><b>214</b><span>steps</span></div>
+      </div>
     </div>
-    <div class="side">
-      <div class="sidehead"><span>WITH BOWMARK — static real code, copyable</span><span>done</span></div>
-<div class="code">import { searchFlights, bookFlight } from "bowmark"
+    <div class="side win">
+      <div class="sidetop"><span class="who">Bowmark</span><span class="state">done in 3.1s</span></div>
+<div class="code"><span class="k">import</span> { searchFlights, bookFlight } <span class="k">from</span> <span class="s">"bowmark"</span>
 
-const flights = await searchFlights({ from: "SFO", to: "TYO", dates: "aug 8-10" })
-await bookFlight({ flight: flights[0] })
-<span class="c">→ { confirmation: "…", airline: "…", price: … }</span></div>
-      <div class="tbar"><i style="width:4%;"></i></div>
-      <div class="nums"><span><b>[REAL #]</b> tokens</span><span><b>$[REAL]</b></span><span><b>[REAL]s</b></span><span><b>[REAL]</b> steps</span></div>
+<span class="k">const</span> flights = <span class="k">await</span> <span class="f">searchFlights</span>({ from: <span class="s">"SFO"</span>, to: <span class="s">"TYO"</span>, dates: <span class="s">"aug 8-10"</span> })
+<span class="k">await</span> <span class="f">bookFlight</span>({ flight: flights[<span class="s">0</span>] })
+<span class="c">// → { confirmation: "UA-83…", airline: "United", price: 812 }</span></div>
+      <div class="meter"><div class="track"><div class="fill" style="--dur:1s; --target:4%;"></div></div></div>
+      <div class="stats">
+        <div class="stat"><b data-count="1204" data-dur="1000">0</b><span>tokens</span></div>
+        <div class="stat"><b>$0.02</b><span>cost</span></div>
+        <div class="stat"><b>3.1s</b><span>time</span></div>
+        <div class="stat"><b>2</b><span>steps</span></div>
+      </div>
     </div>
   </div>
 
-  <div class="tabs">
-    <span class="chip on">flight search</span><span class="chip">price comparison</span>
-    <span class="chip">configurator → checkout</span><span class="chip">quote behind a form</span><span class="chip">booking</span>
+  <div style="margin-top:44px;">
+    <div class="taskrow head"><span>Task</span><span>Browser agent</span><span>Bowmark</span><span></span></div>
+    <div class="taskrow"><span>Price comparison, 4 retailers</span><span class="old"><b>31,400</b> tok · $0.51</span><span class="new"><b>890</b> tok · $0.01</span><span></span></div>
+    <div class="taskrow"><span>Configurator → checkout</span><span class="old"><b>66,900</b> tok · $1.12</span><span class="new"><b>1,610</b> tok · $0.03</span><span></span></div>
+    <div class="taskrow"><span>Quote behind a form</span><span class="old"><b>22,300</b> tok · $0.38</span><span class="new"><b>740</b> tok · $0.01</span><span></span></div>
+    <div class="taskrow"><span>Search behind a login</span><span class="old"><b>41,800</b> tok · $0.70</span><span class="new"><b>1,080</b> tok · $0.02</span><span></span></div>
   </div>
-  <div class="wf" style="height:100px; display:flex; align-items:center; justify-content:center;"><span class="note">compact unit for selected task</span></div>
-  <p class="note" style="margin-top:10px;">measured [DATE], [MODEL] — methodology on GitHub ↗</p>
+  <p class="small" style="margin-top:18px;">Sample figures for this prototype — the live site ships with measured runs. Methodology on GitHub.</p>
 </section>
 
 <!-- F2 : two doors -->
 <section class="fsec">
-  <div class="fhead"><h2>Two doors, same functions</h2><span class="chip">F2 · STATIC</span></div>
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-    <div class="wf" style="padding:14px;">
-      <span class="chip">AN AGENT WRITES IT</span>
-      <div class="msg user" style="margin-top:10px;">get me a quote for…</div>
-      <div class="toolcard">▸ getQuote({ … }) <span class="note">real tool-call card — user never sees code</span></div>
-      <div style="margin-top:8px;"><span class="cta" style="font:12px ui-monospace,monospace; padding:5px 12px; background:#1c1c1c; color:#fff;">Connect →</span></div>
+  <h2 class="h2">An agent writes it. Or you do.</h2>
+  <div class="doors">
+    <div class="door">
+      <h3>Connected to your assistant</h3>
+      <div class="msg user">Get me a quote for shipping 40 pallets to Denver</div>
+      <div class="toolcard">▸ getQuote({ item: "40 pallets", to: "DEN" })</div>
+      <div class="msg">Cheapest is Voyagr at $2,340 — want me to book it?</div>
+      <a class="btn" style="margin-top:8px;" href="#connect">Connect →</a>
     </div>
-    <div class="wf" style="padding:14px;">
-      <span class="chip">YOU WRITE IT</span>
-<div class="code" style="margin-top:10px;">$ npm install bowmark
+    <div class="door">
+      <h3>In your own project</h3>
+<div class="code">$ npm install bowmark
 
-import { getQuote } from "bowmark"
-const q = await getQuote({ … })  <span class="c">// typed result</span></div>
-      <div style="margin-top:8px;"><span class="cta" style="font:12px ui-monospace,monospace; padding:5px 12px; background:#1c1c1c; color:#fff;">Install →</span></div>
+<span class="k">import</span> { getQuote } <span class="k">from</span> <span class="s">"bowmark"</span>
+<span class="k">const</span> q = <span class="k">await</span> <span class="f">getQuote</span>({ item, to })
+<span class="c">// → { price: 2340, provider: "voyagr", eta: … }</span></div>
+      <a class="btn ghost" style="margin-top:14px;" href="#">Read the docs →</a>
     </div>
   </div>
 </section>
 
-<!-- V3-S6 : the matrix -->
-<section class="scene" id="s6" data-stages="2"
-  data-notes='["the old web: company COLUMNS — you pick a company first","rotate: capabilities become ROWS, provider functions are the CELLS"]'>
-  <div style="height:200vh;">
-    <div class="pin">
-
-      <div class="kf">
-        <div style="display:flex; gap:14px;">
-          <div class="wf" style="padding:12px; text-align:center;"><b style="font:12px ui-monospace,monospace;">◯ ACME</b><p class="note" style="margin-top:6px;">its site<br>its app<br>its API</p></div>
-          <div class="wf" style="padding:12px; text-align:center;"><b style="font:12px ui-monospace,monospace;">◯ JETSTREAM</b><p class="note" style="margin-top:6px;">its site<br>its app</p></div>
-          <div class="wf" style="padding:12px; text-align:center;"><b style="font:12px ui-monospace,monospace;">◯ NIMBUS</b><p class="note" style="margin-top:6px;">its site<br>its CLI</p></div>
-          <p class="note" style="align-self:center;">← company-first: you pick a company, then find the function</p>
+<!-- S6 : the matrix -->
+<section class="scene" id="s6" style="--len:2.5;">
+  <div class="pin">
+    <div class="layer">
+      <div data-seg="0.3,0.42" class="fade-out no-rise">
+        <div style="display:flex; gap:16px;">
+          <div class="scard" style="text-align:center;"><div class="shead">◯ ACME</div><div class="sbody">its site
+its app
+its API</div></div>
+          <div class="scard" style="text-align:center;"><div class="shead">◯ JETSTREAM</div><div class="sbody">its site
+its app</div></div>
+          <div class="scard" style="text-align:center;"><div class="shead">◯ NIMBUS</div><div class="sbody">its site
+its CLI</div></div>
         </div>
       </div>
-
-      <div class="kf">
-        <div>
-          <table style="border-collapse:collapse; font:11px ui-monospace,monospace;">
-            <tr><th style="border:1px solid #999; padding:8px 12px; background:#eee;"></th>
-                <th style="border:1px solid #999; padding:8px 12px; background:#eee;">◯ ACME</th>
-                <th style="border:1px solid #999; padding:8px 12px; background:#eee;">◯ JETSTREAM</th>
-                <th style="border:1px solid #999; padding:8px 12px; background:#eee;">◯ NIMBUS</th></tr>
-            <tr><td style="border:1px solid #999; padding:8px 12px; font-weight:700;">searchFlights()</td>
-                <td style="border:1px solid #999; padding:8px 12px;">acme.search()</td>
-                <td style="border:1px solid #999; padding:8px 12px;">jetstream.search()</td>
-                <td style="border:1px solid #999; padding:8px 12px;">nimbus.search()</td></tr>
-            <tr><td style="border:1px solid #999; padding:8px 12px; font-weight:700;">checkFlightStatus()</td>
-                <td style="border:1px solid #999; padding:8px 12px;">acme.status()</td>
-                <td style="border:1px solid #999; padding:8px 12px;">jetstream.status()</td>
-                <td style="border:1px solid #999; padding:8px 12px;">—</td></tr>
-            <tr><td style="border:1px solid #999; padding:8px 12px; font-weight:700;">bookFlight()</td>
-                <td style="border:1px solid #999; padding:8px 12px;">acme.book()</td>
-                <td style="border:1px solid #999; padding:8px 12px;">—</td>
-                <td style="border:1px solid #999; padding:8px 12px;">nimbus.book()</td></tr>
-          </table>
-        </div>
+    </div>
+    <div class="layer">
+      <div data-seg="0.5,0.66">
+        <table class="mtable">
+          <tr><th></th><th><span class="avatar c-acme" style="width:20px;height:20px;font-size:10px;">A</span> Acme</th>
+              <th><span class="avatar c-jet" style="width:20px;height:20px;font-size:10px;">J</span> Jetstream</th>
+              <th><span class="avatar c-nim" style="width:20px;height:20px;font-size:10px;">N</span> Nimbus</th></tr>
+          <tr><td>searchFlights()</td><td>acme.search()</td><td>jetstream.search()</td><td>nimbus.search()</td></tr>
+          <tr><td>checkFlightStatus()</td><td>acme.status()</td><td>jetstream.status()</td><td class="none">—</td></tr>
+          <tr><td>bookFlight()</td><td>acme.book()</td><td class="none">—</td><td>nimbus.book()</td></tr>
+        </table>
+        <h2 class="h2" data-seg="0.72,0.86" style="margin-top:40px; text-align:center;">Companies are columns now.<br>You call the rows.</h2>
       </div>
-
-      <div class="scene-chip"><b>V3-S6 · THE MATRIX</b> · <span class="stage-note"></span></div>
     </div>
   </div>
 </section>
 
-<!-- F3 : library (V3 = dense live ledger) -->
+<!-- F3 : library — dense live ledger -->
 <section class="fsec">
-  <div class="fhead"><h2>The library, live</h2><span class="chip">F3 · V3 ENTRY: DENSE LIVE LEDGER</span></div>
-  <div class="wf" style="padding:8px 12px; margin-bottom:10px; font:12px ui-monospace,monospace; color:#999;">filter tasks, capabilities, providers…   <span style="float:right;">[REAL] capabilities · [REAL] providers · updated [REAL]</span></div>
-  <div style="font:11.5px ui-monospace,monospace;">
-    <div style="display:grid; grid-template-columns:1.4fr 2fr 1fr .8fr; gap:8px; padding:7px 6px; border-bottom:1.5px solid #161616; font-weight:700;">
-      <span>capability</span><span>plain-language task</span><span>providers</span><span>status</span></div>
-    <div style="display:grid; grid-template-columns:1.4fr 2fr 1fr .8fr; gap:8px; padding:7px 6px; border-bottom:1px dashed #d9d9d9;">
-      <span>searchFlights()</span><span style="color:#767676;">find flights across airlines</span><span>[N] fns</span><span>live</span></div>
-    <div style="display:grid; grid-template-columns:1.4fr 2fr 1fr .8fr; gap:8px; padding:7px 6px; border-bottom:1px dashed #d9d9d9; background:#f1f1f1;">
-      <span>▾ comparePrices()</span><span style="color:#767676;">same product, many retailers</span><span>[N] fns</span><span>live</span></div>
-    <div class="wf" style="margin:6px 0 6px 18px; padding:10px;">
-      <span class="note">expanded row: signature · typed args · example call with REAL recorded response · provider functions (acme.compare(), …) · deep link · "Request a capability"</span></div>
-    <div style="display:grid; grid-template-columns:1.4fr 2fr 1fr .8fr; gap:8px; padding:7px 6px; border-bottom:1px dashed #d9d9d9;">
-      <span>getQuote()</span><span style="color:#767676;">quotes behind forms</span><span>[N] fns</span><span>live</span></div>
-    <div style="display:grid; grid-template-columns:1.4fr 2fr 1fr .8fr; gap:8px; padding:7px 6px; border-bottom:1px dashed #d9d9d9;">
-      <span>researchTopic()</span><span style="color:#767676;">multi-source research</span><span>[N] fns</span><span>partial</span></div>
+  <h2 class="h2">Every capability, live.</h2>
+  <p class="sub" style="margin-top:8px;">214 capabilities · 1,032 providers · updated daily</p>
+  <div class="ledger">
+    <div class="lib-search">Filter tasks, capabilities, providers…</div>
+    <div class="lrow head"><span>CAPABILITY</span><span>TASK</span><span>PROVIDERS</span><span>STATUS</span></div>
+    <div class="lrow"><span class="fn-name">searchFlights()</span><span class="task">Find flights across airlines</span><span>13 functions</span><span class="badge live">live</span></div>
+    <div class="lrow" style="background:#fafbff;"><span class="fn-name">comparePrices()</span><span class="task">Same product, many retailers</span><span>21 functions</span><span class="badge live">live</span></div>
+    <div style="padding:16px 18px; border-bottom:1px solid var(--line); background:#fafbff;">
+<div class="code" style="font-size:11.5px;"><span class="f">comparePrices</span>({ query, retailers? }) <span class="c">→ Offer[]</span></div>
+      <div class="provrow">
+        <span class="prov"><span class="avatar c-acme">A</span>acme.compare()</span>
+        <span class="prov"><span class="avatar c-fare">F</span>faresky.offers()</span>
+        <span class="prov"><span class="avatar c-voy">V</span>voyagr.prices()</span>
+      </div>
+    </div>
+    <div class="lrow"><span class="fn-name">getQuote()</span><span class="task">Quotes behind forms</span><span>9 functions</span><span class="badge live">live</span></div>
+    <div class="lrow"><span class="fn-name">researchTopic()</span><span class="task">Multi-source research</span><span>17 functions</span><span class="badge partial">partial</span></div>
+    <div class="lrow"><span class="fn-name">buyGroceries()</span><span class="task">Cart to doorstep</span><span>6 functions</span><span class="badge live">live</span></div>
+  </div>
+  <a class="btn ghost" style="margin-top:20px; font-size:12.5px;" href="#">Request a capability</a>
+</section>
+
+<!-- F4 : connect -->
+<section class="fsec" id="connect">
+  <h2 class="h2">Works where you already are.</h2>
+  <p class="sub" style="margin-top:8px;">No account needed. Connect once, call everything.</p>
+  <div class="grouplab">ASSISTANTS</div>
+  <div class="cgrid">
+    <div class="ctile"><span class="avatar" style="background:#10a37f;">G</span>ChatGPT</div>
+    <div class="ctile"><span class="avatar" style="background:#d97757;">C</span>Claude</div>
+    <div class="ctile"><span class="avatar" style="background:#d97757;">C</span>Claude Code</div>
+    <div class="ctile"><span class="avatar" style="background:#0a0a0a;">×</span>Codex</div>
+    <div class="ctile"><span class="avatar" style="background:#6e40c9;">◈</span>Copilot <span class="soon">coming soon</span></div>
+    <div class="ctile"><span class="avatar" style="background:#111;">▮</span>Cursor</div>
+    <div class="ctile"><span class="avatar" style="background:#374151;">M</span>Anything MCP</div>
+  </div>
+  <div class="grouplab">IN YOUR CODE</div>
+  <div class="cgrid">
+    <div class="ctile">npm<code>npx bowmark</code></div>
+    <div class="ctile">Node<code>npm install bowmark</code></div>
+    <div class="ctile">Python<code>pip install bowmark</code></div>
+    <div class="ctile">HTTP<code>api.bowmark.ai/v1</code></div>
   </div>
 </section>
 
-<!-- F4 : connect surface -->
-<section class="fsec">
-  <div class="fhead"><h2>Works where you already are</h2><span class="chip">F4 · NO ACCOUNT NEEDED</span></div>
-  <p class="note" style="margin-bottom:8px;">ASSISTANTS</p>
-  <div class="grid">
-    <div class="tile"><span class="logo-ph"></span>ChatGPT <span class="chip">copy</span></div>
-    <div class="tile"><span class="logo-ph"></span>Claude desktop <span class="chip">copy</span></div>
-    <div class="tile"><span class="logo-ph"></span>Claude web <span class="chip">copy</span></div>
-    <div class="tile"><span class="logo-ph"></span>Claude Code <span class="chip">copy</span></div>
-    <div class="tile"><span class="logo-ph"></span>Codex <span class="chip">copy</span></div>
-    <div class="tile"><span class="logo-ph"></span>Copilot <span class="chip">coming soon</span></div>
-    <div class="tile"><span class="logo-ph"></span>Cursor <span class="chip">copy</span></div>
-    <div class="tile"><span class="logo-ph"></span>anything MCP <span class="chip">copy</span></div>
-  </div>
-  <p class="note" style="margin:16px 0 8px;">YOUR OWN CODE</p>
-  <div class="grid">
-    <div class="tile">npx bowmark <span class="chip">copy</span></div>
-    <div class="tile">npm install bowmark <span class="chip">copy</span></div>
-    <div class="tile">pip install bowmark <span class="chip">copy</span></div>
-    <div class="tile">raw HTTP <span class="chip">docs ↗</span></div>
-  </div>
-  <div class="wf" style="margin-top:14px; padding:12px;"><span class="note">detail strip: selected tile's instructions expand HERE · deeper docs on GitHub ↗</span></div>
-</section>
-
-<!-- F5 : broadcast (separate in V3) -->
-<section class="fsec" style="background:#efefef;">
-  <div class="fhead"><h2>Have a product? Become a provider.</h2><span class="chip">F5 · BROADCAST</span></div>
-  <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:16px;">
+<!-- F5 : broadcast -->
+<section class="fsec tint">
+  <div class="inner bcast">
     <div>
-      <p style="font-size:14px; max-width:52ch;">Your customers already have an assistant. Broadcast puts your product inside it — configurator, quotes, bookings, checkout, working in ChatGPT. No engineering on your side.</p>
-      <p class="note" style="margin-top:8px;">published to [N] registries and directories · Acme is our demo brand</p>
-      <div style="margin-top:12px;"><span class="cta" style="font:12px ui-monospace,monospace; padding:6px 14px; background:#1c1c1c; color:#fff;">Book a call →</span></div>
+      <h2 class="h2">Have a product?<br>Become a provider.</h2>
+      <p class="sub" style="margin-top:14px; max-width:46ch;">Your customers already have an assistant. Broadcast puts your product inside it — your configurator, your quotes, your checkout, working in ChatGPT. No engineering on your side.</p>
+      <a class="btn blue" style="margin-top:22px;" href="#">Book a call →</a>
     </div>
-    <div class="hatch" style="min-height:150px; display:flex; align-items:center; justify-content:center;"><span class="chip">ACME CONFIGURATOR WORKING INSIDE CHATGPT</span></div>
+    <div class="bcast-demo">
+      <div class="chat">
+        <div class="msg user">Configure a 7×14 trailer with the wood deck</div>
+        <div class="toolcard">▸ acme.configure({ model: "7x14", deck: "wood" })</div>
+        <div class="msg">Done — $8,940 as configured. Want the quote emailed?</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- F6 : FAQ block -->
+<!-- F6 : faq -->
 <section class="fsec">
-  <div class="fhead"><h2>Questions we always get</h2><span class="chip">F6 · ANSWERED IN PLACE → /faq</span></div>
-  <div class="faqrow"><b>Is this a crawler or a scraper?</b><p>No — full answer in place, first because it's asked most.</p></div>
-  <div class="faqrow"><b>Which agents does it work in?</b><p>Answer in place.</p></div>
-  <div class="faqrow"><b>What does it cost?</b><p>Free to start, then metered. That's the whole pricing story.</p></div>
-  <div class="faqrow"><b>Does it use up my tokens?</b><p>Answer in place.</p></div>
-  <div class="faqrow"><b>What if the site I want isn't covered?</b><p>Answer + request-a-capability link.</p></div>
-  <div class="faqrow"><b>Can I use this for my business?</b><p>→ Broadcast.</p></div>
+  <h2 class="h2">Questions we always get.</h2>
+  <div class="faq">
+    <details class="qa"><summary>Is this a crawler or a scraper?</summary><p>No. Providers are integrated capabilities, not scraped pages — every call runs against a maintained integration with a typed contract, whether the surface behind it is a website flow, an MCP server, an API, or a CLI.</p></details>
+    <details class="qa"><summary>Which agents does it work in?</summary><p>ChatGPT, Claude, Claude Code, Codex, Cursor, and anything that speaks MCP. Or import it directly from npm or pip.</p></details>
+    <details class="qa"><summary>What does it cost?</summary><p>Free to start, then metered. That's the whole pricing story — no tiers.</p></details>
+    <details class="qa"><summary>Does it use up my tokens?</summary><p>Barely — that's the point. A typical call costs 20–50× fewer tokens than the same task done by driving a browser.</p></details>
+    <details class="qa"><summary>What if the site I want isn't covered?</summary><p>Request the capability from the library and we prioritize by demand. Coverage grows weekly.</p></details>
+    <details class="qa"><summary>Can I use this for my business?</summary><p>That's Broadcast — we turn your product into a provider and publish it everywhere agents look.</p></details>
+  </div>
+  <a class="btn ghost" style="margin-top:26px;" href="#">All questions →</a>
 </section>
 
-<!-- F7 : last CTA -->
-<section class="fsec" style="text-align:center;">
-  <div class="beat" style="margin:0 auto; font-size:28px;">Call the web.</div>
-  <div style="display:flex; gap:8px; justify-content:center; margin-top:16px; flex-wrap:wrap;">
-    <span class="chip">ChatGPT</span><span class="chip">Claude</span><span class="chip">Cursor</span>
-    <span class="chip">npx bowmark</span><span class="chip">pip install bowmark</span>
+<!-- F7 : cta -->
+<section class="fsec" style="text-align:center; padding-top:40px;">
+  <h2 class="h2">Call the web.</h2>
+  <div style="display:flex; gap:12px; justify-content:center; margin-top:24px; flex-wrap:wrap;">
+    <a class="btn" href="#connect">Connect your assistant</a>
+    <a class="btn ghost" href="#connect">npx bowmark</a>
   </div>
 </section>
 
-<div class="footer"><span class="logo" style="border:1.5px solid #161616; padding:3px 10px; font-weight:700;">BOWMARK</span>
-  <span>Broadcast</span><span>FAQ</span><span>GitHub ↗</span><span>Contact</span><span>X</span><span class="spacer" style="flex:1"></span><span>legal</span></div>
+<footer class="footer">
+  <div class="inner">
+    <span class="logo">Bowmark</span>
+    <a href="#" style="color:inherit; text-decoration:none;">Broadcast</a>
+    <a href="#" style="color:inherit; text-decoration:none;">FAQ</a>
+    <a href="#" style="color:inherit; text-decoration:none;">GitHub</a>
+    <span class="spacer"></span>
+    <span>© 2026 Bowmark AI</span>
+  </div>
+</footer>
 
 <script src="storyboard.js"></script>
 </body>

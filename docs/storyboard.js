@@ -1,34 +1,52 @@
-// Low-fi storyboard driver: scroll progress per .scene, stage switching, word flicker.
+// Mid-fi motion engine: continuous scroll-driven segments, morphs, counters, races.
 
 (function () {
   const scenes = Array.from(document.querySelectorAll('.scene'));
+  const clamp01 = v => Math.min(1, Math.max(0, v));
+  const seg = (p, a, b) => clamp01((p - a) / (b - a));
 
   function update() {
     const vh = window.innerHeight;
     for (const scene of scenes) {
       const rect = scene.getBoundingClientRect();
       const total = scene.offsetHeight - vh;
-      const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
+      const p = total > 0 ? clamp01(-rect.top / total) : 0;
       scene.style.setProperty('--p', p.toFixed(4));
 
-      const stages = parseInt(scene.dataset.stages || '1', 10);
-      const stage = Math.min(stages - 1, Math.floor(p * stages));
-      if (scene.dataset.stage !== String(stage)) {
-        scene.dataset.stage = String(stage);
-        scene.querySelectorAll('.kf').forEach((kf, i) => kf.classList.toggle('on', i === stage));
-        const chip = scene.querySelector('.stage-note');
-        if (chip) {
-          const notes = JSON.parse(scene.dataset.notes || '[]');
-          chip.innerHTML = notes[stage] || '';
-        }
-      }
+      // segment progress per element
+      scene.querySelectorAll('[data-seg]').forEach(el => {
+        const [a, b] = el.dataset.seg.split(',').map(Number);
+        el.style.setProperty('--sp', seg(p, a, b).toFixed(4));
+      });
 
-      // optional per-scene live chip in the corner
-      const corner = document.getElementById('corner-' + scene.id);
-      if (corner) corner.hidden = p <= 0.001 || rect.bottom < vh * 0.5;
+      // face morphs at thresholds
+      scene.querySelectorAll('[data-morph-at]').forEach(el => {
+        el.classList.toggle('morphed', p >= +el.dataset.morphAt);
+      });
+
+      // URL dissolve: characters strip away across a range
+      scene.querySelectorAll('[data-dissolve]').forEach(el => {
+        if (!el.dataset.full) el.dataset.full = el.textContent;
+        const [a, b] = el.dataset.dissolve.split(',').map(Number);
+        const s = seg(p, a, b);
+        const full = el.dataset.full;
+        el.textContent = full.slice(0, Math.round(full.length * (1 - s)));
+      });
+
+      // scroll-bound counters: data-pcount="start,end,target[,prefix]"
+      scene.querySelectorAll('[data-pcount]').forEach(el => {
+        const parts = el.dataset.pcount.split(',');
+        const s = seg(p, +parts[0], +parts[1]);
+        el.textContent = (parts[3] || '') + Math.round(s * +parts[2]).toLocaleString();
+      });
+
+      // svg line draws at thresholds
+      scene.querySelectorAll('svg[data-draw-at]').forEach(el => {
+        el.classList.toggle('draw', p >= +el.dataset.drawAt);
+      });
     }
 
-    // evidence rail visibility (variant 3): shown while any .rail-on scene is active
+    // evidence rail (V3)
     const rail = document.querySelector('.evrail');
     if (rail) {
       const active = scenes.some(s => {
@@ -51,20 +69,26 @@
   window.addEventListener('resize', onScroll);
   update();
 
-  // Annotations toggle (storyboard notes are hidden by default).
-  const head = document.querySelector('.board-head');
-  if (head) {
-    const b = document.createElement('button');
-    b.textContent = 'annotations';
-    b.className = 'ann-toggle';
-    b.onclick = () => document.body.classList.toggle('notes-on');
-    head.appendChild(b);
+  // ---- time-based counters (race sections) ----
+  function runCounter(el, target, dur) {
+    const t0 = performance.now();
+    (function tick(t) {
+      const s = clamp01((t - t0) / dur);
+      const eased = 1 - Math.pow(1 - s, 2);
+      el.textContent = Math.round(eased * target).toLocaleString();
+      if (s < 1) requestAnimationFrame(tick);
+    })(t0);
   }
 
-  // Word flicker: <span data-flicker='["a","b","c"]'> — timer-based, not scroll-stepped.
-  document.querySelectorAll('[data-flicker]').forEach(el => {
-    const words = JSON.parse(el.dataset.flicker);
-    let i = 0;
-    setInterval(() => { i = (i + 1) % words.length; el.textContent = words[i]; }, 340);
-  });
+  // races play once when they enter the viewport
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.classList.contains('play')) {
+        e.target.classList.add('play');
+        e.target.querySelectorAll('[data-count]').forEach(el =>
+          runCounter(el, +el.dataset.count, +(el.dataset.dur || 2000)));
+      }
+    });
+  }, { threshold: 0.35 });
+  document.querySelectorAll('.autoplay').forEach(el => io.observe(el));
 })();
