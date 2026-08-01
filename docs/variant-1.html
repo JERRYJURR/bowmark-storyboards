@@ -79,7 +79,6 @@
             <span class="fn">acme.search({ dates, cabin })</span>
             <span class="fn">acme.book()</span>
             <span class="fn">acme.checkout()</span>
-            <span class="note" style="width:100%; text-align:center;">date picker &amp; filters became <b>arguments</b>, not functions · promo banner became nothing</span>
           </div>
         </div>
       </div>
@@ -95,7 +94,6 @@
               <span class="fn">acme.checkout()</span>
             </div>
           </div>
-          <p class="note" style="margin-top:12px;">the website is gone — one provider remains</p>
         </div>
       </div>
 
@@ -127,7 +125,6 @@
           <span class="fn">faresky.compare()</span>
           <span class="fn">nimbus.search()</span>
           <span class="fn">voyagr.quote()</span>
-          <p class="note" style="width:100%; text-align:center;">websites, MCPs, APIs, CLIs, SDKs — all end up the same shape</p>
         </div>
       </div>
 
@@ -140,7 +137,6 @@
             <span class="fn">faresky.compare()</span>
             <span class="fn">nimbus.search()</span>
           </div>
-          <p class="note" style="margin-top:14px;">first appearance of the capability — task-named, providers inside</p>
         </div>
       </div>
 
@@ -166,12 +162,11 @@
         <div class="chat">
           <div class="msg user">find me a flight to Tokyo next weekend</div>
           <div class="toolcard">▸ searchFlights({ from:"SFO", to:"TYO", dates:"aug 8–10" })
-            <div class="note">rendered as the ACTUAL tool-call card UI from Claude/ChatGPT — borrowed familiarity</div></div>
+            </div>
           <div style="display:flex; gap:8px; justify-content:center; margin:8px 0;">
             <span class="fn" style="font-size:10px;">acme</span><span class="fn" style="font-size:10px;">jetstream</span>
             <span class="fn" style="font-size:10px;">faresky</span><span class="fn" style="font-size:10px;">nimbus</span>
           </div>
-          <p class="note" style="text-align:center;">fan-out lines flash out and back — a blink, not a cinematic</p>
         </div>
       </div>
 
@@ -182,7 +177,6 @@
           <div class="toolcard">✓ bookFlight({ result: #3 }) → confirmed <span class="note">— booking commits to ONE provider</span></div>
           <div class="msg">Booked: SFO → TYO, Sat Aug 8, [REAL airline]. Confirmation #…</div>
           <div class="nums"><span><b>[REAL #]</b> tok</span><span><b>$[REAL]</b></span><span><b>[REAL]s</b></span><span><b>[REAL]</b> steps</span></div>
-          <p class="note">numbers shown ONLY if they are demo #1's measured values — else omitted</p>
         </div>
       </div>
 
@@ -218,7 +212,6 @@
           <div class="hatch" style="min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;">
             <span class="chip">…STILL GOING · thinking · clicking · waiting</span>
             <div class="tbar" style="width:80%;"><i style="width:calc(30% + var(--p,0)*65%);"></i></div>
-            <span class="note">token counter ticking — real footage, real totals at the end</span>
           </div>
         </div>
       </div>
@@ -250,7 +243,6 @@ await bookFlight({ flight: flights[0] })
       <div class="nums"><span><b>[REAL #]</b> tokens</span><span><b>$[REAL]</b></span><span><b>[REAL]s</b></span><span><b>[REAL]</b> steps</span></div>
     </div>
   </div>
-  <p class="note" style="margin-top:8px;">token bars share ONE time axis · synced to recording playback · autoplay on scroll-into-view, one active at a time</p>
 
   <div class="tabs">
     <span class="chip on">flight search</span><span class="chip">price comparison</span>
@@ -274,7 +266,6 @@ await bookFlight({ flight: flights[0] })
           <span class="fn" style="position:absolute; top:20%; left:58%; border-radius:50%; padding:14px;">◯ C</span>
           <span class="fn" style="position:absolute; top:68%; left:44%; border-radius:50%; padding:14px;">◯ D</span>
           <span class="fn" style="position:absolute; top:40%; left:82%; border-radius:50%; padding:14px;">◯ E</span>
-          <p class="note" style="position:absolute; bottom:0; width:100%; text-align:center;">vetted logos — places you GO to</p>
         </div>
       </div>
 
@@ -286,7 +277,6 @@ await bookFlight({ flight: flights[0] })
             <div style="margin-top:9px; display:flex; gap:6px;"><span class="fn" style="font-size:10px;">◯ B</span><span class="fn" style="font-size:10px;">◯ D</span></div></div>
           <div class="wf" style="padding:12px;"><span class="cap" style="font-size:11px;">checkFlightStatus()</span>
             <div style="margin-top:9px; display:flex; gap:6px;"><span class="fn" style="font-size:10px;">◯ A</span><span class="fn" style="font-size:10px;">◯ E</span></div></div>
-          <p class="note" style="width:100%; text-align:center;">◯ A appears in TWO boxes — one provider, many capabilities</p>
         </div>
       </div>
 
@@ -342,10 +332,8 @@ const q = await getQuote({ … })  <span class="c">// typed result</span></div>
       <span class="cap" style="font-size:12px;">searchFlights()</span>
       <p class="note" style="margin:10px 0 6px;">signature · typed args · example call · REAL recorded response</p>
       <div style="display:flex; gap:6px;"><span class="fn" style="font-size:10px;">acme.search()</span><span class="fn" style="font-size:10px;">jetstream.search()</span><span class="fn" style="font-size:10px;">+[N] providers</span></div>
-      <p class="note" style="margin-top:8px;">deep link per capability · "Request a capability" for gaps</p>
     </div>
   </div>
-  <p class="note" style="margin-top:10px;">list revealed on interaction — palette is the front door in this variant · live counts only if genuinely live</p>
 </section>
 
 <!-- F4 : connect surface -->

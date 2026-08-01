@@ -51,6 +51,16 @@
   window.addEventListener('resize', onScroll);
   update();
 
+  // Annotations toggle (storyboard notes are hidden by default).
+  const head = document.querySelector('.board-head');
+  if (head) {
+    const b = document.createElement('button');
+    b.textContent = 'annotations';
+    b.className = 'ann-toggle';
+    b.onclick = () => document.body.classList.toggle('notes-on');
+    head.appendChild(b);
+  }
+
   // Word flicker: <span data-flicker='["a","b","c"]'> — timer-based, not scroll-stepped.
   document.querySelectorAll('[data-flicker]').forEach(el => {
     const words = JSON.parse(el.dataset.flicker);

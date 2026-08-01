@@ -29,7 +29,6 @@
     <div class="bbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
       <span class="addr" style="border:1.5px solid #161616; background:#fff; color:#161616; font-weight:700; font-size:13px;">searchFlights("SFO → TYO")</span></div>
     <div class="bbody" style="min-height:90px; display:flex; align-items:center; justify-content:center;">
-      <span class="note">a function call where the URL used to be — THE brand motif, reused everywhere</span>
     </div>
   </div>
   <div style="text-align:center;">
@@ -68,7 +67,6 @@
             <span class="fn">acme.search({ dates, cabin })</span>
             <span class="fn">acme.book()</span>
             <span class="fn">acme.checkout()</span>
-            <span class="note" style="width:100%; text-align:center;">pickers &amp; filters become arguments · banners become nothing</span>
           </div>
         </div>
       </div>
@@ -76,7 +74,6 @@
       <div class="kf">
         <div style="text-align:center;">
           <span class="cap">searchFlights()</span>
-          <p class="note" style="margin:8px 0 14px;">↑ the address bar didn't just die — it BECAME this</p>
           <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
             <span class="fn">acme.search()</span>
             <span class="fn" style="opacity:.4;">+ more providers (next)</span>
@@ -114,7 +111,6 @@
             <span class="fn">faresky.compare()</span>
             <span class="fn">nimbus.search()</span>
           </div>
-          <p class="note" style="margin-top:12px;">however a business exposes itself, it ends up a function</p>
         </div>
       </div>
 
@@ -128,10 +124,9 @@
   <div class="chat">
     <div class="msg user">find me a flight to Tokyo next weekend</div>
     <div class="toolcard">▸ searchFlights({ from:"SFO", to:"TYO", dates:"aug 8–10" })
-      <div class="note">REAL tool-call card UI · fan-out flashes to providers — a blink</div></div>
+      </div>
     <div class="toolcard">✓ 14 results · merged, typed</div>
     <div class="msg">Cheapest is [REAL airline], Sat 8:40am, $[REAL]. Book it?</div>
-    <p class="note">no numbers in this scene — receipts come next</p>
   </div>
   <div class="scene-chip"><b>V2-S3 · FIRE IT</b> · one viewport — the fan-out is a blink, don't stretch a blink</div>
 </section>
@@ -182,7 +177,6 @@ await bookFlight({ flight: flights[0] })
       <div class="nums"><span><b>[REAL #]</b> tokens</span><span><b>$[REAL]</b></span><span><b>[REAL]s</b></span><span><b>[REAL]</b> steps</span></div>
     </div>
   </div>
-  <p class="note" style="margin-top:8px;">bars share ONE time axis · synced to playback · autoplay on scroll-into-view</p>
 
   <div class="tabs">
     <span class="chip on">flight search</span><span class="chip">price comparison</span>
@@ -253,7 +247,6 @@ const q = await getQuote({ … })  <span class="c">// typed result</span></div>
               <div style="margin-top:9px; display:flex; gap:6px;"><span class="fn" style="font-size:10px; font-weight:700;">acme</span><span class="fn" style="font-size:10px;">voyagr</span></div></div>
           </div>
           <div class="beat" style="margin:24px auto 0; font-size:24px;">Your website becomes an implementation detail.</div>
-          <p class="note" style="margin-top:8px;">powered by the SAME live data as the library section · Acme is our declared demo brand</p>
         </div>
       </div>
 
@@ -291,10 +284,8 @@ const q = await getQuote({ … })  <span class="c">// typed result</span></div>
       <div class="code" style="margin:10px 0; font-size:11px;">searchFlights({ from, to, dates, cabin? }) → Flight[]  <span class="c">// typed</span></div>
       <p class="note" style="margin-bottom:6px;">example call → REAL recorded response, with latency · copy button</p>
       <div style="display:flex; gap:6px; flex-wrap:wrap;"><span class="fn" style="font-size:10px;">acme.search()</span><span class="fn" style="font-size:10px;">jetstream.search()</span><span class="fn" style="font-size:10px;">faresky.compare()</span><span class="fn" style="font-size:10px;">+[N]</span></div>
-      <p class="note" style="margin-top:8px;">provider FUNCTIONS, not logo chips · deep link per capability · "Request a capability" for gaps · call-from chips → connect tiles</p>
     </div>
   </div>
-  <p class="note" style="margin-top:10px;">grouped list is the front door — the "listed by capability" claim is VISIBLE · live counts only if genuinely live</p>
 </section>
 
 <!-- F4 : connect surface -->
@@ -342,7 +333,6 @@ const q = await getQuote({ … })  <span class="c">// typed result</span></div>
     <span class="chip">ChatGPT</span><span class="chip">Claude</span><span class="chip">Cursor</span>
     <span class="chip">npx bowmark</span><span class="chip">pip install bowmark</span>
   </div>
-  <p class="note" style="margin-top:10px;">the address-bar motif closes the page — same mark that opened it</p>
 </section>
 
 <div class="footer"><span class="logo" style="border:1.5px solid #161616; padding:3px 10px; font-weight:700;">BOWMARK</span>

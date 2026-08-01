@@ -89,8 +89,15 @@ body {
   background: #1c1c1c; color: #eee;
   padding: 6px 12px; border-radius: 4px;
   max-width: 380px;
+  display: none; /* annotations hidden by default — toggle in the header */
 }
 .scene-chip b { color: #fff; }
+body.notes-on .scene-chip { display: block; }
+.fhead .chip { display: none; }
+body.notes-on .fhead .chip { display: inline-block; }
+.ann-toggle { cursor: pointer; font: 10px var(--mono); border: 1px solid var(--line);
+  background: #fff; color: #555; border-radius: 3px; padding: 2px 8px; }
+body.notes-on .ann-toggle { background: #1c1c1c; color: #fff; }
 
 /* ---------- navbar wireframe (baseline #6) ---------- */
 
