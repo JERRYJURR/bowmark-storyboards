@@ -1,0 +1,196 @@
+{
+  "version": 1,
+  "meta": {
+    "name": "Bowmark — Signal Lock",
+    "neuroshader": "0.1.0"
+  },
+  "background": "#f8f7f4",
+  "camera": {
+    "fov": 40,
+    "position": [
+      0,
+      0,
+      5.4
+    ],
+    "target": [
+      0,
+      0,
+      0
+    ]
+  },
+  "layers": {
+    "scene": {
+      "effects": [
+        {
+          "type": "background",
+          "params": {
+            "color": "#f8f7f4"
+          },
+          "enabled": false
+        },
+        {
+          "type": "ambientLight",
+          "params": {
+            "color": "#25303a",
+            "intensity": 0.55
+          },
+          "enabled": true
+        },
+        {
+          "type": "directionalLight",
+          "params": {
+            "color": "#eaf6d8",
+            "intensity": 4.2,
+            "position": [
+              -4,
+              5,
+              6
+            ],
+            "castShadow": false
+          },
+          "enabled": true
+        }
+      ]
+    },
+    "object": {
+      "effects": [
+        {
+          "type": "bowmarkSignal",
+          "params": {
+            "size": 1.15,
+            "color": "#9dff00",
+            "metalness": 1,
+            "roughness": 0.79,
+            "depth": 0.73,
+            "playback": "scroll",
+            "assembleDuration": 1.2,
+            "stagger": 0.32,
+            "staggerOrder": "innerFirst",
+            "holdMotion": 0.6,
+            "gradient1": "#8affc2",
+            "gradient3": "#00ffd5",
+            "gradient2": "#24f53c",
+            "colorFlow": 0.7,
+            "edgeHeat": 0.6,
+            "pointerGlow": 1.1,
+            "gradient": 1,
+            "bevel": 0.365,
+            "raise": 0.165,
+            "discRadius": 0.36
+          },
+          "enabled": true
+        }
+      ]
+    },
+    "filter": {
+      "effects": [
+        {
+          "type": "solarize",
+          "params": {
+            "mode": "luminance",
+            "protectBackground": true,
+            "amount": 1,
+            "threshold": 0.38
+          },
+          "enabled": false
+        },
+        {
+          "type": "posterize",
+          "params": {
+            "levels": 16
+          },
+          "enabled": false
+        },
+        {
+          "type": "findEdges",
+          "params": {
+            "intensity": 1.5,
+            "edgeColor": 1,
+            "mode": "replace",
+            "paper": "#f8f7f4",
+            "lineWidth": 1.5
+          },
+          "enabled": false
+        }
+      ]
+    },
+    "post": {
+      "effects": [
+        {
+          "type": "dithering",
+          "enabled": true,
+          "params": {
+            "levels": 3,
+            "amount": 1
+          }
+        },
+        {
+          "type": "colorOverlay",
+          "enabled": false,
+          "params": {
+            "opacity": 0.66,
+            "blend": "screen",
+            "color": "#0be574"
+          }
+        }
+      ]
+    },
+    "distortion": {
+      "effects": [
+        {
+          "type": "ripple",
+          "enabled": false,
+          "params": {
+            "amplitude": 0.03
+          }
+        },
+        {
+          "type": "lensDistort",
+          "enabled": true,
+          "params": {
+            "strength": -0.87
+          }
+        },
+        {
+          "type": "mouseTrail",
+          "enabled": true,
+          "params": {
+            "strength": 0.01,
+            "radius": 0.6
+          }
+        }
+      ],
+      "enabled": true
+    },
+    "blurGlow": {
+      "effects": [
+        {
+          "type": "progressiveBlur",
+          "enabled": false,
+          "params": {
+            "angle": -1.35,
+            "radius": 58.5
+          }
+        },
+        {
+          "type": "depthOfField",
+          "enabled": true,
+          "params": {
+            "focusDistance": 0.375,
+            "bokehScale": 10,
+            "focalLength": 0.409
+          }
+        },
+        {
+          "type": "bloom",
+          "enabled": true,
+          "params": {
+            "threshold": 0.87,
+            "radius": 1,
+            "intensity": 1.55
+          }
+        }
+      ]
+    }
+  }
+}

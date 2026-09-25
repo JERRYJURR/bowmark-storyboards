@@ -121,6 +121,26 @@ const beatStyle = (i: number) =>
     text-align: center;
   }
 
+  /* A ground-coloured glow under the intro, so the copy reads cleanly over the
+     mark behind it (the same geometry as beat 1's glow). Leaves with the hero. */
+  .hero__intro::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: -1;
+    width: 617px;
+    height: 618px;
+    translate: -50% -50%;
+    background: radial-gradient(
+      ellipse 50% 50% at 50% 50%,
+      rgb(var(--bm-bg-rgb)) 0%,
+      rgb(var(--bm-bg-rgb) / 0) 100%
+    );
+    opacity: calc(1 - var(--b1-hero-out));
+    pointer-events: none;
+  }
+
   /* Everything but the headline leaves with the hero. */
   .hero__out {
     opacity: calc(1 - var(--b1-hero-out));

@@ -2,6 +2,7 @@
 import DecompileScene from '../components/DecompileScene.tsx';
 import ImportScene from '../components/ImportScene.tsx';
 import Hero from '../components/Hero.astro';
+import HeroSignal from '../components/HeroSignal.tsx';
 
 const TRACK_ID = 'b1-track';
 ---
@@ -11,6 +12,8 @@ const TRACK_ID = 'b1-track';
     <Hero />
     <DecompileScene client:load trackId={TRACK_ID} />
     <ImportScene client:load trackId={TRACK_ID} />
+    <!-- WebGL, so browser-only: no server render to hydrate. -->
+    <HeroSignal client:only="react" />
   </div>
 </section>
 

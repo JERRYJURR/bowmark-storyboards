@@ -1,0 +1,9 @@
+/* Full-viewport, between the product scene (.b1, whose `contain: paint` makes
+   it one stacking layer) and the hero copy (.hero, z-index 20). The canvas is
+   transparent, so everything under it shows through. */
+.hero-signal {
+  position: absolute;
+  inset: 0;
+  z-index: 19;
+  pointer-events: none;
+}
