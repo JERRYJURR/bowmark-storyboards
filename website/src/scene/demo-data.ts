@@ -218,8 +218,9 @@ export type Converted = {
 
 /**
  * Indexed by the scene's surface slot (scene/sites.ts): 0 Google Maps ·
- * 1 Amazon · 2 Calendly · 3 Kayak · 4 YouTube. Each is the provider module a
- * site card becomes, named for the provider's real live functions; the
+ * 1 Amazon · 2 Calendly · 3 Expedia · 4 YouTube. Each is the provider module a
+ * site card becomes. Expedia's API is illustrative; the other function
+ * names come from their live providers. The
  * bodies are illustrative (they sketch how each provider reaches its site,
  * not its source) and are sized to fill the tile once it converts.
  */
@@ -271,10 +272,10 @@ export const CONVERTED: Converted[] = [
     out: { type: 'Slot[]', rows: [['Fri 13', '9:30am']], status: '12 slots' },
   },
   {
-    file: 'providers/kayak.ts',
+    file: 'providers/expedia.ts',
     lines: [
       [t('export default ', 'kw'), t('defineProvider', 'fn'), t('({', 'punc')],
-      [t('  domain: '), t("'kayak.com'", 'str'), t(',', 'punc')],
+      [t('  domain: '), t("'expedia.com'", 'str'), t(',', 'punc')],
       [t('  async ', 'kw'), t('searchHotels', 'fn'), t('({ location, checkIn,', 'punc')],
       [t('                  checkOut }) {', 'punc')],
       [t('    const page = '), t('await ', 'kw'), t('open', 'fn'), t('('), t('hotelsUrl', 'fn'), t('(location))', 'punc')],

@@ -45,7 +45,7 @@ export const BEATS = {
   riseStart: 0.1,
   riseStep: 0.034,
   riseLen: 0.105,
-  /** arrival order by surface slot — YouTube, Amazon, Kayak, Calendly, Google Maps */
+  /** arrival order by surface slot — YouTube, Amazon, Expedia, Calendly, Google Maps */
   riseOrder: [4, 1, 3, 2, 0] as const,
 
   /** the Bowmark cursor: visible, enters, drags a marquee, exits */
@@ -87,7 +87,7 @@ export const BEATS = {
  * `p` is 0..1 across the second half of the track.
  */
 export const IMPORT_BEATS = {
-  /** the chosen capability (Kayak) straightens and lifts to centre */
+  /** the chosen capability (Expedia) straightens and lifts to centre */
   swap: [0.03, 0.17] as const,
   /** the sibling capabilities slide out past the stage edges */
   ghostsOut: [0.1, 0.19] as const,

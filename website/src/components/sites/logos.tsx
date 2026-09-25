@@ -3,8 +3,8 @@ import type { SiteId } from '../../scene/sites';
 /**
  * One-colour brand marks (currentColor), for the capability cards' corner and
  * the import token — where the Bowmark mark used to sit. YouTube, Amazon,
- * Calendly and Google Maps are simple-icons 16.32.0 paths (CC0); Kayak's is
- * the first tile of its wordmark with the K knocked out. Sources are listed
+ * Calendly and Google Maps are simple-icons 16.32.0 paths (CC0); Expedia's
+ * arrow is from its official website header wordmark. Sources are listed
  * in public/images/sites/logos/sources.json. The full-colour logos the site
  * mockups use live beside that file.
  */
@@ -26,10 +26,9 @@ const MARKS: Record<SiteId, { viewBox: string; d: string; evenodd?: boolean }> =
     viewBox: '0 0 24 24',
     d: 'M19.527 4.799c1.212 2.608.937 5.678-.405 8.173-1.101 2.047-2.744 3.74-4.098 5.614-.619.858-1.244 1.75-1.669 2.727-.141.325-.263.658-.383.992-.121.333-.224.673-.34 1.008-.109.314-.236.684-.627.687h-.007c-.466-.001-.579-.53-.695-.887-.284-.874-.581-1.713-1.019-2.525-.51-.944-1.145-1.817-1.79-2.671L19.527 4.799zM8.545 7.705l-3.959 4.707c.724 1.54 1.821 2.863 2.871 4.18.247.31.494.622.737.936l4.984-5.925-.029.01c-1.741.601-3.691-.291-4.392-1.987a3.377 3.377 0 0 1-.209-.716c-.063-.437-.077-.761-.004-1.198l.001-.007zM5.492 3.149l-.003.004c-1.947 2.466-2.281 5.88-1.117 8.77l4.785-5.689-.058-.05-3.607-3.035zM14.661.436l-3.838 4.563a.295.295 0 0 1 .027-.01c1.6-.551 3.403.15 4.22 1.626.176.319.323.683.377 1.045.068.446.085.773.012 1.22l-.003.016 3.836-4.561A8.382 8.382 0 0 0 14.67.439l-.009-.003zM9.466 5.868L14.162.285l-.047-.012A8.31 8.31 0 0 0 11.986 0a8.439 8.439 0 0 0-6.169 2.766l-.016.018 3.665 3.084z',
   },
-  kayak: {
-    viewBox: '0 0 124 124',
-    d: 'M8 0H116A8 8 0 0 1 124 8V116A8 8 0 0 1 116 124H8A8 8 0 0 1 0 116V8A8 8 0 0 1 8 0ZM38.226 31.026V93.026H53.298V31.026ZM85.774 92.974H69.148L53.3 62 69.148 31.026H85.774L68.526 62Z',
-    evenodd: true,
+  expedia: {
+    viewBox: '0 4.7 37.77 37.77',
+    d: 'M11.5383 35.1283V31.4637C11.5383 31.1652 11.3061 30.9331 11.0077 30.9331H7.34312C7.04464 30.9331 6.8125 31.1652 6.8125 31.4637V35.1283C6.8125 35.4268 7.04464 35.6589 7.34312 35.6589H11.0077C11.3061 35.6589 11.5383 35.4268 11.5383 35.1283ZM30.9593 31.977V13.9195C30.9593 12.5763 29.8815 11.4985 28.5383 11.4985H10.4808C10.116 11.4985 9.90047 11.6312 9.66833 11.8633L6.07009 15.4947C5.80478 15.76 5.98718 16.158 6.38515 16.158H22.7182L12.5867 26.2894C12.4043 26.4718 12.3214 26.6542 12.3214 26.9527V29.6224C12.3214 29.9374 12.537 30.153 12.852 30.153H15.5217C15.8367 30.153 16.0191 30.0701 16.1849 29.8877L26.3164 19.7562V36.0892C26.3164 36.4872 26.7143 36.6696 26.9797 36.4043L30.6111 32.7895C30.8266 32.5573 30.9593 32.3418 30.9593 31.977Z',
   },
 };
 
@@ -56,7 +55,7 @@ export const LOGO_SRC = {
   youtube: '/images/sites/logos/youtube.svg',
   amazon: '/images/sites/logos/amazon.svg',
   amazonWhite: '/images/sites/logos/amazon-white.svg',
-  kayak: '/images/sites/logos/kayak.svg',
+  expedia: '/images/sites/logos/expedia.svg',
   mapsPin: '/images/sites/logos/google-maps-pin.svg',
   calendlyMark: '/images/sites/logos/calendly-mark.svg',
 } as const;

@@ -1,0 +1,103 @@
+/* Expedia desktop search, condensed into the existing 322 × 266 art panel.
+   Its natural 540 × 446 canvas preserves the other site mockups' scale. */
+.sm-exp {
+  --exp-ink: #191e3b;
+  --exp-blue: #3364db;
+  --exp-line: #dfe0e4;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  color: var(--exp-ink);
+  font-family: var(--bm-font-sans);
+  font-size: 10px;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-align: left;
+  white-space: nowrap;
+}
+.sm-exp :where(p, ul, ol, li) { margin: 0; padding: 0; list-style: none; }
+.sm-exp svg { display: block; flex: none; width: 16px; height: 16px; }
+.sm-exp small { display: block; font-size: 8px; font-weight: 400; }
+.sm-exp__page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 540px;
+  height: 446px;
+  transform: scale(0.5963);
+  transform-origin: 0 0;
+}
+.sm-exp__header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  height: 49px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--exp-line);
+}
+.sm-exp__logo { display: block; width: 107px; height: auto; }
+.sm-exp__shop { display: flex; align-items: center; gap: 2px; font-weight: 600; }
+.sm-exp__shop svg { width: 12px; height: 12px; }
+.sm-exp__links { display: flex; gap: 18px; margin-left: auto; font-weight: 600; }
+.sm-exp__form { display: flex; gap: 6px; padding: 12px 14px; }
+.sm-exp__field {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 7px;
+  min-width: 0;
+  height: 33px;
+  padding: 0 8px;
+  border: 1px solid #a6a7b2;
+  border-radius: 5px;
+}
+.sm-exp__field small { margin-bottom: 1px; color: #61616f; font-size: 7px; }
+.sm-exp__search { display: grid; place-items: center; width: 33px; height: 33px; border-radius: 50%; background: var(--exp-blue); color: #fff; }
+.sm-exp__body { display: grid; grid-template-columns: 116px 1fr; gap: 12px; padding: 0 14px; }
+.sm-exp__sidebar { min-width: 0; }
+.sm-exp__map { overflow: hidden; border: 1px solid var(--exp-line); border-radius: 9px; text-align: center; }
+.sm-exp__map svg { width: 100%; height: 62px; }
+.sm-exp__map span { display: block; padding: 6px 0; color: var(--exp-blue); }
+.sm-exp__filter { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; padding-top: 13px; border-top: 1px solid var(--exp-line); }
+.sm-exp__filter > b { font-size: 10px; }
+.sm-exp__filter > strong { margin-top: 3px; font-size: 9px; font-weight: 600; }
+.sm-exp__property { display: flex; align-items: center; gap: 5px; height: 29px; padding: 0 6px; border: 1px solid #a6a7b2; border-radius: 5px; color: #61616f; }
+.sm-exp__prices { display: flex; gap: 5px; }
+.sm-exp__prices > span { flex: 1; padding: 5px 7px; border: 1px solid #a6a7b2; border-radius: 5px; }
+.sm-exp__prices small { margin-bottom: 2px; color: #61616f; }
+.sm-exp__histogram { display: flex; align-items: flex-end; gap: 2px; height: 39px; padding: 0 5px; }
+.sm-exp__histogram i { flex: 1; border-radius: 2px 2px 0 0; background: #273e72; }
+.sm-exp__range { display: flex; justify-content: space-between; height: 3px; margin-top: -8px; background: var(--exp-blue); }
+.sm-exp__range i { width: 12px; height: 12px; margin-top: -4px; border-radius: 50%; background: var(--exp-blue); }
+.sm-exp__check { display: flex; align-items: center; gap: 5px; font-size: 9px; }
+.sm-exp__check i { width: 10px; height: 10px; border: 1px solid #91939e; border-radius: 2px; }
+.sm-exp__main { min-width: 0; }
+.sm-exp__tabs { display: flex; gap: 2px; padding: 3px; border-radius: 18px; background: #f0f3f7; }
+.sm-exp__tabs span { flex: 1; padding: 6px; text-align: center; font-weight: 600; }
+.sm-exp__tabs .is-active { border-radius: 14px; background: #fff; box-shadow: 0 0 0 1px #e6e7eb; }
+.sm-exp__sort { display: flex; align-items: center; justify-content: space-between; height: 35px; font-size: 8px; }
+.sm-exp__sort > span:last-child { display: flex; align-items: center; gap: 4px; padding: 4px 7px; border: 1px solid #91939e; border-radius: 20px; }
+.sm-exp__sort svg { width: 11px; height: 11px; }
+.sm-exp__member { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; padding: 9px; border-radius: 9px; background: #fff9df; }
+.sm-exp__member img { width: 24px; height: 24px; }
+.sm-exp__member small { margin-top: 3px; }
+.sm-exp__results { display: flex; flex-direction: column; gap: 9px; }
+.sm-exp__stay { display: flex; min-height: 128px; overflow: hidden; border: 1px solid var(--exp-line); border-radius: 10px; background: #fff; }
+.sm-exp__photo { position: relative; flex: 0 0 122px; }
+.sm-exp__photo > img { display: block; position: absolute; width: 100%; height: 100%; object-fit: cover; }
+.sm-exp__save { display: grid; place-items: center; position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; border-radius: 50%; background: #fff; color: #bc4058; }
+.sm-exp__save svg { width: 14px; height: 14px; }
+.sm-exp__next { position: absolute; top: calc(50% - 10px); right: 5px; display: grid; place-items: center; width: 19px; height: 19px; border-radius: 50%; background: #191e3b99; color: #fff; font-size: 19px; line-height: 1; }
+.sm-exp__dots { position: absolute; bottom: 6px; left: 0; width: 100%; text-align: center; font-size: 5px; color: #fff; text-shadow: 0 1px 2px #0008; }
+.sm-exp__details { display: flex; flex: 1; flex-direction: column; gap: 3px; min-width: 0; padding: 9px 8px; font-size: 9px; }
+.sm-exp__name { font-size: 12px; letter-spacing: -0.2px; }
+.sm-exp__refundable { margin-top: 5px; color: #277948; font-size: 8px; }
+.sm-exp__bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 5px; margin-top: auto; padding-top: 10px; }
+.sm-exp__rating { display: flex; align-items: center; gap: 4px; font-size: 8px; }
+.sm-exp__rating > b { padding: 3px; border-radius: 3px; background: #397958; color: #fff; }
+.sm-exp__rating small { margin-top: 2px; font-size: 6px; }
+.sm-exp__rate { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
+.sm-exp__rate strong { font-size: 11px; }
+.sm-exp__rate small { font-size: 6px; }

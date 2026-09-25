@@ -13,9 +13,9 @@ import { MotionBlur } from '../scene/motion-blur';
 /**
  * B1, second half — v5's `imp(p)`, laid out as Paper 7U1 → 7XJ → 80X.
  *
- * The five capability cards hand over from the first half; Kayak is chosen,
+ * The five capability cards hand over from the first half; Expedia is chosen,
  * the others slide off-stage (opaque, motion-blurred by their real speed),
- * and it collapses into the `kayak` import token of agent.ts inside one soft
+ * and it collapses into the `expedia` import token of agent.ts inside one soft
  * well. The agent types the call and runs it: the editor rises and fades
  * under the well's top edge while "Running code to find a hotel" and then
  * the found stay appear beneath it. The headline stays

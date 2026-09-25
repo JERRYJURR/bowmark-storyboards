@@ -7,7 +7,7 @@ import YouTubeMock from './sites/YouTubeMock';
 import AmazonMock from './sites/AmazonMock';
 import CalendlyMock from './sites/CalendlyMock';
 import MapsMock from './sites/MapsMock';
-import KayakMock from './sites/KayakMock';
+import ExpediaMock from './sites/ExpediaMock';
 
 /**
  * Scene artwork, as Paper draws it (design-reference/paper-2026-09-19), with
@@ -17,10 +17,10 @@ import KayakMock from './sites/KayakMock';
  *    live site in its upper part and a Crimson Pro brand label at the foot.
  *  - 7K2: 306 x 396 capability cards — the brand's fill burned by a
  *    white→grey ramp, the brand in serif, its white logo in the corner, and
- *    its live functions in two columns.
+ *    its functions in two columns (Expedia's API is illustrative).
  *
  * Indices are v5's surface slots (scene/sites.ts): 0 Google Maps · 1 Amazon ·
- * 2 Calendly · 3 Kayak · 4 YouTube. Nothing here knows about scroll.
+ * 2 Calendly · 3 Expedia · 4 YouTube. Nothing here knows about scroll.
  */
 
 /* --- surface cards ---------------------------------------------------------- */
@@ -30,7 +30,7 @@ const MOCKS: Record<SiteId, () => ReactNode> = {
   amazon: () => <AmazonMock />,
   calendly: () => <CalendlyMock />,
   maps: () => <MapsMock />,
-  kayak: () => <KayakMock />,
+  expedia: () => <ExpediaMock />,
 };
 
 /** the site in a surface slot (0–4, scene/sites.ts) */

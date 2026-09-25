@@ -30,8 +30,12 @@ The page keeps the prototype’s section order:
 Deliberately **not** built: **F3 library** and **F7 last CTA** — both are
 `display:none` in v5.
 
-B4 provider calls and function counts come from a pinned repository snapshot;
-see [the provider wall report](docs/capability-wall-report.md). Other scene and
+B4 provider calls and function counts come from a pinned repository snapshot,
+except Expedia, which replaces KAYAK as a user-approved illustrative API in
+the prototype (2026-09-24). Its `searchHotels`, `getHotel`, `getRooms`, and
+`listReviews` methods are examples, not implemented Bowmark functions. The
+Expedia site mockup, capability card, import example, and provider-wall entry
+use the same illustrative API. See [the provider wall report](docs/capability-wall-report.md). Other scene and
 replay figures remain illustrative demo values. Nothing performs a booking, runs an install
 command or makes a network request; the Connect and install commands are only
 displayed and copied. `docs/completion-report.md` lists where v5's copy differs

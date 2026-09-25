@@ -1,12 +1,13 @@
 {
-  "note": "Brand logos used in the site mockups and capability cards. Trademarks of their owners, shown to identify the sites Bowmark supports.",
+  "note": "Brand logos used to identify sites in the prototype. Expedia is an illustrative API example, not a current Bowmark provider. Trademarks of their owners.",
   "files": {
     "youtube.svg": "https://commons.wikimedia.org/wiki/File:YouTube_Logo_2017.svg",
     "amazon.svg": "https://commons.wikimedia.org/wiki/File:Amazon_logo.svg",
     "amazon-white.svg": "https://commons.wikimedia.org/wiki/File:Amazon_logo.svg (wordmark recoloured white for the dark header)",
-    "kayak.svg": "https://commons.wikimedia.org/wiki/File:Kayak_Logo.svg",
     "google-maps-pin.svg": "https://commons.wikimedia.org/wiki/File:Google_Maps_icon_(2020).svg",
-    "calendly-mark.svg": "https://simpleicons.org/?q=calendly (simple-icons 16.32.0, CC0), filled #006BFF"
+    "calendly-mark.svg": "https://simpleicons.org/?q=calendly (simple-icons 16.32.0, CC0), filled #006BFF",
+    "expedia.svg": "https://www.expedia.com/_dms/header/logo.svg?locale=en_US&siteid=1&2 (retrieved 2026-09-24)",
+    "expedia-icon.svg": "The first three paths of expedia.svg, cropped to its official arrow tile."
   },
-  "monochrome": "Card marks in src/components/sites/logos.tsx are simple-icons 16.32.0 paths (CC0) for YouTube, Amazon, Calendly and Google Maps; the Kayak mark is the first tile of Kayak_Logo.svg with its K knocked out."
+  "monochrome": "Card marks in src/components/sites/logos.tsx are simple-icons 16.32.0 paths (CC0) for YouTube, Amazon, Calendly and Google Maps; Expedia uses the arrow paths from its official header wordmark."
 }

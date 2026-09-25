@@ -1,7 +1,8 @@
 /**
  * Provider-first wall, curated from Metroxe/bowmark at commit c951f59f8a009a684445f6eb7f9205976d35dcac.
  * Method names are exact; brand casing is for display (Amazon.searchProducts).
- * Only functions marked live in PROVIDERS.md and present in their manifest
+ * Expedia is a user-approved illustrative API (2026-09-24), replacing KAYAK.
+ * For every other provider, only functions marked live in PROVIDERS.md and present in their manifest
  * are included. Counts include the headline function. This is a repository
  * snapshot, not a runtime health check. Source evidence: docs/provider-wall-sources.json.
  * Twenty provider groups per column form the alternating, auto-scrolling board.
@@ -12,7 +13,7 @@ export interface Capability {
   icon: string;
   /** Other functions from this provider, excluding the headline. */
   providers: string[];
-  /** Live functions in the source snapshot, including the headline. */
+  /** Functions including the headline; illustrative only for Expedia. */
   count?: number;
 }
 export const CAPABILITY_COLUMNS: Capability[][] = [
@@ -208,13 +209,13 @@ export const CAPABILITY_COLUMNS: Capability[][] = [
       "count": 1
     },
     {
-      "id": "kayak",
-      "name": "KAYAK.search",
-      "icon": "/images/providers/kayak.jpg",
+      "id": "expedia",
+      "name": "Expedia.searchHotels",
+      "icon": "/images/sites/logos/expedia-icon.svg",
       "providers": [
-        "KAYAK.getBookingOptions",
-        "KAYAK.searchHotels",
-        "KAYAK.searchCars"
+        "Expedia.getHotel",
+        "Expedia.getRooms",
+        "Expedia.listReviews"
       ],
       "count": 4
     },

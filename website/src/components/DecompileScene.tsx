@@ -51,7 +51,7 @@ const CELLS = [
   { x: 400, y: -58.5 }, // Google Maps
   { x: 773, y: 308.5 }, // Amazon
   { x: 400, y: 412.5 }, // Calendly
-  { x: 1146, y: 78.5 }, // Kayak
+  { x: 1146, y: 78.5 }, // Expedia
   { x: 27, y: 160.5 }, // YouTube
 ] as const;
 const CARD_W = 363;

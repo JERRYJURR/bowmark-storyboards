@@ -2,9 +2,9 @@
  * Copy and data for the B1 scene and the install block.
  *
  * Strings are transcribed from `Bowmark Prototype v5.dc.html` (the
- * authoritative wireframe), except the import call, which now uses the Kayak
- * provider's real `searchHotels` (see scene/sites.ts for the five sites).
- * No metric here is invented.
+ * authoritative wireframe), except the import call, which now uses the Expedia
+ * illustrative `searchHotels` API (see scene/sites.ts for the five sites).
+ * Hotel and replay figures remain illustrative prototype values.
  */
 
 /* --- hero ------------------------------------------------------------------ */
@@ -96,14 +96,14 @@ export const WINDOW_METHODS = ['search', 'fares', 'book'] as const;
 /**
  * The call the agent writes in agent.ts (Paper 7U1), in the frame's
  * one-token-per-line layout. `indent` counts Paper's 24px gutters. The call
- * is the Kayak provider's real `searchHotels` with its real inputs
- * ({ location, checkIn, checkOut }, ISO dates) — 3 nights, as the result.
+ * uses the user-approved illustrative Expedia API — not an implemented
+ * Bowmark provider. The example keeps the 3-night Kyoto result and ISO dates.
  */
 export const IMPORT_HEAD = { pre: 'import {', post: "} from '@bowmark/web';" } as const;
 
 export const IMPORT_BODY: readonly { indent: number; text: string }[] = [
   { indent: 1, text: '' },
-  { indent: 1, text: 'const stays = await kayak.searchHotels(' },
+  { indent: 1, text: 'const stays = await expedia.searchHotels(' },
   { indent: 2, text: '{' },
   { indent: 3, text: "location: 'Kyoto'," },
   { indent: 3, text: "checkIn: '2026-11-13'," },
@@ -112,9 +112,9 @@ export const IMPORT_BODY: readonly { indent: number; text: string }[] = [
   { indent: 1, text: ');' },
 ];
 
-export const IMPORT_SOURCE = `import { kayak } from '@bowmark/web';
+export const IMPORT_SOURCE = `import { expedia } from '@bowmark/web';
 
-const stays = await kayak.searchHotels(
+const stays = await expedia.searchHotels(
   {
     location: 'Kyoto',
     checkIn: '2026-11-13',

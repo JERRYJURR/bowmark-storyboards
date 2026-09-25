@@ -3,7 +3,9 @@
  * brands in place of the Websites / MCPs / APIs / SDKs / CLIs categories.
  *
  * Each site card converts to code and becomes that site's capability card —
- * its white logo in the corner and its functions as the rows. Function names
+ * its white logo in the corner and its functions as the rows. Expedia is an
+ * illustrative provider approved for this prototype (2026-09-24); its methods
+ * and count are examples, not implemented Bowmark APIs. Other function names
  * are the provider's live (implemented) functions in Metroxe/bowmark
  * `packages/providers/<id>/manifest.json` at 9a7ffd1e5 (2026-09-21); `total`
  * is the count of those live functions.
@@ -13,7 +15,7 @@
  * 3 right · 4 left. Rise order stays [4, 1, 3, 2, 0].
  */
 
-export type SiteId = 'youtube' | 'amazon' | 'calendly' | 'maps' | 'kayak';
+export type SiteId = 'youtube' | 'amazon' | 'calendly' | 'maps' | 'expedia';
 
 export type Site = {
   id: SiteId;
@@ -24,10 +26,10 @@ export type Site = {
   domain: string;
   /** what the site card's small print says under the brand */
   detail: string;
-  /** live functions shown on the capability card, most useful first (≤ 10,
+  /** Functions shown on the capability card, most useful first (≤ 10,
       and short enough for a 121px column) */
   rows: readonly string[];
-  /** every live function the provider exposes */
+  /** Function count; illustrative for Expedia, live for the other sites. */
   total: number;
   /** the capability card's fill */
   tone: string;
@@ -84,14 +86,14 @@ export const SITES: readonly Site[] = [
     tone: 'var(--bm-brand-calendly)',
   },
   {
-    id: 'kayak',
-    brand: 'Kayak',
-    ns: 'kayak',
-    domain: 'kayak.com',
-    detail: 'kayak.com',
-    rows: ['searchHotels', 'search', 'searchCars', 'getBookingOptions'],
+    id: 'expedia',
+    brand: 'Expedia',
+    ns: 'expedia',
+    domain: 'expedia.com',
+    detail: 'expedia.com',
+    rows: ['searchHotels', 'getHotel', 'getRooms', 'listReviews'],
     total: 4,
-    tone: 'var(--bm-brand-kayak)',
+    tone: 'var(--bm-brand-expedia)',
   },
   {
     id: 'youtube',
@@ -119,25 +121,25 @@ export const SITES: readonly Site[] = [
 export const siteById = (id: SiteId): Site => SITES.find((s) => s.id === id)!;
 
 /** the site whose capability the agent imports in the second half */
-export const IMPORTED: SiteId = 'kayak';
+export const IMPORTED: SiteId = 'expedia';
 
 /**
  * The capability cards' resting composition (Paper 7K2's tilted spread,
  * widened from four cards to five), canvas px top-left + tilt. Heights and
  * paint order are chosen so that no card covers another's logo or title:
- * the fan dips to Kayak at the centre, which sits in front, and the second
+ * the fan dips to Expedia at the centre, which sits in front, and the second
  * half lifts it out.
  */
 export const CARD_PLACE: Record<SiteId, { x: number; y: number; r: number }> = {
   youtube: { x: 70, y: 112, r: -4.6 },
   amazon: { x: 318, y: 156, r: 3.2 },
-  kayak: { x: 540, y: 236, r: -2.2 },
+  expedia: { x: 540, y: 236, r: -2.2 },
   calendly: { x: 846, y: 140, r: 2.8 },
   maps: { x: 1080, y: 214, r: -3.4 },
 };
 
 /** back to front — also the order the site cards turn into capability cards */
-export const PAINT_ORDER: readonly SiteId[] = ['youtube', 'calendly', 'maps', 'amazon', 'kayak'];
+export const PAINT_ORDER: readonly SiteId[] = ['youtube', 'calendly', 'maps', 'amazon', 'expedia'];
 
 export const capCount = (s: Site) => `${s.total} ${s.total === 1 ? 'capability' : 'capabilities'}`;
 
