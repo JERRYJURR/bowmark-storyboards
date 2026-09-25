@@ -1,0 +1,552 @@
+/* ---------------------------------------------------------------------------
+   F4 — Install for free (Paper 8JR).
+
+   The frame fixes the heading — 44px / -0.05em / 100%, left-aligned on the
+   1024 column, 48px above the body — and reuses the comparison's body grid:
+   a 221px rail of 32px rows with a 13px muted label, then the 803px main
+   column. The comparison's placeholder panels are replaced by the install
+   workbench: one soft panel (same fill, hairline and wash as the comparison
+   stages) holding the destination, its steps and the command well. Lime only
+   on Copy and the Bowmark mark.
+--------------------------------------------------------------------------- */
+
+.f4 {
+  --f4-panel: var(--bm-stage-fill, #efeeea);
+  --f4-panel-line: var(--bm-stage-line, rgb(0 0 0 / 0.075));
+  --f4-wash: var(--bm-stage-wash, #f0efea);
+  --f4-meta: var(--bm-text-meta, rgb(86 85 79 / 0.66));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  padding: 104px 32px 72px;
+  scroll-margin-top: var(--bm-header-h);
+}
+
+.f4__title {
+  width: min(1024px, 100%);
+  font-size: var(--bm-size-h2);
+  font-weight: var(--bm-weight-head);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.f4__body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 48px;
+  width: min(1024px, 100%);
+}
+
+/* --- rail -------------------------------------------------------------------- */
+
+.f4__rail {
+  flex: 0 0 221px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.f4__group {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* a legend cannot be a flex item reliably, so the 32px row comes from padding */
+.f4__legend {
+  padding: 8px 8px 7px;
+  font-size: var(--bm-size-micro);
+  line-height: 1.25;
+  color: var(--f4-meta);
+}
+
+.f4__options {
+  display: flex;
+  flex-direction: column;
+}
+
+.f4__option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 6px 8px;
+  border-radius: var(--bm-radius-btn);
+  font-size: var(--bm-size-ui);
+  line-height: 20px;
+  color: var(--bm-text-muted);
+  cursor: pointer;
+  transition:
+    background var(--bm-dur-fast) var(--bm-ease),
+    color var(--bm-dur-fast) var(--bm-ease),
+    transform 120ms var(--bm-ease);
+}
+
+.f4__option:active {
+  transform: translateY(1px);
+}
+
+.f4__option input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+
+.f4__option:hover {
+  background: var(--bm-surface-1);
+  color: var(--bm-text);
+}
+
+.f4__option[data-selected='1'] {
+  background: var(--bm-surface-2);
+  color: var(--bm-text);
+}
+
+.f4__option:has(input:focus-visible) {
+  outline: 2px solid var(--bm-focus);
+  outline-offset: 0;
+}
+
+.f4__option-glyph {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  opacity: 0.5;
+  transition: opacity var(--bm-dur-fast) var(--bm-ease);
+}
+
+.f4__option:hover .f4__option-glyph,
+.f4__option[data-selected='1'] .f4__option-glyph {
+  opacity: 1;
+}
+
+.f4__option-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.f4__soon {
+  margin-left: auto;
+  font-size: var(--bm-size-micro);
+  color: var(--f4-meta);
+}
+
+/* --- main column ---------------------------------------------------------------- */
+
+.f4__main {
+  flex: 0 1 803px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.f4__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  /* the rail's height: two 32px legends, twelve 32px rows, one 16px gap */
+  min-height: 464px;
+  padding: 24px;
+  border-radius: 16px;
+  outline: 1px solid var(--f4-panel-line);
+  overflow: clip;
+  background: var(--f4-panel);
+}
+
+.f4__panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 114px;
+  background: linear-gradient(var(--f4-wash), transparent);
+  pointer-events: none;
+}
+
+.f4__detail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.f4__link {
+  display: flex;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.f4__tile {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: var(--bm-radius-btn);
+  background: var(--bm-panel-solid);
+  box-shadow: var(--bm-shadow-soft);
+  color: var(--bm-text);
+}
+
+/* the Bowmark end: the comparison chip's ink, carrying the lime mark */
+.f4__tile--bowmark {
+  background-color: var(--bm-tile-cli-ink);
+  background-image: linear-gradient(#fff, #ccc);
+  background-blend-mode: color-burn;
+  color: var(--bm-accent);
+}
+
+.f4__wire {
+  position: relative;
+  width: 48px;
+  height: 2px;
+  margin-inline: 6px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--bm-line-strong) 0 3px, transparent 3px 7px);
+}
+
+.f4__panel[data-soon='1'] .f4__wire {
+  opacity: 0.45;
+}
+
+.f4__destination-icon {
+  display: grid;
+  place-items: center;
+  animation: f4-icon-in 160ms var(--bm-ease);
+}
+
+@keyframes f4-icon-in {
+  from { opacity: 0.5; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* the destination is the panel's card title: the serif, as on the capability cards */
+.f4__dest {
+  font-family: var(--bm-font-serif, 'Crimson Pro', Georgia, serif);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--bm-text);
+}
+
+.f4__intro {
+  max-width: 52ch;
+  margin-top: 12px;
+  font-size: var(--bm-size-ui);
+  line-height: 1.5;
+  color: var(--bm-text-muted);
+}
+
+.f4__steps {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.f4__step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 24px;
+  font-size: var(--bm-size-ui);
+  line-height: 1.4;
+  color: var(--bm-text-nav);
+}
+
+.f4__step-n {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bm-surface-3);
+  font-size: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--bm-text-muted);
+}
+
+/* --- command well ----------------------------------------------------------------- */
+
+.f4__cmd {
+  position: relative;
+  padding: 12px 8px 8px 16px;
+  border-radius: 10px;
+  background: var(--bm-panel-solid);
+  box-shadow: var(--bm-shadow-soft);
+}
+
+.f4__cmd-label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--f4-meta);
+}
+
+.f4__cmd-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.f4__prompt {
+  flex-shrink: 0;
+  align-self: flex-start;
+  font-family: var(--bm-font-mono);
+  font-size: var(--bm-size-mono);
+  line-height: 34px;
+  color: var(--bm-text-faint);
+}
+
+.f4__code {
+  flex: 1;
+  min-width: 0;
+  padding-block: 7px;
+  font-family: var(--bm-font-mono);
+  font-size: var(--bm-size-mono);
+  line-height: 20px;
+  letter-spacing: 0;
+  color: var(--bm-text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.f4__copy {
+  flex-shrink: 0;
+  align-self: flex-end;
+  justify-content: flex-start;
+  transition:
+    background var(--bm-dur-fast) var(--bm-ease),
+    transform var(--bm-dur-fast) var(--bm-ease);
+}
+
+.f4__copy:active {
+  transform: scale(0.97);
+}
+
+.f4__copy-icons {
+  display: inline-grid;
+  width: 14px;
+  height: 14px;
+}
+
+.f4__copy-icons > span {
+  display: grid;
+  grid-area: 1 / 1;
+  transition: opacity 140ms var(--bm-ease), transform 180ms var(--bm-ease);
+}
+
+.f4__check-icon {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.f4__check-icon path {
+  stroke-dasharray: 19;
+  stroke-dashoffset: 19;
+  transition: stroke-dashoffset 200ms var(--bm-ease);
+}
+
+.f4__copy[data-state='copied'] .f4__copy-icon {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.f4__copy[data-state='copied'] .f4__check-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.f4__copy[data-state='copied'] .f4__check-icon path {
+  stroke-dashoffset: 0;
+}
+
+.f4__copy-label {
+  display: inline-grid;
+}
+
+.f4__copy-label > span {
+  grid-area: 1 / 1;
+}
+
+.f4__copy-label > span[data-shown='0'] {
+  visibility: hidden;
+}
+
+/* --- below the panel -------------------------------------------------------------- */
+
+.f4__below {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 24px;
+  margin-top: 16px;
+  padding-inline: 8px;
+}
+
+.f4__foot {
+  font-size: var(--bm-size-micro);
+  color: var(--f4-meta);
+}
+
+.f4__foot-link {
+  color: var(--bm-text-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--bm-underline);
+  text-underline-offset: 3px;
+  transition:
+    color var(--bm-dur-fast) var(--bm-ease),
+    text-decoration-color var(--bm-dur-fast) var(--bm-ease);
+}
+
+.f4__foot-link:hover {
+  color: var(--bm-text);
+  text-decoration-color: var(--bm-text);
+}
+
+.f4__status {
+  font-size: var(--bm-size-micro);
+  color: var(--f4-meta);
+}
+
+.f4__status[data-state='copied'] {
+  color: var(--bm-accent-text);
+}
+
+/* --- narrow ------------------------------------------------------------------ */
+
+@media (max-width: 1100px) {
+  .f4__body {
+    gap: 32px;
+  }
+
+  .f4__rail {
+    flex-basis: 200px;
+  }
+}
+
+@media (max-width: 820px) {
+  .f4 {
+    padding: var(--bm-space-8) var(--bm-gutter);
+    gap: 32px;
+  }
+
+  .f4__body {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .f4__rail {
+    flex: none;
+  }
+
+  .f4__options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr));
+    gap: 2px 8px;
+  }
+
+  .f4__main {
+    flex: none;
+  }
+
+  .f4__panel {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .f4__options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .f4__soon {
+    display: none;
+  }
+
+  .f4__panel {
+    padding: 20px 16px 16px;
+  }
+
+  .f4__dest {
+    font-size: 29px;
+  }
+
+  .f4__cmd {
+    padding: 12px;
+  }
+
+  .f4__cmd-row {
+    flex-wrap: wrap;
+  }
+
+  .f4__code {
+    flex-basis: calc(100% - 24px);
+  }
+
+  .f4__copy {
+    margin-left: auto;
+  }
+}
+
+/* touch: the 32px rail rows and the Copy button grow to 44px targets */
+@media (max-width: 820px), (pointer: coarse) {
+  .f4__option {
+    height: auto;
+    min-height: 44px;
+  }
+
+  .f4__copy {
+    min-height: 44px;
+  }
+
+  .f4__prompt {
+    line-height: 44px;
+  }
+
+  .f4__code {
+    padding-block: 12px;
+  }
+
+  .f4__panel {
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .f4__destination-icon {
+    animation: none;
+  }
+
+  .f4__option,
+  .f4__copy,
+  .f4__copy-icons > span,
+  .f4__check-icon path {
+    transition: none;
+  }
+
+  .f4__option:active,
+  .f4__copy:active {
+    transform: none;
+  }
+}

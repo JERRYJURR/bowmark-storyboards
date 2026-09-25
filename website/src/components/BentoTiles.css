@@ -1,0 +1,685 @@
+/* ---------------------------------------------------------------------------
+   Scene artwork — Paper 2026-09-19 (6O9 surface cards, 7K2 capability cards).
+
+   Every size here is the Paper export's px value: the scene lays these parts
+   out on a fixed 1440 x 900 canvas and scales the canvas as a whole, so the
+   artwork keeps its authored proportions at any viewport. Colours are tokens;
+   Paper's translucent inks are expressed as `color-mix` over the token they
+   were drawn from (#1F2426 = --bm-tile-sdk-ink, #56554F = --bm-text-muted).
+--------------------------------------------------------------------------- */
+
+/* --- shared ink steps for the mockups ----------------------------------- */
+.sc,
+.b1__card {
+  --ink-a4: color-mix(in srgb, var(--bm-tile-sdk-ink) 4.3%, transparent);
+  --ink-a12: color-mix(in srgb, var(--bm-tile-sdk-ink) 12%, transparent);
+  --ink-a20: color-mix(in srgb, var(--bm-tile-sdk-ink) 20%, transparent);
+  --ink-a38: color-mix(in srgb, var(--bm-tile-sdk-ink) 38%, transparent);
+  --ink-a45: color-mix(in srgb, var(--bm-tile-sdk-ink) 45%, transparent);
+  --ink-a50: color-mix(in srgb, var(--bm-tile-sdk-ink) 50%, transparent);
+  --ink-a60: color-mix(in srgb, var(--bm-tile-sdk-ink) 60%, transparent);
+  --ink-a80: color-mix(in srgb, var(--bm-tile-sdk-ink) 80%, transparent);
+}
+
+/* --- surface card (6O9) ---------------------------------------------------- */
+
+/* The card: soft fill, one hairline, the label anchored at the foot. The
+   scene's animated card (.b1__card) takes the same inner parts. */
+.sc {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 8px;
+  width: 363px;
+  height: 460px;
+  padding: 24px;
+  overflow: hidden;
+  background: var(--sc-fill);
+  border-radius: 16px;
+  outline: 1px solid var(--bm-stage-line);
+}
+
+/* The site card's fill: the card colour lit by a few very faint radial
+   washes — a soft bloom behind the label, a pale lift at the top, a whisper
+   of depth in the far corner. Shared by the scene's sheet (.b1__paper). */
+.sc,
+.b1__paper {
+  --sc-fill:
+    radial-gradient(70% 42% at 12% 100%, rgb(255 255 255 / 0.5), rgb(255 255 255 / 0) 100%),
+    radial-gradient(90% 55% at 88% 0%, rgb(255 254 250 / 0.42), rgb(255 254 250 / 0) 100%),
+    radial-gradient(85% 60% at 100% 78%, rgb(var(--bm-shadow-rgb) / 0.045), rgb(var(--bm-shadow-rgb) / 0) 100%),
+    var(--bm-card);
+}
+
+/* The upper 344px: the mockup (and the code it becomes), dissolving into
+   the card. The two fades are Paper's colour ramps — bottom over the lower
+   195px, right over the right 187px — expressed as one alpha mask, so the
+   card's own fill shows through them instead of a flat patch of colour. */
+.sc__art {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 363px;
+  height: 344px;
+  pointer-events: none;
+  -webkit-mask-image:
+    linear-gradient(180deg, #000 149px, transparent 344px),
+    linear-gradient(90deg, #000 176px, transparent 363px);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(180deg, #000 149px, transparent 344px),
+    linear-gradient(90deg, #000 176px, transparent 363px);
+  mask-composite: intersect;
+}
+
+.sc__panel {
+  position: absolute;
+  left: 64px;
+  top: 39px;
+  width: 322px;
+  height: 266px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: var(--bm-radius-btn);
+  box-shadow: var(--bm-shadow-chrome);
+  isolation: isolate;
+  /* The live site, in its own colours, held back to half strength so it
+     sits in the card rather than on it. The scene fades it out further as
+     the conversion wipes it (--mock-in, 1 → 0). */
+  opacity: calc(0.5 * var(--mock-in, 1));
+}
+
+/* The converted label (.sc__module) is the same serif title: only its words
+   change to the provider function, never its type. */
+.sc__name,
+.sc__module {
+  position: relative;
+  z-index: 9;
+  width: 266px;
+  max-width: 100%;
+  font-family: var(--bm-font-serif);
+  font-size: 34px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--bm-text);
+}
+
+.sc__module {
+  white-space: nowrap;
+}
+
+.sc__detail {
+  position: relative;
+  z-index: 9;
+  width: 281px;
+  max-width: 100%;
+  flex-shrink: 0;
+  font-family: var(--bm-font-sans);
+  font-size: var(--bm-size-micro);
+  line-height: 1.25;
+  color: color-mix(in srgb, var(--bm-text-muted) 66%, transparent);
+}
+
+/* --- mockups ----------------------------------------------------------------- */
+
+.sm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  font-family: var(--bm-font-sans);
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.sm-t--p { color: var(--ink-a50); }
+.sm-t--q { color: var(--ink-a80); }
+.sm-t--k { color: var(--bm-code-keyword); }
+.sm-t--s { color: var(--bm-code-string); }
+.sm-t--n { color: var(--bm-accent-text); }
+
+/* MCPs */
+.sm-mcp__head {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 10px;
+  padding: 14px 16px 12px;
+}
+.sm-mcp__dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--bm-accent-strong);
+}
+.sm-mcp__host {
+  font-family: var(--bm-font-mono);
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--bm-text);
+}
+.sm-mcp__pill {
+  padding: 2px 8px;
+  border-radius: var(--bm-radius-pill);
+  background: var(--bm-surface-3);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--bm-text-muted);
+}
+.sm-mcp__count {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--bm-text-faint);
+}
+.sm-mcp__tools {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 8px;
+}
+.sm-mcp__tool {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  border-radius: 6px;
+}
+.sm-mcp__tool[data-on='1'] { background: var(--ink-a4); }
+.sm-mcp__sig {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sm-mcp__f {
+  font-family: var(--bm-font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--bm-text-faint);
+}
+.sm-mcp__name {
+  font-family: var(--bm-font-mono);
+  font-size: 15px;
+  line-height: 20px;
+  color: var(--bm-text);
+}
+.sm-mcp__tool[data-on='1'] .sm-mcp__name { color: var(--bm-accent-text); }
+.sm-mcp__args {
+  padding-left: 18px;
+  font-family: var(--bm-font-mono);
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--bm-text-faint);
+}
+.sm-mcp__tool[data-on='1'] .sm-mcp__args { color: var(--bm-text-muted); }
+
+/* CLIs */
+.sm--cli {
+  gap: 14px;
+  padding: 16px 18px;
+  font-family: var(--bm-font-mono);
+}
+.sm-cli__cmd {
+  display: flex;
+  font-size: 15px;
+  line-height: 22px;
+  white-space: pre;
+}
+.sm-cli__prompt { color: var(--ink-a38); }
+.sm-cli__bin { color: var(--bm-accent-text); }
+.sm-cli__verb { color: var(--bm-text); }
+.sm-cli__flag { color: var(--ink-a50); }
+.sm-cli__arg { color: var(--bm-code-string); }
+.sm-cli__table {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sm-cli__row {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--ink-a80);
+}
+.sm-cli__row > span:nth-child(1) { width: 150px; flex-shrink: 0; }
+.sm-cli__row > span:nth-child(2) { width: 52px; flex-shrink: 0; }
+.sm-cli__row--head { color: var(--ink-a38); }
+.sm-cli__row[data-first='1'] { color: var(--bm-text); }
+.sm-cli__ok {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--bm-text-muted);
+}
+.sm-cli__tick { color: var(--bm-accent-text); }
+.sm-cli__next {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  line-height: 22px;
+}
+.sm-cli__caret {
+  width: 8px;
+  height: 16px;
+  flex-shrink: 0;
+  background: var(--ink-a45);
+}
+
+/* APIs */
+.sm--api { font-family: var(--bm-font-mono); }
+.sm-api__req,
+.sm-api__status {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 10px;
+  padding: 0 16px 10px;
+}
+.sm-api__req { padding-top: 14px; }
+.sm-api__verb {
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--bm-text);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--bm-tile-converted-line);
+}
+.sm-api__path {
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--bm-text);
+}
+.sm-api__ok {
+  padding: 2px 8px;
+  border-radius: var(--bm-radius-pill);
+  background: var(--bm-accent-soft);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--bm-accent-text);
+}
+.sm-api__meta {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--ink-a50);
+}
+.sm-api__body {
+  display: flex;
+  flex-direction: column;
+  padding-top: 6px;
+}
+.sm-api__line {
+  display: flex;
+  gap: 12px;
+  padding-left: 16px;
+  font-size: 14px;
+  line-height: 24px;
+  white-space: pre;
+}
+.sm-api__line[data-hl='1'] { background: var(--ink-a4); }
+.sm-api__ln {
+  flex-shrink: 0;
+  text-align: right;
+  color: var(--ink-a38);
+}
+
+/* SDKs */
+.sm--sdk {
+  padding: 13px 0;
+  font-family: var(--bm-font-mono);
+}
+.sm-sdk__line {
+  display: flex;
+  gap: 12.8px;
+  min-height: 29.6px;
+  padding-right: 11px;
+  font-size: 16px;
+  line-height: 29.6px;
+  white-space: pre;
+}
+.sm-sdk__line[data-hl='1'] { background: var(--ink-a4); }
+.sm-sdk__ln {
+  width: 35.3px;
+  flex-shrink: 0;
+  text-align: right;
+  color: var(--ink-a38);
+}
+
+/* Websites */
+.sm-site__chrome {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 10px;
+  padding: 10px 14px;
+  background: color-mix(in srgb, var(--bm-tile-sdk-ink) 3.9%, transparent);
+}
+.sm-site__lights {
+  display: flex;
+  gap: 5px;
+}
+.sm-site__lights i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink-a20);
+}
+.sm-site__url {
+  padding: 2px 10px;
+  border-radius: 5px;
+  background: var(--bm-panel-solid);
+  font-family: var(--bm-font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--ink-a60);
+}
+.sm-site__nav {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 16px;
+  padding: 12px 16px 8px;
+  font-size: 13px;
+  line-height: 16px;
+  color: var(--bm-text-muted);
+}
+.sm-site__nav b {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 18px;
+  color: var(--bm-text);
+}
+.sm-site__search {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 6px;
+  padding: 6px 16px 12px;
+}
+.sm-site__search span {
+  flex-shrink: 0;
+  padding: 7px 10px;
+  border-radius: 6px;
+  background: var(--bm-panel-solid);
+  font-size: 13px;
+  line-height: 16px;
+  color: var(--bm-text);
+}
+.sm-site__search .sm-site__muted { color: var(--bm-text-muted); }
+.sm-site__search .sm-site__go {
+  padding-inline: 12px;
+  background: var(--bm-text);
+  font-weight: 500;
+  color: var(--bm-text-inverse);
+}
+.sm-site__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 16px;
+}
+.sm-site__stay {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--bm-panel-solid);
+}
+.sm-site__thumb {
+  width: 52px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  background: var(--ink-a12);
+}
+.sm-site__info {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 2px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--bm-text-muted);
+}
+.sm-site__info b,
+.sm-site__price {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--bm-text);
+}
+.sm-site__price { flex-shrink: 0; }
+.sm-site__book {
+  flex-shrink: 0;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: var(--bm-surface-3);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--bm-text);
+}
+
+/* --- converted provider module ------------------------------------------------
+   Replaces the mockup in the same 322 x 266 slot as the conversion sweeps
+   across. Opaque, in colour, and set in the mono face because it is code. */
+
+.cv {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bm-tile-converted);
+  font-family: var(--bm-font-mono);
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+.cv__head {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+  height: 32px;
+  padding: 0 14px;
+  background: var(--bm-surface-2);
+  color: var(--bm-text-muted);
+}
+
+.cv__ts {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--bm-code-string);
+}
+
+.cv__file {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cv__code {
+  margin: 0;
+  padding: 10px 14px;
+  list-style: none;
+  line-height: 22px;
+}
+
+.cv__line {
+  display: flex;
+  gap: 10px;
+  white-space: pre;
+}
+
+.cv__ln {
+  width: 16px;
+  flex-shrink: 0;
+  text-align: right;
+  color: var(--bm-code-ln);
+}
+
+.cv__t--kw { color: var(--bm-code-keyword); }
+.cv__t--fn { color: var(--bm-accent-text); }
+.cv__t--str { color: var(--bm-code-string); }
+.cv__t--plain { color: var(--bm-code-plain); }
+.cv__t--punc { color: var(--bm-text-faint); }
+.cv__t--note {
+  color: var(--bm-text-faint);
+  font-style: italic;
+}
+
+/* --- capability card (7K2) ------------------------------------------------------ */
+
+.cap {
+  --cap-tone: var(--bm-scene-purple);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  width: 306px;
+  height: 396px;
+  padding: 24px;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: var(--cap-tone);
+  background-image: var(--bm-scene-burn);
+  background-blend-mode: var(--bm-scene-burn-mode);
+  color: var(--bm-scene-title);
+  font-family: var(--bm-font-sans);
+  letter-spacing: 0;
+  /* Depth, for the four coloured capability cards only (the white surface
+     sheets keep their hairline): a tight contact shadow that grounds the
+     card, a near penumbra, and a soft ambient drop. `--depth-lift` (0 at
+     rest, 1 carried) pushes the ambient layer out and thins the contact, the
+     way a card lifted off a desk loses its hard edge; `--depth-k` scales the
+     whole shadow with the card, so one collapsing into a token keeps
+     proportion. Both inherit, so a scene wrapper can drive them. */
+  box-shadow:
+    0 calc(1px * var(--depth-k, 1)) calc(2px * var(--depth-k, 1))
+      rgb(var(--bm-shadow-rgb) / calc(0.16 * (1 - 0.7 * var(--depth-lift, 0)))),
+    0 calc(4px * var(--depth-k, 1)) calc(10px * var(--depth-k, 1)) calc(-2px * var(--depth-k, 1))
+      rgb(var(--bm-shadow-rgb) / 0.12),
+    0 calc((14px + 26px * var(--depth-lift, 0)) * var(--depth-k, 1))
+      calc((32px + 44px * var(--depth-lift, 0)) * var(--depth-k, 1)) calc(-8px * var(--depth-k, 1))
+      rgb(var(--bm-shadow-rgb) / calc(0.16 + 0.06 * var(--depth-lift, 0)));
+}
+
+.cap[data-tone='green'] { --cap-tone: var(--bm-scene-green); }
+.cap[data-tone='orange'] { --cap-tone: var(--bm-scene-orange); }
+.cap[data-tone='black'] { --cap-tone: var(--bm-scene-black); }
+
+.cap__top,
+.cap__foot {
+  display: flex;
+  flex: 1;
+  align-self: stretch;
+  min-height: 0;
+}
+
+.cap__top {
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.cap__title {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+  gap: 16px;
+  min-width: 0;
+}
+
+.cap__count,
+.cap__more {
+  font-size: var(--bm-size-micro);
+  line-height: 20px;
+  color: var(--bm-scene-meta);
+  white-space: nowrap;
+}
+
+.cap__name {
+  font-family: var(--bm-font-serif);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--bm-scene-title);
+  white-space: nowrap;
+}
+
+.cap__mark {
+  flex-shrink: 0;
+  height: 32px;
+  opacity: 0.66;
+  color: var(--bm-scene-title);
+}
+
+/* the site's own logo, in white, where the Bowmark mark sat */
+.cap__logo {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #fff;
+}
+
+.cap__foot {
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.cap__cols {
+  display: flex;
+  align-self: stretch;
+  gap: 16px;
+}
+
+.cap__col {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cap__row {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+  height: 20px;
+  font-size: var(--bm-size-micro);
+  line-height: 20px;
+  color: var(--bm-scene-title);
+  white-space: nowrap;
+}
+
+.cap__fx {
+  flex-shrink: 0;
+  opacity: 0.5;
+  color: var(--bm-scene-row);
+}
+
+.cap__row-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cap__more { height: 20px; }
+
+/* the scene lands its own rows into these slots */
+.cap__cols[data-rows='hidden'] .cap__row { visibility: hidden; }

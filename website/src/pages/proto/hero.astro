@@ -1,0 +1,16 @@
+---
+// Review route. Same component tree as `/`, `noindex`; exists so any section
+// can be linked and screenshotted in isolation (`/proto/hero#faq`, `?p=…`).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HeroMilestone from '../../sections/HeroMilestone.astro';
+import ComparisonSection from '../../components/ComparisonSection.tsx';
+import CapabilityWall from '../../components/CapabilityWall.tsx';
+import ClosingSections from '../../sections/ClosingSections.astro';
+---
+
+<BaseLayout title="Bowmark — full page (review)" noindex>
+  <HeroMilestone />
+  <ComparisonSection client:load />
+  <CapabilityWall client:load />
+  <ClosingSections />
+</BaseLayout>

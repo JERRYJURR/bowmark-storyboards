@@ -1,0 +1,61 @@
+---
+// The Bowmark AI lock-up as drawn in the Paper redesign (2026-09-19): two
+// open arcs around a solid core, in the mark green, beside a regular-weight
+// "Bowmark AI". Geometry and type are Paper's get_jsx values.
+interface Props {
+  size?: number;
+  showWordmark?: boolean;
+  class?: string;
+}
+
+const { size = 20, showWordmark = true, class: className = '' } = Astro.props;
+---
+
+<span class:list={['logo', className]}>
+  <svg
+    class="logo__mark"
+    viewBox="0 0 48 48"
+    width={size}
+    height={size}
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M11.95 40.585C3.199 34.227 0.894 22.164 6.684 13.027C12.474 3.89 24.366 0.824 33.852 6.023C43.338 11.222 47.152 22.896 42.566 32.692"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linecap="round"></path>
+    <path
+      d="M22.045 36.346C16.553 35.476 12.296 31.084 11.599 25.567C10.902 20.051 13.932 14.737 19.035 12.528C24.137 10.32 30.086 11.747 33.63 16.031C37.175 20.314 37.464 26.425 34.34 31.024"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="4"
+      stroke-linecap="round"></path>
+    <circle cx="23.997" cy="24" r="6.001" fill="currentColor"></circle>
+  </svg>
+  {showWordmark && <span class="logo__word">Bowmark AI</span>}
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--bm-space-1);
+    white-space: nowrap;
+  }
+
+  .logo__mark {
+    color: var(--bm-mark);
+    flex-shrink: 0;
+  }
+
+  .logo__word {
+    font-family: var(--bm-font-sans);
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 18px;
+    color: var(--bm-text-nav);
+  }
+</style>

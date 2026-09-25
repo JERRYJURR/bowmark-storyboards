@@ -1,0 +1,53 @@
+---
+import DecompileScene from '../components/DecompileScene.tsx';
+import ImportScene from '../components/ImportScene.tsx';
+import Hero from '../components/Hero.astro';
+
+const TRACK_ID = 'b1-track';
+---
+
+<section class="scene" id={TRACK_ID} data-hero-live="1">
+  <div class="scene__viewport">
+    <Hero />
+    <DecompileScene client:load trackId={TRACK_ID} />
+    <ImportScene client:load trackId={TRACK_ID} />
+  </div>
+</section>
+
+<style>
+  /* One sticky track drives the whole of B1. 1040vh of track is 940vh of
+     scrolling: the first half keeps exactly the 520vh it had before the second
+     half existed, and the import/run/result take the remaining 420vh. Natural
+     scrolling throughout — nothing here intercepts wheel or touch. */
+  .scene {
+    position: relative;
+    height: 1040vh;
+  }
+
+  .scene__viewport {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bm-bg);
+  }
+
+  @media (prefers-reduced-motion: reduce), (max-width: 860px) {
+    .scene {
+      height: auto;
+    }
+
+    .scene__viewport {
+      position: static;
+      height: auto;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      gap: var(--bm-space-7);
+      max-width: var(--bm-max);
+      margin-inline: auto;
+      padding: calc(var(--bm-header-h) + var(--bm-space-5)) var(--bm-gutter)
+        var(--bm-space-8);
+    }
+  }
+</style>

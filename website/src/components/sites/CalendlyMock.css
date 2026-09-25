@@ -1,0 +1,296 @@
+/* CalendlyMock — Calendly's public booking page, hi-fi.
+   Sizes, colours and the ribbon geometry are measured from the live page
+   (calendly.com, Sept 2026) at a 1280px desktop viewport. Type is the
+   client's sans throughout. No filters or blend modes: the scene renders
+   these panels inside preserve-3d layers. */
+
+.sm-cal {
+  --sm-cal-navy: #0a2540;
+  --sm-cal-slate: #476788;
+  --sm-cal-icon: #0b3558;
+  --sm-cal-link: #004eba;
+  --sm-cal-blue: #006bff;
+  --sm-cal-line: #d4e0ed;
+  --sm-cal-ribbon: #505960;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fafafa; /* the page behind the booking card */
+  font-family: var(--bm-font-sans);
+  color: var(--sm-cal-navy);
+  font-size: 14px;
+  line-height: 21px;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sm-cal *,
+.sm-cal *::before,
+.sm-cal *::after {
+  box-sizing: border-box;
+}
+
+/* The camera: the card at natural size, scaled and moved so the date-picker
+   column (and the ribbon on its corner) fills the panel. Card x 416 is 16px
+   into the picker column; y -14 keeps a sliver of page above the card so
+   the ribbon's overhang reads. */
+.sm-cal__camera {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  transform: scale(0.575) translate(-416px, 14px);
+}
+
+/* --- the booking card ------------------------------------------------------ */
+
+.sm-cal__card {
+  position: relative;
+  display: flex;
+  width: 800px;
+  height: 700px;
+  background: #fff;
+  border: 1px solid var(--sm-cal-line);
+  border-radius: 8px;
+  box-shadow: 0 1px 8px rgb(0 0 0 / 0.08);
+}
+
+/* left column: host and event */
+.sm-cal__details {
+  position: relative;
+  flex: 0 0 400px;
+  padding-top: 25px;
+  border-right: 1px solid var(--sm-cal-line);
+}
+
+.sm-cal__avatar {
+  display: block;
+  width: 65px;
+  height: 65px;
+  margin: 0 0 7px 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sm-cal__host {
+  padding: 0 10px 0 30px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--sm-cal-slate);
+}
+
+.sm-cal__event {
+  padding: 0 10px 0 30px;
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 700;
+  color: var(--sm-cal-navy);
+}
+
+.sm-cal__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+  padding: 0 30px;
+  font-weight: 700;
+  color: var(--sm-cal-slate);
+}
+
+.sm-cal__meta-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.sm-cal__meta-row > span {
+  padding-top: 2px;
+}
+
+.sm-cal__meta-icon {
+  flex: none;
+  color: var(--sm-cal-icon);
+}
+
+.sm-cal__legal {
+  position: absolute;
+  left: 30px;
+  bottom: 26px;
+  display: flex;
+  gap: 30px;
+  font-weight: 600;
+  color: var(--sm-cal-link);
+}
+
+/* right column: the date picker */
+.sm-cal__picker {
+  flex: 1;
+  padding-top: 28px;
+}
+
+.sm-cal__title {
+  margin-bottom: 20px;
+  padding: 0 120px 0 32px;
+  font-size: 22px;
+  line-height: 33px;
+  font-weight: 700;
+  white-space: nowrap; /* the sans is wider than Calendly's; it still clears the ribbon */
+}
+
+.sm-cal__calendar {
+  padding: 0 19px;
+}
+
+.sm-cal__month {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 38px;
+  margin: 6px 6px 23px;
+}
+
+.sm-cal__month-label {
+  font-weight: 700;
+}
+
+.sm-cal__nav {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: var(--sm-cal-link);
+}
+
+.sm-cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 8px;
+  width: 361px;
+}
+
+.sm-cal__weekday {
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 500;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--sm-cal-slate);
+}
+
+.sm-cal__cell {
+  display: grid;
+  place-items: center;
+  height: 44px;
+}
+
+.sm-cal__day {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--sm-cal-slate);
+}
+
+.sm-cal__day--open {
+  font-weight: 700;
+  color: var(--sm-cal-blue);
+  background: rgb(0 107 255 / 0.07);
+}
+
+.sm-cal__tz {
+  margin-top: 33px;
+  padding: 0 32px;
+}
+
+.sm-cal__tz-label {
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.sm-cal__tz-value {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin: 6px 0 0 9px;
+}
+
+.sm-cal__tz-globe,
+.sm-cal__tz-caret {
+  flex: none;
+  color: var(--sm-cal-icon);
+}
+
+.sm-cal__tz-caret {
+  margin-left: 5px;
+}
+
+/* --- "POWERED BY Calendly": the live DOM's box, band and two fold tabs ---- */
+
+.sm-cal__ribbon {
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  right: -5px;
+  width: 105px;
+  height: 105px;
+  overflow: hidden;
+}
+
+.sm-cal__ribbon::before,
+.sm-cal__ribbon::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: var(--sm-cal-ribbon);
+}
+
+.sm-cal__ribbon::before {
+  top: 0;
+  left: 0;
+}
+
+.sm-cal__ribbon::after {
+  right: 0;
+  bottom: 0;
+}
+
+.sm-cal__ribbon-band {
+  position: relative;
+  z-index: 1;
+  top: 21px;
+  left: -11px;
+  width: 160px;
+  padding: 9px 0 6px;
+  background: var(--sm-cal-ribbon);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.2);
+  color: #fff;
+  text-align: center;
+  font-weight: 700;
+  transform: rotate(45deg);
+}
+
+.sm-cal__ribbon-small,
+.sm-cal__ribbon-name {
+  width: 167px;
+  margin-left: -7px;
+}
+
+.sm-cal__ribbon-small {
+  font-size: 8px;
+  line-height: 9.6px;
+  text-transform: uppercase;
+}
+
+.sm-cal__ribbon-name {
+  font-size: 14px;
+  line-height: 16.8px;
+}

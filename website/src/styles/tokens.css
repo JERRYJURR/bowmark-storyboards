@@ -1,0 +1,382 @@
+/* ---------------------------------------------------------------------------
+   Bowmark design tokens — light theme, quiet pass
+
+   A near-neutral, slightly warm off-white ground with charcoal ink. Surfaces
+   separate by tone, not by outline, rim light or glow. Elevation is barely
+   there. The lime is the brand accent and is used sparingly: the mark, one
+   action per surface, completion ticks. A darker green carries accent *text*.
+
+   Source of truth: the nine approved Paper frames of 2026-09-19 (see
+   docs/paper-implementation.md; exports in design-reference/paper-2026-09-19).
+   Values introduced for the redesign are taken from those exports. Earlier
+   tokens keep their names so every section still resolves.
+
+   Nothing outside this file should contain a raw colour. The Paper frames
+   decide content, sequence and appearance; this file carries the values.
+--------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* --- channels ----------------------------------------------------------
+     Space-separated RGB for places that compute an alpha at runtime
+     (`rgb(var(--bm-ink-rgb) / 0.1)`), including the scene islands' per-frame
+     style writes. Everything else uses the named tokens below. */
+  --bm-bg-rgb: 248 247 244;
+  --bm-ink-rgb: 28 28 26;
+  --bm-panel-rgb: 254 254 252;
+  --bm-shadow-rgb: 36 32 24;
+  --bm-accent-rgb: 163 230 53;
+
+  /* --- ground ----------------------------------------------------------- */
+  --bm-bg: rgb(var(--bm-bg-rgb)); /* #f8f7f4 */
+  /* A step below the ground: footer, recessed stages. */
+  --bm-bg-deep: #f1f0ec;
+  /* Recessed well for commands and inline calls. */
+  --bm-well: #f0efea;
+
+  /* Translucent ink surfaces: the whole surface vocabulary is these fills. */
+  --bm-surface-1: rgb(var(--bm-ink-rgb) / 0.025);
+  --bm-surface-2: rgb(var(--bm-ink-rgb) / 0.04);
+  --bm-surface-3: rgb(var(--bm-ink-rgb) / 0.06);
+  --bm-surface-4: rgb(var(--bm-ink-rgb) / 0.09);
+  /* Opaque raised panel, for anything with siblings stacked behind it. */
+  --bm-panel-solid: rgb(var(--bm-panel-rgb));
+
+  /* Frosted glass, only where type sits over photography. */
+  --bm-glass: rgb(var(--bm-panel-rgb) / 0.74);
+  --bm-glass-strong: rgb(var(--bm-panel-rgb) / 0.88);
+  /* Light that passes over a surface: sweeps, scans. */
+  --bm-sheen: rgb(var(--bm-panel-rgb) / 0.5);
+  /* Dimmer behind a modal inside a depicted browser. */
+  --bm-overlay: rgb(var(--bm-ink-rgb) / 0.2);
+
+  /* --- lines (rare: fills do the separating) ----------------------------- */
+  --bm-line: rgb(var(--bm-ink-rgb) / 0.1);
+  --bm-panel-line: rgb(var(--bm-ink-rgb) / 0.06);
+  --bm-line-faint: rgb(var(--bm-ink-rgb) / 0.05);
+  --bm-line-strong: rgb(var(--bm-ink-rgb) / 0.16);
+  --bm-underline: rgb(var(--bm-ink-rgb) / 0.26);
+
+  /* --- ink (solid, so contrast holds on any light fill) ------------------ */
+  --bm-text: #1c1c1a;
+  --bm-text-nav: #373733;
+  --bm-text-muted: #56554f;
+  /* ≥4.5:1 on the ground: still AA for the small metadata it carries. */
+  --bm-text-faint: #69685f;
+  --bm-text-inverse: #fcfcfa;
+
+  /* --- accent ------------------------------------------------------------
+     Decoration and fills use the brand lime; text never does. The action
+     fill is the lime taken a step towards the ground, so it reads as Bowmark
+     without shouting. */
+  --bm-accent: #a3e635;
+  --bm-accent-light: #bef264;
+  --bm-accent-fill: #c2e87a;
+  --bm-accent-hover: #b4df62;
+  --bm-accent-ink: #1c1c1a;
+  --bm-accent-soft: rgb(132 190 40 / 0.13);
+  --bm-accent-line: rgb(101 150 20 / 0.4);
+  /* Graphic marks on light ground: logo mark, chart line, progress, beacons. */
+  --bm-accent-strong: #6a9f16;
+  /* Accent text: darker green, ≥4.5:1 on the ground and on --bm-accent-soft. */
+  --bm-accent-text: #4a7212;
+  /* Focus ring: dark enough for 3:1 against every light surface. */
+  --bm-focus: #4a7212;
+
+  /* Ink action: the quiet primary for navigation-level buttons. */
+  --bm-ink-fill: #232321;
+  --bm-ink-hover: #3a3a36;
+
+  /* Editorial code-paper surface (comparison, storefront art). */
+  --bm-paper: #ebece4;
+  --bm-paper-top: #f2f2ec;
+  --bm-paper-ink: #2a2d27;
+  --bm-paper-muted: #686b61;
+  --bm-paper-keyword: #6c5a7c;
+  --bm-paper-string: #466a5a;
+
+  /* --- neutral controls -------------------------------------------------- */
+  --bm-control-fill: rgb(var(--bm-ink-rgb) / 0.045);
+  --bm-control-hover: rgb(var(--bm-ink-rgb) / 0.07);
+  --bm-control-line: rgb(var(--bm-ink-rgb) / 0.08);
+  --bm-control-selected: rgb(var(--bm-panel-rgb));
+
+  /* --- code (on light surfaces) — one calm palette ----------------------- */
+  --bm-code-plain: #2e2e2a;
+  --bm-code-dim: #69685f;
+  --bm-code-string: #3f6a58;
+  --bm-code-keyword: #6c5a86;
+  --bm-code-ident: var(--bm-accent-text);
+  --bm-code-ln: rgb(var(--bm-ink-rgb) / 0.3);
+  --bm-code-type-bg: rgb(63 106 88 / 0.1);
+
+  /* --- depicted browser (comparison section) ------------------------------ */
+  --bm-browser-chrome: #f0efeb;
+  --bm-browser-body: #fdfdfb;
+
+  /* --- bento tiles -------------------------------------------------------
+     Five restrained tones from one family — stone, sage, a lime-leaning sage,
+     mist and off-white — differentiated by temperature rather than hue. `-ink`
+     is the tile's text, `-tone` its mid-strength accent (glyphs, dots, hub).
+     Fills and borders are opaque so the scene can mix them towards the
+     converted surface per frame; borders sit a hair off the fill. */
+  --bm-tile-site: #efece5;
+  --bm-tile-site-line: #e8e4db;
+  --bm-tile-site-ink: #23211c;
+  --bm-tile-site-tone: #857655;
+
+  --bm-tile-mcp: #e7ebe3;
+  --bm-tile-mcp-line: #dfe4da;
+  --bm-tile-mcp-ink: #222b22;
+  --bm-tile-mcp-tone: #58735a;
+
+  --bm-tile-api: #e9eedb;
+  --bm-tile-api-line: #e1e7d0;
+  --bm-tile-api-ink: #232918;
+  --bm-tile-api-tone: #638424;
+
+  --bm-tile-sdk: #e7e9e8;
+  --bm-tile-sdk-line: #dfe2e1;
+  --bm-tile-sdk-ink: #1f2426;
+  --bm-tile-sdk-tone: #56666c;
+
+  --bm-tile-cli: #f2f1ed;
+  --bm-tile-cli-line: #eae8e2;
+  --bm-tile-cli-ink: #1f1f1c;
+  --bm-tile-cli-tone: #6f6e66;
+
+  /* What every tile becomes once it converts to provider code. */
+  --bm-tile-converted: #fdfdfb;
+  --bm-tile-converted-line: #ebe9e3;
+
+  /* --- Paper 2026-09-19 surfaces ---------------------------------------------
+     The redesign's soft-panel vocabulary. Values are the Paper exports'
+     (design-reference/paper-2026-09-19), not screenshot readings. */
+
+  /* Big rounded hero panel: --bm-surface-2 over the ground (≈ #efeeeb),
+     inset 32px from the viewport, with one hairline outline. */
+  --bm-stage-fill: var(--bm-surface-2);
+  --bm-stage-line: rgb(0 0 0 / 0.075); /* #00000013 */
+  --bm-stage-inset: 32px;
+  --bm-radius-panel: 32px;
+
+  /* Soft card fill: Paper's display-p3(0.937 0.933 0.919), the command well. */
+  --bm-card: #efeeea;
+  --bm-card-line: rgb(31 31 28 / 0.08); /* #1F1F1C14 top hairline */
+
+  /* Floating chrome (nav pill, install bar): #EBE9E3 with a layered lift. */
+  --bm-float-fill: var(--bm-tile-converted-line);
+  --bm-shadow-chrome: inset 0 1px 0 rgb(255 255 255 / 0.55),
+    0 0 0 1px rgb(var(--bm-ink-rgb) / 0.04), 0 1px 1px rgb(var(--bm-ink-rgb) / 0.03),
+    0 2px 4px -1px rgb(var(--bm-ink-rgb) / 0.04),
+    0 6px 12px -4px rgb(var(--bm-ink-rgb) / 0.05),
+    0 14px 28px -12px rgb(var(--bm-ink-rgb) / 0.08);
+
+  /* Primary CTA ("Get started"): a lime gradient with an inner edge. The
+     sRGB pair is the fallback; the oklab pair below is Paper's exact value. */
+  --bm-cta-top: #8cda00;
+  --bm-cta-bottom: #6cb200;
+  --bm-cta-gradient: linear-gradient(180deg, var(--bm-cta-top), var(--bm-cta-bottom));
+  --bm-cta-edge: inset 0 0 2px rgb(0 0 0 / 0.2);
+  /* White button labels, as authored in the approved Paper frames. */
+  --bm-cta-ink: #fff;
+
+  /* The mark's green: Paper's display-p3(0.490 0.697 0), sRGB fallback. */
+  --bm-mark: #6db300;
+
+  /* Install-bar agent tile behind each brand glyph (Paper shows Claude's). */
+  --bm-agent-tile: var(--bm-ink-fill);
+  --bm-agent-claude: #d97757;
+  --bm-agent-glyph: #ffffff;
+
+  /* --- scene accents (7K2 capability cards) --------------------------------
+     Each card is its accent fill with a white→80% grey oklab ramp laid over
+     it in `color-burn`. sRGB fallbacks; exact display-p3 values below. */
+  --bm-scene-purple: #7f66a8;
+  --bm-scene-green: #85a01e;
+  --bm-scene-orange: #cd6e13;
+  --bm-scene-black: #3f3f3f;
+  /* capability card fills: each site's own brand colour */
+  --bm-brand-youtube: #ff0033;
+  --bm-brand-amazon: #232f3e;
+  --bm-brand-calendly: #006bff;
+  --bm-brand-maps: #1e8e3e;
+  --bm-brand-kayak: #ff690f;
+  --bm-scene-burn: linear-gradient(180deg, rgb(255 255 255 / 0), rgb(198 198 198));
+  --bm-scene-burn-mode: color-burn;
+  /* Type on the coloured cards. */
+  --bm-scene-title: var(--bm-paper); /* #EBECE4 */
+  --bm-scene-meta: rgb(235 236 228 / 0.66); /* #EBECE4A8 */
+  --bm-scene-row: #e3e3e3;
+
+  /* --- type ------------------------------------------------------------- */
+  --bm-font-sans: 'Atkinson Hyperlegible Next', ui-sans-serif, system-ui,
+    -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --bm-font-mono: 'Google Sans Code', ui-monospace, SFMono-Regular, Menlo,
+    Consolas, monospace;
+  /* Card titles (capability names). Introduced with the Paper redesign. */
+  --bm-font-serif: 'Crimson Pro', Georgia, serif;
+
+  /* Display headline: Paper's --bml-size-h2 (44px), -0.05em, line-height 1. */
+  --bm-size-hero: 44px;
+  /* Section headings: modest, one scale for every section. */
+  --bm-size-h2: clamp(32px, 3.3vw, 44px);
+  /* In-panel display type (Broadcast headline, Connect destination). */
+  --bm-size-h3: clamp(26px, 2.5vw, 34px);
+  --bm-size-lead: 19px;
+  --bm-size-body: 17px;
+  --bm-size-ui: 15px;
+  --bm-size-ui-sm: 14px;
+  --bm-size-micro: 13px;
+  --bm-size-mono: 14px;
+
+  --bm-lh-hero: 1;
+  --bm-lh-head: 1.12;
+  --bm-lh-body: 1.55;
+
+  --bm-weight-head: 400;
+  --bm-weight-strong: 500;
+
+  --bm-track-hero: -0.05em;
+  --bm-track-h2: -0.02em;
+  --bm-track-tight: -0.005em;
+  /* Small labels that sit above headings. */
+  --bm-track-label: 0.01em;
+
+  /* --- space ------------------------------------------------------------ */
+  --bm-space-1: 0.25rem;
+  --bm-space-2: 0.5rem;
+  --bm-space-3: 0.75rem;
+  --bm-space-4: 1rem;
+  --bm-space-5: 1.5rem;
+  --bm-space-6: 2rem;
+  --bm-space-7: 3rem;
+  --bm-space-8: 4.5rem;
+  --bm-space-9: 7rem;
+
+  --bm-gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --bm-measure: 62ch;
+  --bm-max: 1240px;
+
+  /* --- radius: small and consistent -------------------------------------- */
+  --bm-radius-sm: 6px;
+  --bm-radius-btn: 8px;
+  --bm-radius-field: 10px; /* command fields, list rows */
+  --bm-radius-card: 14px; /* cards, windows, plates */
+  --bm-radius-stage: 18px; /* the largest surfaces */
+  --bm-radius-pill: 999px;
+
+  /* --- elevation: barely there -------------------------------------------- */
+  --bm-shadow-panel: 0 1px 2px rgb(var(--bm-shadow-rgb) / 0.04),
+    0 6px 20px rgb(var(--bm-shadow-rgb) / 0.04);
+  --bm-shadow-soft: 0 1px 2px rgb(var(--bm-shadow-rgb) / 0.05);
+  /* Floating windows and cards over art or photography. */
+  --bm-shadow-float: 0 1px 2px rgb(var(--bm-shadow-rgb) / 0.04),
+    0 10px 28px rgb(var(--bm-shadow-rgb) / 0.07);
+  --bm-shadow-float-strong: 0 2px 4px rgb(var(--bm-shadow-rgb) / 0.04),
+    0 18px 44px rgb(var(--bm-shadow-rgb) / 0.1);
+  /* Header separation without a rule. */
+  --bm-shadow-header: 0 1px 10px rgb(var(--bm-shadow-rgb) / 0.035);
+  /* A pale halo that keeps the depicted cursor legible on any fill. */
+  --bm-cursor-halo: 0 1px 3px rgb(var(--bm-panel-rgb) / 0.95);
+
+  /* --- motion ----------------------------------------------------------- */
+  --bm-dur-fast: 140ms;
+  --bm-dur-base: 220ms;
+  --bm-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* Restrained spring for the install controls (chip expansion, dropdown
+     transform). Fallback curve first; the generated linear() easing is applied
+     below where the browser supports it. Opacity uses the shorter ease. */
+  --bm-spring: cubic-bezier(0.22, 0.9, 0.3, 1);
+  --bm-spring-dur: 300ms;
+
+  /* --- chrome -----------------------------------------------------------
+     The header is a floating 580×40 pill 16px below the top edge. The
+     header height is the space it claims: 16 + 40 + 16, used as the scroll
+     margin for anchors. */
+  --bm-nav-top: 16px;
+  --bm-nav-w: 580px;
+  --bm-nav-h: 40px;
+  --bm-header-h: 72px;
+  /* Install bar: 406px well + 4px frame each side. */
+  --bm-install-w: 414px;
+
+  /* --- scene channel ---------------------------------------------------
+     Written every frame by the DecompileScene island; read by the hero CSS.
+     These defaults ARE the server-rendered first frame: hero fully present,
+     stage invisible. The page is complete without JavaScript.
+  ---------------------------------------------------------------------- */
+  --b1-p: 0;
+  --b1-hero-out: 0;
+  --b1-h0: 1;
+  --b1-h1: 0;
+  --b1-h2: 0;
+  --b1-h3: 0;
+  --b1-hy0: 0px;
+  --b1-hy1: 12px;
+  --b1-hy2: 24px;
+  --b1-hy3: 36px;
+}
+
+/* Paper's exact wide-gamut / oklab values, where the browser has them. */
+@supports (color: color(display-p3 0 0 0)) {
+  :root {
+    --bm-mark: color(display-p3 0.49 0.697 0);
+    --bm-card: color(display-p3 0.937 0.933 0.919);
+    --bm-scene-purple: color(display-p3 0.48 0.401 0.643);
+    --bm-scene-green: color(display-p3 0.538 0.626 0.227);
+    --bm-scene-orange: color(display-p3 0.752 0.45 0.179);
+    --bm-scene-black: color(display-p3 0.246 0.246 0.246);
+  }
+}
+
+@supports (background: linear-gradient(in oklab 180deg, red, blue)) {
+  :root {
+    --bm-cta-gradient: linear-gradient(
+      in oklab 180deg,
+      oklab(80.2% -0.156 0.193) 0%,
+      oklab(69.1% -0.14 0.167) 100%
+    );
+    --bm-scene-burn: linear-gradient(
+      in oklab 180deg,
+      oklab(100% 0 0 / 0%) 0%,
+      oklab(80% 0 0) 100%
+    );
+  }
+}
+
+/* Motion MCP, generate_css_spring(bounce .12, duration .28). */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --bm-spring: linear(
+      0,
+      0.505,
+      0.9382,
+      1.0379,
+      1.0218,
+      1.0035,
+      0.9986,
+      0.9991,
+      0.9998,
+      1
+    );
+  }
+}
+
+@media (max-width: 860px) {
+  :root {
+    --bm-size-hero: 38px;
+    --bm-size-h2: 32px;
+    --bm-size-h3: 26px;
+    --bm-size-lead: 18px;
+  }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --bm-size-hero: 34px;
+    --bm-size-h2: 29px;
+  }
+}

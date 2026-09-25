@@ -1,0 +1,23 @@
+{
+  "note": "Product photos for the Amazon search-results mockup (src/components/sites/AmazonMock.tsx). All free under the Unsplash License. Each was downloaded at ?w=500&q=70&fm=jpg, its near-white studio ground lifted to pure white, cropped to a 4:5 box around the case, resized to 400 x 500 and multiplied by #F7F7F7 so it sits seamlessly on Amazon's grey image tile (in place of mix-blend-mode, which the 3D scene can't use).",
+  "files": {
+    "carry-on-aluminum-frame.jpg": {
+      "source": "https://unsplash.com/photos/a-piece-of-luggage-with-wheels-on-a-white-background-Fri0ZuAkSNw",
+      "image": "https://images.unsplash.com/photo-1673505705680-36437a06ee27?w=500&q=70&fm=jpg",
+      "creator": "Cyberbackpack.com (@rizonline)",
+      "license": "Unsplash License"
+    },
+    "carry-on-spinner-graphite.jpg": {
+      "source": "https://unsplash.com/photos/a-black-suitcase-with-wheels-on-a-white-background-pmJAM2Fxbos",
+      "image": "https://images.unsplash.com/photo-1673505705700-e0afd7273fbd?w=500&q=70&fm=jpg",
+      "creator": "Cyberbackpack.com (@rizonline)",
+      "license": "Unsplash License"
+    },
+    "carry-on-side.jpg": {
+      "source": "https://unsplash.com/photos/a-piece-of-luggage-that-is-on-a-white-surface-kWzlgDmYhDg",
+      "image": "https://images.unsplash.com/photo-1673505705678-6d3cda1d69da?w=500&q=70&fm=jpg",
+      "creator": "Cyberbackpack.com (@rizonline)",
+      "license": "Unsplash License"
+    }
+  }
+}

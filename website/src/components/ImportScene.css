@@ -1,0 +1,484 @@
+/* ---------------------------------------------------------------------------
+   B1, second half — Paper 7U1 (import) → 7XJ (running) → 80X (found).
+
+   Geometry and text are written per frame by ImportScene.tsx on the shared
+   1440 x 900 canvas; this file owns appearance. Values are the Paper
+   exports'. The demo "code" is set in the sans face, as Paper draws it.
+--------------------------------------------------------------------------- */
+
+.imp {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  contain: layout paint;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.imp__canvas {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: 50% 50%;
+  perspective: 1500px;
+  perspective-origin: 50% 45%;
+}
+
+/* --- the capability cards (7K2 hand-over) ----------------------------------- */
+
+.imp__cap {
+  position: absolute;
+  width: 306px;
+  height: 396px;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* The chosen card collapses into the import token: its size, padding and
+   radius are written per frame, its contents give way to the token's face.
+   Its shadow is the capability card's own (.cap in BentoTiles.css), driven
+   by --depth-lift / --depth-k on the wrapper. */
+.imp__cap--chosen .cap {
+  width: 100%;
+  height: 100%;
+  padding: var(--pad, 24px);
+  border-radius: var(--radius, 16px);
+}
+
+/* rows leave with --content; the title hands over to the face with --title */
+.imp__cap--chosen .cap__foot {
+  opacity: var(--content, 1);
+}
+
+.imp__cap--chosen .cap__top {
+  opacity: var(--title, 1);
+  filter: blur(var(--title-blur, 0px));
+}
+
+.imp__face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 18px;
+  line-height: 20px;
+  color: var(--bm-scene-title);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.imp__face .brand-mark,
+.imp__chip .brand-mark {
+  flex-shrink: 0;
+  color: #fff;
+}
+
+/* --- the well -------------------------------------------------------------- */
+
+.imp__well {
+  position: absolute;
+  z-index: 10;
+  overflow: hidden;
+  background: var(--bm-card);
+  border-radius: 16px;
+  outline: 1px solid var(--bm-stage-line);
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* 7XJ: the editor slides up under this as the run starts */
+.imp__well-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 2;
+  height: 114px;
+  background: linear-gradient(180deg, var(--bm-card), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.imp__column {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  width: 458px;
+}
+
+/* --- agent.ts ------------------------------------------------------------------ */
+
+.imp__editor {
+  --ring: 0;
+  display: flex;
+  flex-direction: column;
+  width: 458px;
+  background: var(--bm-float-fill);
+  border-radius: var(--bm-radius-btn);
+  box-shadow: var(--bm-shadow-chrome),
+    0 0 0 calc(var(--ring) * 3px) rgb(var(--bm-accent-rgb) / calc(var(--ring) * 0.35));
+  font-family: var(--bm-font-sans);
+  letter-spacing: 0;
+}
+
+.imp__file {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 10px;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--bm-text-muted);
+}
+
+/* the existing Run affordance, kept quiet at the header's edge */
+.imp__state {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--bm-text-faint);
+  white-space: nowrap;
+}
+
+.imp__state[data-live='1'] {
+  color: var(--bm-accent-text);
+}
+
+/* Paper's editor band: #E8E8E5 at 75% around the code surface */
+.imp__frame {
+  padding: 0 4px 4px;
+  background: rgb(232 232 229 / 0.75);
+  border-radius: var(--bm-radius-btn);
+}
+
+.imp__lines {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0;
+  background: var(--bm-card);
+  border-top: 1px solid var(--bm-card-line);
+  border-radius: 5px;
+}
+
+.imp__line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 6px 8px;
+  font-size: 18px;
+  line-height: 20px;
+  color: var(--bm-text-muted);
+  white-space: pre;
+}
+
+.imp__gutter {
+  flex-shrink: 0;
+  color: color-mix(in srgb, var(--bm-text-muted) 50%, transparent);
+}
+
+.imp__indent {
+  width: 24px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.imp__seg {
+  position: relative;
+  white-space: pre;
+}
+
+/* the untyped remainder holds the line's geometry, so nothing reflows */
+.imp__rest {
+  visibility: hidden;
+}
+
+/* the import token (7U1): the imported provider in its brand colour */
+.imp__chip {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 4px;
+  padding: 2px 4px;
+  border-radius: var(--bm-radius-sm);
+  background-color: var(--cap-tone, var(--bm-scene-green));
+  background-image: linear-gradient(180deg, rgb(255 255 255), rgb(198 198 198));
+  background-blend-mode: var(--bm-scene-burn-mode);
+  color: var(--bm-scene-title);
+  opacity: 0;
+}
+
+@supports (background: linear-gradient(in oklab 180deg, red, blue)) {
+  .imp__chip {
+    background-image: linear-gradient(in oklab 180deg, oklab(100% 0 0) 0%, oklab(80% 0 0) 100%);
+  }
+}
+
+/* caret, with the agent's label above it — only the bar blinks */
+.imp__caret {
+  position: relative;
+  display: none;
+  width: 2.5px;
+  height: 1.05em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+}
+
+.imp__caret::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--bm-accent-strong);
+  animation: imp-caret 1s steps(1) infinite;
+}
+
+@keyframes imp-caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.imp__agent {
+  position: absolute;
+  left: 7px;
+  bottom: 100%;
+  margin-bottom: 4px;
+  padding: 3px 8px;
+  border-radius: 6px 6px 6px 2px;
+  background: var(--bm-accent-fill);
+  color: var(--bm-accent-ink);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* --- status (7XJ running / 80X found) ------------------------------------------ */
+
+.imp__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-family: var(--bm-font-sans);
+  font-size: 18px;
+  line-height: 20px;
+  color: color-mix(in srgb, var(--bm-text-muted) 50%, transparent);
+  white-space: nowrap;
+  visibility: hidden;
+}
+
+.imp__status-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.imp__status-icon[data-state='found'] {
+  display: none;
+}
+
+.imp__status-icon circle {
+  fill: none;
+  stroke: color-mix(in srgb, var(--bm-tile-cli-tone) 50%, transparent);
+  stroke-width: 1.75;
+  animation: imp-dot 1.2s ease-in-out infinite;
+}
+
+.imp__status-icon circle:nth-child(2) { animation-delay: 0.15s; }
+.imp__status-icon circle:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes imp-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* --- the stay (80X) ----------------------------------------------------------- */
+
+.imp__hotel {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: 12px;
+  font-family: var(--bm-font-sans);
+  font-size: 18px;
+  line-height: 20px;
+  color: color-mix(in srgb, var(--bm-text-muted) 66%, transparent);
+  visibility: hidden;
+}
+
+.imp__hotel-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.imp__hotel-art {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--bm-radius-btn-lg, 12px);
+  background: var(--bm-surface-3);
+}
+
+.imp__stay-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imp__hotel-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-self: stretch;
+  gap: 8px;
+  min-width: 0;
+}
+
+.imp__hotel-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.imp__hotel-name,
+.imp__hotel-rate {
+  font-weight: 500;
+  color: var(--bm-text-muted);
+}
+
+.imp__hotel-meta {
+  display: flex;
+  gap: 4px;
+}
+
+.imp__hotel-rate {
+  flex: 1;
+  align-self: stretch;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Book it / See more: not in the frame, kept as a quiet line beneath */
+.imp__hotel-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-left: 112px;
+  font-size: var(--bm-size-micro);
+  line-height: 18px;
+}
+
+.imp__btn {
+  padding: 3px 10px;
+  border-radius: var(--bm-radius-sm);
+  background: var(--bm-accent-fill);
+  color: var(--bm-cta-ink);
+  font-weight: 500;
+}
+
+.imp__link {
+  color: var(--bm-text-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--bm-underline);
+  text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imp__caret::before,
+  .imp__status-icon circle {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion / narrow: the final state, in flow — agent.ts, the found
+   line and the stay, inside the same soft well.
+--------------------------------------------------------------------------- */
+
+.imp-static {
+  width: 100%;
+}
+
+.imp-static__well {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+  background: var(--bm-card);
+  border-radius: 16px;
+  outline: 1px solid var(--bm-stage-line);
+}
+
+.imp-static__well > * {
+  width: min(100%, 458px);
+}
+
+.imp-static__editor {
+  width: min(100%, 458px);
+}
+
+.imp-static__code {
+  margin: 0;
+  padding: 8px 14px;
+  overflow-x: auto;
+  background: var(--bm-card);
+  border-top: 1px solid var(--bm-card-line);
+  border-radius: 5px;
+  font-family: var(--bm-font-sans);
+  font-size: 16px;
+  line-height: 30px;
+  color: var(--bm-text-muted);
+  white-space: pre;
+}
+
+.imp-static__status,
+.imp-static__hotel {
+  visibility: visible;
+}
+
+.imp-static__hotel .imp__hotel-row {
+  flex-wrap: wrap;
+}
+
+.imp-static__hotel .imp__hotel-info {
+  flex: 1;
+}
+
+.imp-static__hotel .imp__hotel-rate {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 480px) {
+  .imp-static__well {
+    padding: 16px;
+  }
+
+  .imp-static__hotel .imp__hotel-actions {
+    padding-left: 0;
+  }
+}

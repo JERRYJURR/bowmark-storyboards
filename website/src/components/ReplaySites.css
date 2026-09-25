@@ -1,0 +1,1103 @@
+/* ---------------------------------------------------------------------------
+   F1 — the depicted websites inside the browser agent's window.
+
+   Small recreations (Booking.com, Hertz, GEICO, Progressive, Best Buy,
+   Amazon and Costco): each site's
+   masthead, its own search or quote form, its result cards and its primary
+   action, at the stage's tiny scale. Everything is sized in em off the stage's
+   --f1-fs so it scales with the panel.
+
+   The raw colours below are third-party brand colours, used only to depict
+   those sites; they are local to this file on purpose and are not Bowmark
+   tokens. Type stays in the site's own family (inherited).
+--------------------------------------------------------------------------- */
+
+.rs {
+  /* brand colours, depicted */
+  --rs-bk-blue: #003b95;
+  --rs-bk-action: #006ce4;
+  --rs-bk-yellow: #ffb700;
+  --rs-hz-yellow: #ffd100;
+  --rs-hz-black: #141414;
+  --rs-gc-blue: #154b8b;
+  --rs-gc-action: #0f5bc2;
+  --rs-bb-blue: #0046be;
+  --rs-bb-yellow: #ffe000;
+  --rs-bb-ink: #1d252c;
+
+  /* neutral web page greys */
+  --rs-ink: #1a1a1a;
+  --rs-meta: #595959;
+  --rs-line: rgb(0 0 0 / 0.09);
+  --rs-field: #f4f5f6;
+  --rs-skel: #eceef0;
+  --rs-skel-hi: #f7f8f9;
+
+  /* per site, set below */
+  --rs-mast-bg: var(--rs-bk-blue);
+  --rs-mast-ink: #fff;
+  --rs-btn: var(--rs-bk-action);
+  --rs-btn-ink: #fff;
+  --rs-focus: var(--rs-bk-action);
+  --rs-name: var(--rs-bk-action);
+  --rs-strip: var(--rs-bk-yellow);
+
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #fff;
+  color: var(--rs-ink);
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
+.rs[data-site='hertz'] {
+  --rs-mast-bg: var(--rs-hz-black);
+  --rs-btn: var(--rs-hz-yellow);
+  --rs-btn-ink: var(--rs-hz-black);
+  --rs-focus: var(--rs-hz-black);
+  --rs-name: var(--rs-ink);
+  --rs-strip: var(--rs-hz-yellow);
+}
+
+.rs[data-site='geico'] {
+  --rs-mast-bg: #fff;
+  --rs-mast-ink: var(--rs-gc-blue);
+  --rs-btn: var(--rs-gc-action);
+  --rs-focus: var(--rs-gc-action);
+  --rs-name: var(--rs-gc-blue);
+  --rs-strip: #e3ebf6;
+}
+
+/* Progressive reuses the quote form; only the brand blue changes */
+.rs[data-site='progressive'] {
+  --rs-gc-blue: #0077c8;
+  --rs-gc-action: #0077c8;
+  --rs-mast-bg: var(--rs-gc-blue);
+  --rs-mast-ink: #fff;
+  --rs-btn: var(--rs-gc-action);
+  --rs-focus: var(--rs-gc-action);
+  --rs-name: var(--rs-ink);
+  --rs-strip: #e0eff9;
+}
+
+.rs[data-site='bestbuy'] {
+  --rs-mast-bg: var(--rs-bb-blue);
+  --rs-btn: var(--rs-bb-yellow);
+  --rs-btn-ink: var(--rs-bb-ink);
+  --rs-focus: var(--rs-bb-blue);
+  --rs-name: var(--rs-bb-ink);
+  --rs-go: transparent;
+  --rs-go-ink: var(--rs-bb-blue);
+}
+
+.rs[data-site='amazon'] {
+  --rs-mast-bg: #131921;
+  --rs-btn: #ffd814;
+  --rs-btn-ink: #0f1111;
+  --rs-focus: #f08804;
+  --rs-name: #0f1111;
+  --rs-go: #febd69;
+  --rs-go-ink: #131921;
+}
+
+.rs[data-site='costco'] {
+  --rs-mast-bg: #fff;
+  --rs-mast-ink: #005dab;
+  --rs-btn: #005dab;
+  --rs-focus: #005dab;
+  --rs-name: var(--rs-ink);
+  --rs-go: #005dab;
+  --rs-go-ink: #fff;
+}
+
+.rs-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.rs-grow {
+  flex: 1;
+}
+
+.rs-ico {
+  width: 1.1em;
+  height: 1.1em;
+  flex-shrink: 0;
+}
+
+/* --- masthead ----------------------------------------------------------------- */
+
+.rs-mast {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  height: 2.5em;
+  padding: 0 0.85em;
+  background: var(--rs-mast-bg);
+  color: var(--rs-mast-ink);
+}
+
+.rs[data-site='geico'] .rs-mast,
+.rs[data-site='costco'] .rs-mast {
+  box-shadow: inset 0 -1px 0 var(--rs-line);
+}
+
+.rs[data-site='costco'] .rs-bb-search {
+  background: var(--rs-field);
+}
+
+/* Amazon's lowercase wordmark over its orange smile */
+.rs-az-logo {
+  flex-shrink: 0;
+  font-size: 1.05em;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  box-shadow: 0 0.18em 0 -0.08em #ff9900;
+}
+
+/* Costco's red wordmark over the blue WHOLESALE line */
+.rs-co-logo {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #e31837;
+  font-size: 0.98em;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+.rs-co-logo small {
+  color: #005dab;
+  font-size: 0.42em;
+  font-style: normal;
+  letter-spacing: 0.12em;
+}
+
+.rs-mast-link {
+  font-size: 0.74em;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.rs-mast-btn {
+  padding: 0.3em 0.6em;
+  border-radius: 0.3em;
+  background: #fff;
+  color: var(--rs-bk-action);
+  font-size: 0.74em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.rs-bk-logo {
+  font-size: 1.08em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.rs-bk-logo span {
+  color: #7cc2ff;
+}
+
+.rs-hz-logo {
+  padding: 0.12em 0.45em;
+  border-radius: 0.15em;
+  background: var(--rs-hz-yellow);
+  color: var(--rs-hz-black);
+  font-size: 0.98em;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.02em;
+}
+
+.rs-hz-nav,
+.rs-gc-nav {
+  display: flex;
+  gap: 0.9em;
+  font-size: 0.74em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.rs-hz-nav span {
+  opacity: 0.6;
+}
+
+.rs-hz-nav b {
+  font-weight: 600;
+  box-shadow: 0 0.2em 0 -0.05em var(--rs-hz-yellow);
+}
+
+.rs-gc-logo {
+  font-size: 1.12em;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.rs-gc-nav {
+  color: var(--rs-meta);
+}
+
+.rs[data-site='progressive'] .rs-gc-nav {
+  color: var(--rs-mast-ink);
+  opacity: 0.9;
+}
+
+.rs-bb-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  flex-shrink: 0;
+}
+
+.rs-bb-logo img {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.rs-bb-logo b {
+  font-size: 0.9em;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* --- fields & buttons ------------------------------------------------------------ */
+
+.rs-field {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.45em 0.6em;
+  border-radius: 0.3em;
+  background: #fff;
+  font-size: 0.8em;
+  color: var(--rs-ink);
+  transition: box-shadow var(--bm-dur-fast) var(--bm-ease);
+}
+
+.rs-field > .rs-ico {
+  color: var(--rs-meta);
+}
+
+.rs-field-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+}
+
+.rs-field-text i {
+  font-size: 0.8em;
+  font-style: normal;
+  color: var(--rs-meta);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rs-field-text > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* the field the agent is in: the site's own focus ring */
+.rs-field[data-hot='1'] {
+  box-shadow: inset 0 0 0 1.5px var(--rs-focus);
+}
+
+.rs-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45em 0.8em;
+  border-radius: 0.3em;
+  background: var(--rs-btn);
+  color: var(--rs-btn-ink);
+  font-size: 0.78em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.rs-row {
+  display: flex;
+  gap: 0.35em;
+  min-width: 0;
+}
+
+.rs-row > .rs-wide {
+  flex: 1.6;
+}
+
+/* --- hero bands (Booking, GEICO) ---------------------------------------------------- */
+
+.rs-hero {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45em;
+  padding: 0.35em 0.85em 1.7em;
+  background: var(--rs-mast-bg);
+  color: #fff;
+}
+
+.rs-hero strong {
+  font-size: 1.2em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.rs-hero--empty {
+  height: 3.6em;
+}
+
+.rs-bk-tabs,
+.rs-gc-products {
+  display: flex;
+  gap: 0.35em;
+  font-size: 0.72em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.rs-bk-tabs > *,
+.rs-gc-products > * {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.3em 0.7em;
+  border-radius: 999px;
+  font-weight: 400;
+}
+
+.rs-bk-tabs b {
+  box-shadow: inset 0 0 0 1px #fff;
+  background: rgb(255 255 255 / 0.12);
+}
+
+/* Booking's yellow-framed search bar, straddling the blue band */
+.rs-bk-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 0.22em;
+  margin: -1.15em 0.85em 0;
+  padding: 0.22em;
+  border-radius: 0.45em;
+  background: var(--rs-bk-yellow);
+}
+
+.rs-bk-bar > .rs-wide {
+  grid-column: span 2;
+}
+
+.rs-bk-bar > .rs-field:nth-child(2) {
+  grid-column: 3;
+}
+
+/* --- Hertz booking widget ----------------------------------------------------------- */
+
+.rs-hz-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45em;
+  padding: 0.7em 0.85em;
+}
+
+.rs-hz-form strong {
+  font-size: 1.1em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.rs-hz-form .rs-field,
+.rs-gc-card .rs-field {
+  background: var(--rs-field);
+}
+
+.rs-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.74em;
+  color: var(--rs-meta);
+}
+
+.rs-toggle i {
+  position: relative;
+  width: 2.2em;
+  height: 1.2em;
+  border-radius: 999px;
+  background: var(--rs-hz-black);
+}
+
+.rs-toggle i::after {
+  content: '';
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: 50%;
+  background: var(--rs-hz-yellow);
+}
+
+/* --- GEICO quote form --------------------------------------------------------------- */
+
+.rs-gc-hero {
+  position: relative;
+  background: var(--rs-gc-blue);
+  padding-top: 0.6em;
+  padding-right: 4em;
+}
+
+/* the gecko stands at the band's right, feet clear of the quote card */
+.rs-gc-gecko {
+  position: absolute;
+  top: 0.35em;
+  right: 0.9em;
+  height: calc(100% - 1.6em);
+  width: auto;
+  pointer-events: none;
+}
+
+.rs-gc-products b {
+  background: #fff;
+  color: var(--rs-gc-blue);
+  font-weight: 600;
+}
+
+.rs-gc-products span {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.45);
+}
+
+.rs-gc-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  margin: -1.15em 0.85em 0;
+  padding: 0.55em;
+  border-radius: 0.45em;
+  background: #fff;
+  box-shadow: 0 0.2em 0.9em rgb(0 0 0 / 0.12);
+}
+
+.rs-gc-step {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72em;
+  font-weight: 600;
+  color: var(--rs-gc-blue);
+}
+
+.rs-gc-progress {
+  display: flex;
+  gap: 0.25em;
+}
+
+.rs-gc-progress i {
+  width: 1.6em;
+  height: 0.3em;
+  border-radius: 999px;
+  background: #d9e2ef;
+  transition: background var(--bm-dur-fast) var(--bm-ease);
+}
+
+.rs-gc-progress i[data-on='1'] {
+  background: var(--rs-gc-action);
+}
+
+/* --- Best Buy search & filters ------------------------------------------------------- */
+
+.rs-bb-search {
+  flex: 1;
+  padding-block: 0.4em;
+}
+
+.rs-bb-go {
+  display: inline-flex;
+  margin: -0.25em -0.35em -0.25em 0;
+  padding: 0.25em 0.35em;
+  border-radius: 0.25em;
+  background: var(--rs-go);
+  color: var(--rs-go-ink);
+}
+
+.rs-bb-zip {
+  flex: 0 1 auto;
+  padding-inline: 0.2em;
+  background: transparent;
+  color: var(--rs-mast-ink);
+}
+
+.rs[data-site='bestbuy'] .rs-bb-zip > .rs-ico {
+  color: var(--rs-bb-yellow);
+}
+
+.rs[data-site='amazon'] .rs-bb-zip > .rs-ico {
+  color: #fff;
+}
+
+/* on a dark masthead the store picker's focus ring is the brand highlight */
+.rs[data-site='bestbuy'] .rs-bb-zip[data-hot='1'] {
+  box-shadow: inset 0 0 0 1.5px var(--rs-bb-yellow);
+}
+
+.rs[data-site='amazon'] .rs-bb-zip[data-hot='1'] {
+  box-shadow: inset 0 0 0 1.5px var(--rs-focus);
+}
+
+.rs-skel-field {
+  height: 1.9em;
+  opacity: 0.9;
+}
+
+.rs-bb-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.45em 0.85em;
+  background: var(--rs-field);
+}
+
+.rs-bb-count {
+  min-width: 0;
+  font-size: 0.8em;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rs-bb-select,
+.rs-bb-chip {
+  flex: 0 1 auto;
+  padding: 0.3em 0.6em;
+  box-shadow: inset 0 0 0 1px var(--rs-line);
+}
+
+.rs-bb-chip {
+  border-radius: 999px;
+}
+
+.rs-bb-chip > .rs-ico {
+  color: var(--rs-bb-blue);
+}
+
+/* --- results strip & cards ----------------------------------------------------------- */
+
+.rs-strip {
+  flex-shrink: 0;
+  display: flex;
+  gap: 0.22em;
+  margin: 0.5em 0.85em 0;
+  padding: 0.22em;
+  border-radius: 0.45em;
+  background: var(--rs-strip);
+}
+
+.rs-strip > span:not(.rs-btn) {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.35em 0.5em;
+  border-radius: 0.28em;
+  background: #fff;
+  font-size: 0.74em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.rs-strip .rs-ico {
+  color: var(--rs-meta);
+}
+
+.rs-strip .rs-btn {
+  padding-block: 0.3em;
+}
+
+.rs-list {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  padding: 0.5em 0.85em;
+}
+
+.rs-card {
+  flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 0.6em;
+  padding: 0.4em;
+  border-radius: 0.45em;
+  background: #fff;
+  box-shadow: 0 0 0 1px var(--rs-line);
+}
+
+.rs-card-photo {
+  display: block;
+  width: 4.6em;
+  height: 3.3em;
+  flex-shrink: 0;
+  border-radius: 0.3em;
+  object-fit: cover;
+}
+
+.rs-card-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  padding-top: 0.1em;
+}
+
+.rs-card-name {
+  font-size: 0.88em;
+  font-weight: 700;
+  color: var(--rs-name);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rs-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  min-width: 0;
+  font-size: 0.72em;
+  color: var(--rs-meta);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.rs-card-side {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.15em;
+}
+
+.rs-card-price {
+  font-size: 0.95em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.rs-card-cap {
+  margin-top: -0.25em;
+  font-size: 0.66em;
+  color: var(--rs-meta);
+}
+
+.rs-card-side .rs-btn {
+  padding: 0.3em 0.6em;
+  font-size: 0.72em;
+}
+
+/* Booking's review badge, square with the one flat corner */
+.rs-bk-score {
+  padding: 0.15em 0.35em;
+  border-radius: 0.35em 0.35em 0.35em 0;
+  background: var(--rs-bk-blue);
+  color: #fff;
+  font-size: 0.7em;
+  font-weight: 700;
+}
+
+.rs[data-site='booking'] .rs-card-side {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-items: end;
+  column-gap: 0.4em;
+  row-gap: 0.15em;
+}
+
+.rs[data-site='booking'] .rs-card-side .rs-btn {
+  grid-column: 1 / -1;
+}
+
+.rs[data-site='booking'] .rs-card-cap {
+  grid-column: 1 / -1;
+  margin-top: -0.3em;
+}
+
+.rs-gc-quote {
+  align-items: center;
+  padding-inline: 0.7em;
+}
+
+.rs-gc-quote .rs-card-side {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.7em;
+}
+
+/* rental cars, drawn */
+.rs-hz-car {
+  display: grid;
+  place-items: center;
+  background: var(--rs-field);
+}
+
+.rs-hz-car svg {
+  width: 88%;
+}
+
+.rs-car-body {
+  fill: #3d4c5f;
+}
+
+.rs-hz-car[data-tone='1'] .rs-car-body {
+  fill: #b9bec5;
+}
+
+.rs-hz-car[data-tone='2'] .rs-car-body {
+  fill: #8a2331;
+}
+
+.rs-car-glass {
+  fill: #1f2833;
+  opacity: 0.8;
+}
+
+.rs-car-tyre {
+  fill: #1a1a1a;
+}
+
+.rs-car-hub {
+  fill: #a2a8ae;
+}
+
+/* an OLED panel on its stand */
+.rs-bb-tv {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: var(--rs-field);
+}
+
+/* --- one listing on its own site ------------------------------------------------------- */
+
+.rs-detail {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 0.9em;
+  margin: 0.5em 0.85em 0.6em;
+  padding: 0.6em;
+  border-radius: 0.45em;
+  background: #fff;
+  box-shadow: 0 0 0 1px var(--rs-line);
+}
+
+.rs-detail-media {
+  flex: 0 0 46%;
+  min-width: 0;
+  display: flex;
+}
+
+.rs-detail-media > * {
+  flex: 1;
+  border-radius: 0.35em;
+}
+
+.rs-detail-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3em;
+  padding-top: 0.15em;
+}
+
+.rs-detail-kicker {
+  font-size: 0.66em;
+  font-style: normal;
+  color: var(--rs-meta);
+  white-space: nowrap;
+}
+
+.rs-detail-name {
+  max-width: 100%;
+  font-size: 0.98em;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--rs-name);
+}
+
+.rs-detail-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3em;
+  margin-top: auto;
+}
+
+.rs-detail-price b {
+  font-size: 1.25em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.rs-detail-price .rs-card-cap {
+  margin: 0;
+}
+
+.rs-detail .rs-card-meta {
+  max-width: 100%;
+}
+
+/* a quote has no product shot: details only, the action beside the price */
+.rs-detail[data-media='0'] {
+  flex: none;
+}
+
+.rs-detail[data-media='0'] .rs-detail-info {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: start;
+  column-gap: 0.8em;
+  row-gap: 0.3em;
+}
+
+.rs-detail[data-media='0'] .rs-detail-info > :not(.rs-detail-price):not(.rs-btn) {
+  grid-column: 1 / -1;
+}
+
+.rs-detail[data-media='0'] .rs-detail-price {
+  margin-top: 0.3em;
+}
+
+.rs-detail[data-media='0'] .rs-btn {
+  align-self: end;
+}
+
+/* product shots sit whole on the tile, as retail listings show them */
+.rs-bb-tv img,
+.rs-hz-car img {
+  display: block;
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+}
+
+.rs-bb-stars {
+  font-size: 0.66em;
+  letter-spacing: 0.08em;
+  color: #f5b301;
+}
+
+/* --- loading: shell first, content arriving ------------------------------------------- */
+
+.rs-skel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  padding: 0.75em 0.85em;
+}
+
+.rs[data-site='booking'] .rs-hero--empty + .rs-skel,
+.rs[data-site='geico'] .rs-hero--empty + .rs-skel {
+  margin-top: -1.2em;
+}
+
+.rs-skel-row {
+  display: flex;
+  gap: 0.6em;
+  padding: 0.4em;
+  border-radius: 0.45em;
+  background: #fff;
+  box-shadow: 0 0 0 1px var(--rs-line);
+}
+
+.rs-skel-media,
+.rs-skel-lines i,
+.rs-skel-field {
+  background: linear-gradient(90deg, var(--rs-skel) 0%, var(--rs-skel-hi) 50%, var(--rs-skel) 100%);
+  background-size: 200% 100%;
+  animation: rs-shimmer 1.3s linear infinite;
+}
+
+.rs-skel-media {
+  width: 4.6em;
+  height: 3.3em;
+  flex-shrink: 0;
+  border-radius: 0.3em;
+}
+
+.rs-skel-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45em;
+  padding-top: 0.3em;
+}
+
+.rs-skel-lines i {
+  height: 0.6em;
+  border-radius: 0.3em;
+}
+
+.rs-skel-lines i + i {
+  width: 55%;
+}
+
+.rs-skel--grid {
+  opacity: 0.7;
+}
+
+/* --- the agent's current action, over the page ----------------------------------------- */
+
+.rs-agent {
+  position: absolute;
+  left: 0.8em;
+  bottom: 0.65em;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  max-width: calc(100% - 1.6em);
+  padding: 0.4em 0.75em;
+  border-radius: 999px;
+  background: rgb(var(--bm-ink-rgb) / 0.86);
+  box-shadow: var(--bm-shadow-float);
+  color: var(--bm-text-inverse);
+  font-size: 0.74em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.rs-agent .f1__spin {
+  border-color: rgb(255 255 255 / 0.3);
+  border-top-color: var(--bm-accent);
+}
+
+/* --- captcha, over the page it interrupted ---------------------------------------------- */
+
+.rs-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(0 0 0 / 0.34);
+}
+
+.rs-modal-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  width: min(16em, 86%);
+  padding: 0.9em;
+  border-radius: 0.5em;
+  background: #fff;
+  box-shadow: 0 0.4em 1.6em rgb(0 0 0 / 0.22);
+}
+
+.rs-modal-card b {
+  font-size: 0.95em;
+  font-weight: 700;
+}
+
+.rs-check {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.65em 0.7em;
+  border-radius: 0.25em;
+  background: #f9f9f9;
+  box-shadow: inset 0 0 0 1px #d3d3d3;
+  font-size: 0.82em;
+}
+
+.rs-check i {
+  width: 1.4em;
+  height: 1.4em;
+  flex-shrink: 0;
+  border-radius: 0.2em;
+  background: #fff;
+  box-shadow: inset 0 0 0 2px #c1c1c1;
+}
+
+.rs-check .rs-ico {
+  width: 1.4em;
+  height: 1.4em;
+  color: #4a90e2;
+}
+
+.rs-modal-fine {
+  align-self: flex-end;
+  font-size: 0.64em;
+  color: var(--rs-meta);
+}
+
+/* --- favicons (used in the browser's tab strip) ------------------------------------------ */
+
+.rs-fav {
+  display: block;
+  width: 1.15em;
+  height: 1.15em;
+  flex-shrink: 0;
+  border-radius: 0.22em;
+  object-fit: contain;
+}
+
+/* same 1.15em box as an image favicon, measured at the letter's smaller size */
+.rs-fav--letter {
+  display: grid;
+  place-items: center;
+  width: 1.6em;
+  height: 1.6em;
+  border-radius: 0.3em;
+  background: #666;
+  color: #fff;
+  font-size: 0.72em;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1;
+}
+
+@keyframes rs-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rs-skel-media,
+  .rs-skel-lines i,
+  .rs-skel-field {
+    animation: none;
+  }
+
+  .rs-field,
+  .rs-gc-progress i {
+    transition: none;
+  }
+}

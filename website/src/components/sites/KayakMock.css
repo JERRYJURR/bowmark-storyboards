@@ -1,0 +1,626 @@
+/* KayakMock — KAYAK Stays results (desktop), hi-fi static thumbnail.
+   The page is laid out at natural UI size (540 x 446) and scaled into the
+   322 x 266 panel. Colours sampled from kayak.com (2025). */
+
+.sm-kyk {
+  --kyk-orange: #ff690f;
+  --kyk-orange-deep: #e8421d;
+  --kyk-ink: #1d2126;
+  --kyk-ink-2: #4b535b;
+  --kyk-ink-3: #6b747d;
+  --kyk-icon: #737c85;
+  --kyk-line: #e3e6e9;
+  --kyk-field: #f2f3f5;
+  --kyk-page: #f0f3f5;
+  --kyk-green: #13854a;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  font-family: var(--bm-font-sans);
+  font-size: 14px;
+  line-height: 1.25;
+  color: var(--kyk-ink);
+  letter-spacing: 0;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.sm-kyk svg {
+  display: block;
+  flex: none;
+}
+
+/* zero-specificity reset, so the element classes below win */
+.sm-kyk :where(p, ul, ol, li) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sm-kyk__page {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  width: 540px;
+  height: 446px;
+  transform: scale(0.5963);
+  transform-origin: 0 0;
+}
+
+/* --- header: logo bar + search form ------------------------------------ */
+
+.sm-kyk__header {
+  flex: none;
+  background: #fff;
+  border-bottom: 1px solid var(--kyk-line);
+}
+
+.sm-kyk__bar {
+  display: flex;
+  align-items: center;
+  height: 54px;
+  padding: 0 14px 0 16px;
+}
+
+.sm-kyk__menu {
+  width: 22px;
+  height: 22px;
+  color: var(--kyk-ink);
+}
+
+.sm-kyk__menu svg {
+  width: 22px;
+  height: 22px;
+}
+
+.sm-kyk__logo {
+  display: block;
+  height: 21px;
+  width: auto;
+  margin-left: 17px;
+}
+
+.sm-kyk__bar-end {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+}
+
+.sm-kyk__heart {
+  color: var(--kyk-ink);
+}
+
+.sm-kyk__heart svg {
+  width: 21px;
+  height: 21px;
+}
+
+.sm-kyk__signin {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px 0 10px;
+  border-radius: 8px;
+  background: var(--kyk-field);
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.sm-kyk__signin svg {
+  width: 17px;
+  height: 17px;
+}
+
+.sm-kyk__form {
+  display: flex;
+  gap: 4px;
+  height: 36px;
+  margin: 0 16px 9px;
+}
+
+.sm-kyk__field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: var(--kyk-field);
+  font-size: 13.5px;
+  color: var(--kyk-ink);
+}
+
+.sm-kyk__field svg,
+.sm-kyk__date svg {
+  width: 16px;
+  height: 16px;
+  color: var(--kyk-ink);
+}
+
+.sm-kyk__field--where {
+  flex: 1 1 auto;
+}
+
+.sm-kyk__field--dates {
+  gap: 0;
+  padding: 0;
+}
+
+.sm-kyk__date {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 100%;
+  padding: 0 11px;
+}
+
+.sm-kyk__date + .sm-kyk__date {
+  position: relative;
+}
+
+.sm-kyk__date + .sm-kyk__date::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  bottom: 9px;
+  width: 1px;
+  background: #d5d9dd;
+}
+
+.sm-kyk__go {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 38px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--kyk-orange), #f4541a);
+  color: #fff;
+}
+
+.sm-kyk__go svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* --- body: icon rail + results ------------------------------------------ */
+
+.sm-kyk__body {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.sm-kyk__rail {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 56px;
+  padding-top: 10px;
+  background: #fff;
+  border-right: 1px solid var(--kyk-line);
+}
+
+.sm-kyk__tab {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 30px;
+  border-radius: 7px;
+  color: var(--kyk-icon);
+}
+
+.sm-kyk__tab svg {
+  width: 19px;
+  height: 19px;
+}
+
+.sm-kyk__tab.is-active {
+  background: #e6ebee;
+  color: var(--kyk-ink);
+}
+
+.sm-kyk__rule {
+  width: 38px;
+  height: 1px;
+  margin: 4px 0;
+  background: var(--kyk-line);
+}
+
+.sm-kyk__main {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 12px 0;
+  background: var(--kyk-page);
+  overflow: hidden;
+}
+
+/* filter chips */
+.sm-kyk__filters {
+  position: relative;
+  display: flex;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.sm-kyk__chip {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid #d9dde1;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sm-kyk__chip svg {
+  width: 14px;
+  height: 14px;
+}
+
+.sm-kyk__chip--all svg {
+  width: 15px;
+  height: 15px;
+}
+
+.sm-kyk__chips-next {
+  position: absolute;
+  right: 0;
+  top: 1px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.18), -10px 0 10px var(--kyk-page);
+}
+
+.sm-kyk__chips-next svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* sort row */
+.sm-kyk__sortrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 20px;
+  margin: 8px 2px 7px;
+  font-size: 12px;
+}
+
+.sm-kyk__nightly,
+.sm-kyk__sort {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sm-kyk__nightly {
+  font-weight: 700;
+}
+
+.sm-kyk__sort {
+  color: var(--kyk-ink-2);
+}
+
+.sm-kyk__sort b {
+  color: var(--kyk-ink);
+  font-weight: 700;
+}
+
+.sm-kyk__nightly svg,
+.sm-kyk__sort svg {
+  width: 13px;
+  height: 13px;
+  color: var(--kyk-ink);
+}
+
+/* --- result cards ------------------------------------------------------- */
+
+.sm-kyk__results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sm-kyk__card {
+  display: grid;
+  grid-template-columns: 148px minmax(0, 1fr) 112px;
+  height: 158px;
+  border: 1px solid #e0e3e7;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.sm-kyk__card--hover {
+  border-color: #a3aab1;
+}
+
+.sm-kyk__photo {
+  position: relative;
+  margin: 8px 0 8px 8px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #d9dde1;
+}
+
+.sm-kyk__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sm-kyk__photo-btns {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  display: flex;
+  gap: 4px;
+}
+
+.sm-kyk__photo-btn {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 20px;
+  padding: 0 6px 0 5px;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.06);
+}
+
+.sm-kyk__photo-btn svg {
+  width: 11px;
+  height: 11px;
+}
+
+.sm-kyk__dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 7px;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.sm-kyk__dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.6);
+}
+
+.sm-kyk__dots i.is-on {
+  background: #fff;
+}
+
+.sm-kyk__info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 9px 12px 0 14px;
+}
+
+.sm-kyk__name {
+  overflow: hidden;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: -0.01em;
+  text-overflow: ellipsis;
+}
+
+.sm-kyk__area {
+  margin-top: 1px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--kyk-ink-2);
+}
+
+.sm-kyk__rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.sm-kyk__score {
+  display: grid;
+  place-items: center;
+  flex: none;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 3px;
+  background: var(--kyk-green);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.sm-kyk__label {
+  font-weight: 400;
+}
+
+.sm-kyk__count {
+  margin-left: -1px;
+  color: var(--kyk-ink);
+}
+
+.sm-kyk__deals {
+  margin-top: 9px;
+}
+
+.sm-kyk__deal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 25px;
+  border-top: 1px solid var(--kyk-line);
+  font-size: 12px;
+}
+
+.sm-kyk__deal-who {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.sm-kyk__deal-more {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--kyk-ink-2);
+}
+
+.sm-kyk__deal-more svg {
+  width: 11px;
+  height: 11px;
+  color: var(--kyk-ink);
+}
+
+.sm-kyk__deal-price {
+  font-weight: 400;
+}
+
+/* provider wordmarks */
+.sm-kyk__mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.sm-kyk__mark--booking {
+  color: #003b95;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.sm-kyk__mark--booking small {
+  font-size: 1em;
+  color: #0a8bd6;
+}
+
+.sm-kyk__mark--agoda {
+  color: #2a2a2e;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.sm-kyk__mark--trip {
+  color: #287dfa;
+  font-weight: 800;
+}
+
+.sm-kyk__mark--priceline {
+  color: #1048c1;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.sm-kyk__mark--hotels {
+  color: #1d2126;
+  font-weight: 500;
+}
+
+.sm-kyk__mark--hotels small {
+  font-size: 0.62em;
+}
+
+.sm-kyk__hotels-tile,
+.sm-kyk__expedia-tile {
+  display: grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.sm-kyk__hotels-tile {
+  background: #d32f2f;
+}
+
+.sm-kyk__expedia-tile {
+  background: #fddb32;
+}
+
+.sm-kyk__hotels-tile svg,
+.sm-kyk__expedia-tile svg {
+  width: 12px;
+  height: 12px;
+}
+
+.sm-kyk__mark--expedia {
+  color: #191e3b;
+  font-weight: 500;
+}
+
+/* the offer column */
+.sm-kyk__offer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px 10px 10px 11px;
+  border-left: 1px solid var(--kyk-line);
+}
+
+.sm-kyk__offer .sm-kyk__mark {
+  font-size: 12.5px;
+}
+
+.sm-kyk__price {
+  margin-top: 3px;
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 28px;
+  letter-spacing: -0.02em;
+}
+
+.sm-kyk__total {
+  font-size: 11.5px;
+  line-height: 15px;
+  color: var(--kyk-ink-2);
+}
+
+.sm-kyk__perk {
+  font-size: 11.5px;
+  line-height: 15px;
+  color: var(--kyk-green);
+}
+
+.sm-kyk__cta {
+  display: grid;
+  place-items: center;
+  height: 32px;
+  margin-top: 8px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #ff6a13, var(--kyk-orange-deep));
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 700;
+}

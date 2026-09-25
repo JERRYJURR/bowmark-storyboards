@@ -1,0 +1,371 @@
+---
+import InstallBlock from './InstallBlock.tsx';
+import { HEADLINE_BEATS } from '../scene/content';
+import { LINKS } from '../scene/links';
+
+/**
+ * Paper redesign hero (6FU) plus the headline positions of the frames that
+ * follow it. The DecompileScene island drives every beat through the
+ * `--b1-*` channel on :root; this file only decides where each beat sits.
+ *
+ *   beat 0  "Remaking the web for AI"  in the hero panel, between the badge
+ *           and the subline (6FU)
+ *   beat 1  "The internet wasn't…"     centred on the viewport over the five
+ *           surfaces, on a soft ground-coloured glow (6O9)
+ *   beat 2  "Bowmark converts…"        bottom-centred, 80px up (as 7K2/7U1)
+ *   beat 3  "AI accesses the web…"     bottom-centred, 80px up (7K2, 7U1…80X)
+ *
+ * The panel, badge, subline, CTA and install bar leave with --b1-hero-out.
+ * Each beat keeps the channel contract: opacity var(--b1-hN) and
+ * translateY(var(--b1-hyN)) inline; positioning uses the separate
+ * `translate` property so the two compose.
+ */
+const HERO = {
+  badge: 'Cursor Hackathon',
+  badgeNote: '1st Place',
+  sub: 'Skip the browser. Call a typed function and get structured data back.',
+  cta: 'Get started',
+} as const;
+
+const beatStyle = (i: number) =>
+  `opacity: var(--b1-h${i}); transform: translateY(var(--b1-hy${i}));`;
+---
+
+<div class="hero">
+  <div class="hero__panel" aria-hidden="true"></div>
+
+  <div class="hero__intro">
+    <p class="hero__badge hero__out">
+      <svg viewBox="3 3 18 18" width="12" height="12" aria-hidden="true" focusable="false">
+        <path
+          d="M11.596 2.356L3.786 6.863a0.682 0.682 0 0 0-0.341 0.59v9.091c0 0.244 0.132 0.467 0.341 0.588l7.808 4.509a0.813 0.813 0 0 0 0.811 0l7.808-4.509a0.682 0.682 0 0 0 0.341-0.588V7.453a0.682 0.682 0 0 0-0.341-0.59L12.404 2.356a0.821 0.821 0 0 0-0.809 0M4.409 7.4h15.072c0.214 0 0.349 0.233 0.241 0.418L12.187 20.871c-0.05 0.087-0.186 0.052-0.186-0.049V12.272a0.479 0.479 0 0 0-0.24-0.414l-7.402-4.271c-0.089-0.051-0.052-0.187 0.05-0.187"
+          fill="currentColor"></path>
+      </svg>
+      <span>{HERO.badge}</span>
+      <span class="hero__badge-note">{HERO.badgeNote}</span>
+    </p>
+
+    <h1 class="hero__beat hero__beat--intro" data-index="0" style={beatStyle(0)}>
+      {HEADLINE_BEATS[0]}
+    </h1>
+
+    <p class="hero__sub hero__out">{HERO.sub}</p>
+
+    <a class="bm-btn bm-btn--cta hero__cta hero__out" href={LINKS.getStarted}>{HERO.cta}</a>
+  </div>
+
+  <div class="hero__beats">
+    {
+      HEADLINE_BEATS.slice(1).map((line, k) => {
+        const i = k + 1;
+        return (
+          <p class="hero__beat" data-index={i} style={beatStyle(i)}>
+            <span class="hero__beat-text">{line}</span>
+          </p>
+        );
+      })
+    }
+  </div>
+
+  <div class="hero__install" id="install">
+    <InstallBlock client:load />
+  </div>
+</div>
+
+<script>
+  import { clamp01, onScrollFrame } from '../scene/progress';
+
+  const track = document.getElementById('b1-track');
+  const hero = track?.querySelector<HTMLElement>('.hero');
+  if (track && hero) {
+    // Retire the final bottom headline before the following section enters.
+    // The result can remain on screen without two display headings stacking.
+    onScrollFrame(() => {
+      const remaining = track.getBoundingClientRect().bottom - window.innerHeight;
+      hero.style.setProperty('--hero-outro-visible', clamp01(remaining / 160).toFixed(3));
+    });
+  }
+</script>
+
+<style>
+  .hero {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  /* --- the panel: 32px in from every edge, 32px radius, one hairline ------ */
+
+  .hero__panel {
+    position: absolute;
+    inset: var(--bm-stage-inset);
+    border-radius: var(--bm-radius-panel);
+    background: var(--bm-stage-fill);
+    outline: 1px solid var(--bm-stage-line);
+    outline-offset: -1px;
+    opacity: calc(1 - var(--b1-hero-out));
+  }
+
+  /* --- intro column, centred on the panel --------------------------------- */
+
+  .hero__intro {
+    position: absolute;
+    inset: var(--bm-stage-inset);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--bm-space-5);
+    padding-inline: var(--bm-space-5);
+    text-align: center;
+  }
+
+  /* Everything but the headline leaves with the hero. */
+  .hero__out {
+    opacity: calc(1 - var(--b1-hero-out));
+    translate: 0 calc(var(--b1-hero-out) * -8px);
+  }
+
+  .hero__badge {
+    display: flex;
+    align-items: center;
+    gap: var(--bm-space-2);
+    font-size: var(--bm-size-micro);
+    line-height: 1.25;
+    color: var(--bm-text-muted);
+  }
+
+  .hero__badge svg {
+    flex-shrink: 0;
+    overflow: visible;
+  }
+
+  .hero__badge-note {
+    color: rgb(86 85 79 / 0.5); /* #56554F80 */
+  }
+
+  .hero__sub {
+    width: 281px;
+    max-width: 100%;
+    font-size: var(--bm-size-ui);
+    line-height: 1.25;
+    color: var(--bm-text-muted);
+  }
+
+  .hero__cta {
+    pointer-events: auto;
+  }
+
+  /* Phone: a 44px touch target; desktop keeps Paper's 32px button. */
+  @media (max-width: 640px) {
+    .hero__cta {
+      min-height: 44px;
+      height: 44px;
+      padding-inline: var(--bm-space-5);
+    }
+  }
+
+  :global([data-hero-live='0']) .hero__cta {
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  /* --- headline beats ------------------------------------------------------ */
+
+  .hero__beat {
+    margin: 0;
+    font-family: var(--bm-font-sans);
+    font-size: var(--bm-size-hero);
+    font-weight: var(--bm-weight-head);
+    line-height: var(--bm-lh-hero);
+    letter-spacing: var(--bm-track-hero);
+    text-align: center;
+    color: var(--bm-text);
+  }
+
+  .hero__beat--intro {
+    width: 266px;
+    max-width: 100%;
+  }
+
+  .hero__beats {
+    position: absolute;
+    inset: 0;
+    opacity: var(--hero-outro-visible, 1);
+  }
+
+  .hero__beats .hero__beat {
+    position: absolute;
+    left: 50%;
+    max-width: calc(100vw - 2 * var(--bm-stage-inset));
+  }
+
+  .hero__beat-text {
+    position: relative;
+  }
+
+  /* 6O9: centred on the viewport, 324px measure, with a ground-coloured
+     radial glow (≈616×618) so it holds over the surface cards. */
+  .hero__beat[data-index='1'] {
+    top: 50%;
+    width: 324px;
+    translate: -50% -50%;
+  }
+
+  .hero__beat[data-index='1']::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 617px;
+    height: 618px;
+    translate: -50% -50%;
+    background: radial-gradient(
+      ellipse 50% 50% at 50% 50%,
+      rgb(var(--bm-bg-rgb)) 0%,
+      rgb(var(--bm-bg-rgb) / 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* 7K2 / 7U1 / 7XJ / 80X: bottom-centred, 520px measure, 32px frame + 48px. */
+  .hero__beat[data-index='2'],
+  .hero__beat[data-index='3'] {
+    /* Follow the same 1440×900 canvas as the cards and editor, including
+       short desktop windows, where viewport-bottom positioning overlaps. */
+    top: calc(50% + 283px * var(--b1-scale, 1));
+    width: calc(520px * var(--b1-scale, 1));
+    font-size: calc(var(--bm-size-hero) * var(--b1-scale, 1));
+    translate: -50% 0;
+  }
+
+  /* --- install bar: floating, 16px off the bottom edge -------------------- */
+
+  .hero__install {
+    position: absolute;
+    left: 50%;
+    bottom: var(--bm-space-4);
+    translate: -50% 0;
+    display: flex;
+    justify-content: center;
+    width: min(var(--bm-install-w), calc(100vw - 2 * var(--bm-space-4)));
+    opacity: calc(1 - var(--b1-hero-out));
+    pointer-events: auto;
+  }
+
+  /* The scene marks the hero dead once it has scrolled away; keep it out of
+     the tab order at that point. */
+  :global([data-hero-live='0']) .hero__install {
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  /* --- short viewports: keep the intro clear of the install bar ---------- */
+
+  @media (max-height: 640px) {
+    .hero__intro {
+      justify-content: flex-start;
+      padding-top: calc(var(--bm-nav-h) + var(--bm-space-6));
+    }
+  }
+
+  /* --- readable fallback (reduced motion, phones) -------------------------
+     No scroll-driven state. The hero is a normal panel: badge, headline,
+     subline, CTA and the install bar in flow. The three later beats stay as
+     a quiet numbered sequence under it, not three more display headlines. */
+
+  @media (prefers-reduced-motion: reduce), (max-width: 860px) {
+    .hero {
+      position: static;
+      display: flex;
+      flex-direction: column;
+      gap: var(--bm-space-6);
+      pointer-events: auto;
+    }
+
+    .hero__panel {
+      display: none;
+    }
+
+    .hero__intro {
+      position: static;
+      gap: var(--bm-space-5);
+      padding: var(--bm-space-8) var(--bm-space-5) var(--bm-space-6);
+      border-radius: var(--bm-radius-panel);
+      background: var(--bm-stage-fill);
+      outline: 1px solid var(--bm-stage-line);
+      outline-offset: -1px;
+    }
+
+    .hero__out {
+      opacity: 1;
+      translate: none;
+    }
+
+    .hero__beat {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .hero__cta {
+      visibility: visible !important;
+      pointer-events: auto !important;
+    }
+
+    .hero__beats {
+      position: static;
+      opacity: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--bm-space-3);
+      width: min(520px, 100%);
+      margin-inline: auto;
+      counter-reset: beat;
+    }
+
+    .hero__beats .hero__beat {
+      position: static;
+      display: flex;
+      align-items: baseline;
+      gap: var(--bm-space-3);
+      width: auto;
+      max-width: none;
+      translate: none;
+      font-size: var(--bm-size-lead);
+      letter-spacing: 0;
+      line-height: 1.35;
+      text-align: left;
+      color: var(--bm-text-muted);
+      counter-increment: beat;
+    }
+
+    .hero__beats .hero__beat::before {
+      content: '0' counter(beat);
+      position: static;
+      width: auto;
+      height: auto;
+      translate: none;
+      flex-shrink: 0;
+      background: none;
+      font-size: var(--bm-size-micro);
+      font-variant-numeric: tabular-nums;
+      color: var(--bm-text-faint);
+    }
+
+    .hero__install {
+      position: static;
+      translate: none;
+      width: 100%;
+      opacity: 1;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      order: 1;
+    }
+
+    /* Install directly under the panel; the sequence after it. */
+    .hero__beats {
+      order: 2;
+    }
+  }
+</style>

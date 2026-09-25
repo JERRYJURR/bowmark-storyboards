@@ -1,0 +1,48 @@
+---
+// Review route for the five site mockups and their capability cards.
+// `?site=<id>` isolates one site. Each row shows: the card as the scene
+// frames it (fades and all), the bare 322 x 266 panel at 2x, and the brand's
+// capability card.
+import '../../styles/global.css';
+import { SurfaceCard, CapabilityCard, SurfaceMock } from '../../components/BentoTiles';
+import { SITES } from '../../scene/sites';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Site mockups (review)</title>
+    <style>
+      body { margin: 0; padding: 32px; background: var(--bm-bg); }
+      .row { display: flex; align-items: flex-start; gap: 40px; margin-bottom: 48px; }
+      .row[hidden] { display: none; }
+      .bare { width: 322px; height: 266px; transform: scale(2); transform-origin: 0 0; margin-right: 322px; margin-bottom: 266px;
+        overflow: hidden; border-radius: var(--bm-radius-btn); box-shadow: var(--bm-shadow-chrome); background: #fff; }
+      .label { font: 12px var(--bm-font-mono); color: var(--bm-text-muted); margin-bottom: 8px; }
+    </style>
+  </head>
+  <body>
+    {SITES.map((site, i) => (
+      <section class="row" data-site={site.id} id={site.id}>
+        <div>
+          <div class="label">{site.id} · in-card</div>
+          <SurfaceCard surface={i} />
+        </div>
+        <div>
+          <div class="label">bare panel · 2x</div>
+          <div class="bare"><SurfaceMock surface={i} /></div>
+        </div>
+        <div>
+          <div class="label">capability card</div>
+          <CapabilityCard site={site} />
+        </div>
+      </section>
+    ))}
+    <script is:inline>
+      const only = new URLSearchParams(location.search).get('site');
+      if (only) document.querySelectorAll('.row').forEach((r) => { r.hidden = r.dataset.site !== only; });
+    </script>
+  </body>
+</html>

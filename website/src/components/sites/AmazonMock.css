@@ -1,0 +1,501 @@
+/* AmazonMock — amazon.com desktop search results (grid), "carry on luggage".
+   The page is authored at natural UI size (amazon.com metrics: 60px nav belt,
+   39px sub-nav, 40px result bar, 16/24 titles) and scaled into the 322 x 266
+   panel. Every value below is in page px, before the scale. */
+
+.sm-amz {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  font-family: var(--bm-font-sans);
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: none;
+  color: #0f1111;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sm-amz__page {
+  --sm-amz-k: 0.52;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 996px;
+  height: calc(266px / 0.52);
+  transform: scale(var(--sm-amz-k));
+  transform-origin: 0 0;
+  background: #fff;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.sm-amz svg {
+  display: block;
+  flex: none;
+}
+
+/* --- nav belt -------------------------------------------------------------- */
+
+.sm-amz__belt {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 60px;
+  padding: 0 10px 0 8px;
+  background: #131921;
+  color: #fff;
+}
+
+.sm-amz__logo {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 8px 0 9px;
+  margin-top: 1px;
+}
+
+.sm-amz__logo img {
+  display: block;
+  width: 97px;
+  height: auto;
+  margin-top: 1px;
+}
+
+.sm-amz__navlink {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 9px;
+  white-space: nowrap;
+}
+
+.sm-amz__stack {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.sm-amz__line1 {
+  display: block;
+  font-size: 12px;
+  line-height: 14px;
+  color: #ccc;
+  letter-spacing: 0.01em;
+}
+
+.sm-amz__line2 {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.sm-amz__deliver {
+  gap: 4px;
+  padding-left: 7px;
+  margin-right: 6px;
+}
+
+.sm-amz__pin {
+  color: #fff;
+  margin-top: 9px;
+}
+
+.sm-amz__deliver .sm-amz__line1 {
+  margin-left: 1px;
+}
+
+/* search */
+
+.sm-amz__search {
+  flex: 1 1 auto;
+  display: flex;
+  height: 40px;
+  min-width: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.sm-amz__dept {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 9px 0 11px;
+  background: #e6e6e6;
+  border-right: 1px solid #cdcdcd;
+  color: #555;
+  font-size: 12px;
+}
+
+.sm-amz__caret {
+  color: #555;
+}
+
+.sm-amz__caret--grey {
+  color: #a7acb2;
+}
+
+.sm-amz__query {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  padding: 0 11px;
+  font-size: 15px;
+  color: #0f1111;
+  white-space: nowrap;
+}
+
+.sm-amz__go {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  background: #febd69;
+}
+
+.sm-amz__lang {
+  gap: 5px;
+  font-size: 14px;
+  margin-left: 6px;
+}
+
+.sm-amz__lang b {
+  font-weight: 700;
+}
+
+.sm-amz__flag {
+  margin-top: 1px;
+}
+
+/* cart */
+
+.sm-amz__cart {
+  align-items: flex-end;
+  padding-bottom: 12px;
+  padding-right: 4px;
+}
+
+.sm-amz__cart-icon {
+  position: relative;
+  display: block;
+  width: 40px;
+  height: 30px;
+  color: #fff;
+}
+
+.sm-amz__cart-count {
+  position: absolute;
+  left: 16px;
+  top: -5px;
+  width: 16px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 700;
+  color: #f08804;
+}
+
+.sm-amz__cart .sm-amz__line2 {
+  margin-left: -3px;
+  margin-bottom: -1px;
+}
+
+/* --- sub-nav --------------------------------------------------------------- */
+
+.sm-amz__subnav {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  height: 39px;
+  padding: 0 11px;
+  background: #232f3e;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.sm-amz__sublink {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 9px;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.sm-amz__sublink--all {
+  gap: 5px;
+  padding-left: 4px;
+  font-weight: 700;
+}
+
+.sm-amz__rufus {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 11px 0 9px;
+  margin: 0 6px 0 4px;
+  border-radius: 14px;
+  background: #fff;
+  color: #0f1111;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* --- result bar ------------------------------------------------------------ */
+
+.sm-amz__bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0 18px 0 17px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgb(15 17 17 / 0.13);
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.sm-amz__term {
+  color: #c7511f;
+  font-weight: 700;
+}
+
+.sm-amz__sort {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 29px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: #f0f2f2;
+  border: 1px solid #d5d9d9;
+  box-shadow: 0 2px 5px rgb(213 217 217 / 0.5);
+  font-size: 13px;
+}
+
+/* --- results grid ---------------------------------------------------------- */
+
+.sm-amz__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 212px);
+  gap: 12px;
+  padding: 12px 12px 0;
+  align-items: start;
+}
+
+.sm-amz__card {
+  border: 1px solid #e3e6e6;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.sm-amz__tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 208px;
+  background: #f7f7f7;
+}
+
+/* the photos carry the tile grey baked in (amazon multiplies white-ground
+   shots onto #F7F7F7; done offline here — no blend modes in the 3D scene) */
+.sm-amz__photo {
+  display: block;
+  height: 188px;
+  width: auto;
+  max-width: 190px;
+  object-fit: contain;
+}
+
+.sm-amz__badge {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 22px;
+  padding: 0 15px 0 7px;
+  font-size: 12px;
+  line-height: 22px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* the notch in the badge's tail, cut in the tile colour */
+.sm-amz__badge::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-style: solid;
+  border-width: 11px 7px 11px 0;
+  border-color: transparent #f7f7f7 transparent transparent;
+}
+
+.sm-amz__badge--best {
+  background: #c45500;
+}
+
+.sm-amz__badge--choice {
+  background: #232f3e;
+  font-weight: 400;
+}
+
+.sm-amz__badge-accent {
+  color: #f69931;
+  font-weight: 700;
+}
+
+.sm-amz__body {
+  padding: 8px 10px 14px 11px;
+}
+
+.sm-amz__sponsored {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 16px;
+  color: #565959;
+  margin-bottom: 2px;
+}
+
+.sm-amz__title {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #0f1111;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.sm-amz__rating {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 3px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.sm-amz__rating-num {
+  margin-right: 1px;
+}
+
+.sm-amz__stars {
+  color: #de7921;
+}
+
+.sm-amz__chev {
+  margin: 0 2px 0 0;
+}
+
+.sm-amz__rating-count {
+  color: #2162a1;
+}
+
+.sm-amz__bought {
+  font-size: 14px;
+  line-height: 20px;
+  color: #565959;
+}
+
+.sm-amz__deal {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 0 6px;
+  border-radius: 3px;
+  background: #cc0c39;
+  color: #fff;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 700;
+}
+
+.sm-amz__price {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 6px;
+  color: #0f1111;
+  line-height: 1;
+}
+
+.sm-amz__deal + .sm-amz__price {
+  margin-top: 4px;
+}
+
+.sm-amz__price-sym,
+.sm-amz__price-frac {
+  font-size: 13px;
+  line-height: 13px;
+  padding-top: 3px;
+}
+
+.sm-amz__price-sym {
+  margin-right: 1px;
+}
+
+.sm-amz__price-whole {
+  font-size: 28px;
+  line-height: 28px;
+  letter-spacing: -0.01em;
+}
+
+.sm-amz__price-frac {
+  margin-left: 1px;
+}
+
+.sm-amz__list {
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 16px;
+  color: #565959;
+}
+
+.sm-amz__prime {
+  margin-top: 5px;
+}
+
+.sm-amz__delivery {
+  margin-top: 3px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.sm-amz__delivery b {
+  font-weight: 700;
+}
+
+.sm-amz__atc {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  margin-top: 10px;
+  padding: 0 14px;
+  border-radius: 100px;
+  background: #ffd814;
+  border: 1px solid #fcd200;
+  box-shadow: 0 2px 5px rgb(213 217 217 / 0.5);
+  font-size: 13px;
+  color: #0f1111;
+}
+
+.sm-amz__info {
+  margin-top: 1px;
+}

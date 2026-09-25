@@ -1,0 +1,99 @@
+[
+  {
+    "file": "hyatt-place-kyoto.jpg",
+    "source": "https://www.hyatt.com/hyatt-place/en-US/kyozk-hyatt-place-kyoto/rooms",
+    "creator": "Hyatt",
+    "image_url": "https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2025/01/10/0053/KYOZK-P0199-Main-King-Guestroom-Day.jpg/KYOZK-P0199-Main-King-Guestroom-Day.16x9.jpg?imwidth=960"
+  },
+  {
+    "file": "kyoto-1.jpg",
+    "source": "https://unsplash.com/photos/grOTReWUHhU",
+    "creator": "Kae Ng",
+    "image_url": "https://images.unsplash.com/photo-1561503972-839d0c56de17?w=1000&q=85&fm=jpg",
+    "bytes": 423447
+  },
+  {
+    "file": "kyoto-2.jpg",
+    "source": "https://unsplash.com/photos/JiMSelyQ_5k",
+    "creator": "Rom\u00e9o A.",
+    "image_url": "https://images.unsplash.com/photo-1624253346805-df69ad2b3d7f?w=1000&q=85&fm=jpg",
+    "bytes": 435457
+  },
+  {
+    "file": "kyoto-3.jpg",
+    "source": "https://unsplash.com/photos/Y2nWxC0tJjc",
+    "creator": "Ryan Kwok",
+    "image_url": "https://images.unsplash.com/photo-1557153416-3eb8fc6fb4c0?w=1000&q=85&fm=jpg",
+    "bytes": 167728
+  },
+  {
+    "file": "hotel-garden.jpg",
+    "source": "https://www.hyatt.com/hyatt-place/en-US/kyozk-hyatt-place-kyoto/rooms",
+    "creator": "Hyatt",
+    "image_url": "https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2022/03/18/1124/KYOZK-P0041-Main-Garden-View-King-Guestroom-Day.jpg/KYOZK-P0041-Main-Garden-View-King-Guestroom-Day.16x9.jpg?imwidth=960",
+    "bytes": 60420
+  },
+  {
+    "file": "hotel-twin.jpg",
+    "source": "https://www.hyatt.com/hyatt-place/en-US/kyozk-hyatt-place-kyoto/rooms",
+    "creator": "Hyatt",
+    "image_url": "https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2022/03/18/1127/KYOZK-P0067-Main-Twin-Guestroom-Day.jpg/KYOZK-P0067-Main-Twin-Guestroom-Day.16x9.jpg?imwidth=960",
+    "bytes": 33195
+  },
+  {
+    "file": "park-kyoto-exterior.jpg",
+    "hotel": "Park Hyatt Kyoto",
+    "creator": "Hyatt",
+    "source": "https://www.hyatt.com/park-hyatt/en-US/itmph-park-hyatt-kyoto",
+    "image_url": "https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2020/10/09/0656/Park-Hyatt-Kyoto-P219-Exterior.jpg/Park-Hyatt-Kyoto-P219-Exterior.16x9.jpg?imwidth=960",
+    "bytes": 99672
+  },
+  {
+    "file": "park-kyoto-room.jpg",
+    "hotel": "Park Hyatt Kyoto",
+    "creator": "Hyatt",
+    "source": "https://www.hyatt.com/park-hyatt/en-US/itmph-park-hyatt-kyoto",
+    "image_url": "https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2025/07/23/0412/ITMPH-P0971-King-Bed.jpg/ITMPH-P0971-King-Bed.16x9.jpg?imwidth=960",
+    "bytes": 104709
+  },
+  {
+    "file": "regency-kyoto-room.jpg",
+    "hotel": "Hyatt Regency Kyoto",
+    "creator": "Hyatt",
+    "source": "https://www.hyatt.com/hyatt-regency/en-US/kyoto-hyatt-regency-kyoto/rooms/DLXK",
+    "image_url": "https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2019/11/05/1349/Hyatt-Regency-Kyoto-P1684-Deluxe-Room.jpg/Hyatt-Regency-Kyoto-P1684-Deluxe-Room.16x9.jpg?imwidth=960",
+    "bytes": 45901
+  },
+  {
+    "file": "andaz-tokyo-suite.jpg",
+    "hotel": "Andaz Tokyo Toranomon Hills",
+    "creator": "Hyatt",
+    "source": "https://www.hyatt.com/andaz/en-US/tyoaz-andaz-tokyo-toranomon-hills",
+    "image_url": "https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2024/04/18/0929/TYOAZ-P1683-Andaz-Sky-Suite-Living-Tower-Night.jpg/TYOAZ-P1683-Andaz-Sky-Suite-Living-Tower-Night.16x9.jpg?imwidth=960",
+    "bytes": 55815
+  },
+  {
+    "file": "andaz-tokyo-pool.jpg",
+    "hotel": "Andaz Tokyo Toranomon Hills",
+    "creator": "Hyatt",
+    "source": "https://www.hyatt.com/andaz/en-US/tyoaz-andaz-tokyo-toranomon-hills",
+    "image_url": "https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2022/03/17/0024/TYOAZ-P1554-AO-Spa-Pool-Front-View.jpg/TYOAZ-P1554-AO-Spa-Pool-Front-View.16x9.jpg?imwidth=960",
+    "bytes": 52758
+  },
+  {
+    "file": "niseko-exterior.jpg",
+    "hotel": "Park Hyatt Niseko Hanazono",
+    "creator": "Hyatt",
+    "source": "https://www.hyatt.com/park-hyatt/en-US/ctsph-park-hyatt-niseko-hanazono",
+    "image_url": "https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2022/04/06/0040/CTSPH-P0275-Hotel-Exterior-Summer-View.jpg/CTSPH-P0275-Hotel-Exterior-Summer-View.16x9.jpg?imwidth=960",
+    "bytes": 91438
+  },
+  {
+    "file": "niseko-pool.jpg",
+    "hotel": "Park Hyatt Niseko Hanazono",
+    "creator": "Hyatt",
+    "source": "https://www.hyatt.com/park-hyatt/en-US/ctsph-park-hyatt-niseko-hanazono",
+    "image_url": "https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2020/06/15/1335/Park-Hyatt-Niseko-Hanazono-P091-Pool.jpg/Park-Hyatt-Niseko-Hanazono-P091-Pool.16x9.jpg?imwidth=960",
+    "bytes": 76256
+  }
+]

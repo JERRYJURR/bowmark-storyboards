@@ -1,0 +1,1290 @@
+/* ---------------------------------------------------------------------------
+   F1 — "same task two ways" (Paper 8YQ).
+
+   A centred headline over a 1072-wide body: the task rail on the left, a 48px
+   gutter, then two stacked lanes under the shared clock's speed readout — a
+   soft, lightly outlined panel holding the animated windows, and the lane's
+   figures in open space beside it. The Bowmark lane carries the only label
+   chip and the only accent (its meter).
+
+   Values are the frame's own: 44px / -0.05em / 100% headline, 48px gap,
+   221px rail of 32px rows, 16px between lanes, 32px panel→stats gap, a
+   66%-wide 268px panel (#EFEEEA, 1px #00000013 outline, 16px radius) with a
+   114px top wash, and a 221px stats column. Local custom properties carry the
+   frame's raw values until they exist as shared tokens.
+--------------------------------------------------------------------------- */
+
+.f1 {
+  --f1-fs: clamp(10px, 0.8vw, 11.5px);
+  --f1-panel: var(--bm-stage-fill, #efeeea);
+  --f1-panel-line: var(--bm-stage-line, rgb(0 0 0 / 0.075));
+  --f1-wash: var(--bm-stage-wash, #f0efea);
+  --f1-meta: var(--bm-text-meta, rgb(86 85 79 / 0.66));
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  padding: 104px 32px 72px;
+  background: var(--bm-bg);
+}
+
+/* --- head -------------------------------------------------------------------- */
+
+.f1__title {
+  width: min(440px, 100%);
+  margin: 0;
+  font-size: var(--bm-size-h2);
+  font-weight: var(--bm-weight-head);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-align: center;
+  color: var(--bm-text);
+}
+
+.f1__body {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px; /* rail ↔ lanes gutter */
+  width: min(1072px, 100%);
+}
+
+/* --- rail -------------------------------------------------------------------- */
+
+.f1__rail {
+  flex: 0 0 221px;
+  display: flex;
+  flex-direction: column;
+}
+
+.f1__rail-label {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  margin: 0;
+  padding: 6px 8px;
+  font-size: var(--bm-size-micro);
+  line-height: 1.25;
+  color: var(--f1-meta);
+}
+
+.f1__tasks {
+  display: flex;
+  flex-direction: column;
+}
+
+.f1__task,
+.f1__ctl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 32px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: var(--bm-radius-btn);
+  background: transparent;
+  font-family: inherit;
+  font-size: var(--bm-size-ui);
+  line-height: 20px;
+  text-align: left;
+  white-space: nowrap;
+  color: var(--bm-text-muted);
+  cursor: pointer;
+  transition:
+    background var(--bm-dur-fast) var(--bm-ease),
+    color var(--bm-dur-fast) var(--bm-ease);
+}
+
+.f1__task svg,
+.f1__ctl svg {
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition:
+    opacity var(--bm-dur-fast) var(--bm-ease),
+    color var(--bm-dur-fast) var(--bm-ease);
+}
+
+.f1__task:hover,
+.f1__ctl:hover:not(:disabled) {
+  background: var(--bm-surface-1);
+  color: var(--bm-text);
+}
+
+.f1__task[aria-pressed='true'] {
+  background: var(--bm-surface-2);
+  color: var(--bm-text);
+}
+
+.f1__task[aria-pressed='true'] svg {
+  opacity: 1;
+  color: var(--bm-accent-strong);
+  fill: currentColor;
+}
+
+.f1__task:active,
+.f1__ctl:active:not(:disabled) {
+  background: var(--bm-surface-3);
+}
+
+.f1__task:focus-visible,
+.f1__ctl:focus-visible {
+  outline-offset: 0;
+  border-radius: var(--bm-radius-btn);
+}
+
+/* replay controls: the rail's own row style, one step quieter */
+.f1__transport {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+}
+
+.f1__ctl {
+  font-size: var(--bm-size-ui-sm);
+  color: var(--f1-meta);
+}
+
+.f1__ctl:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* --- lanes ------------------------------------------------------------------- */
+
+.f1__lanes {
+  flex: 0 1 803px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* the shared clock's speed, one quiet row the height of the rail label */
+.f1__clock {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  margin-bottom: -8px;
+}
+
+.f1__speed {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: var(--bm-radius-pill);
+  background: var(--bm-surface-2);
+  font-size: var(--bm-size-micro);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--bm-text-muted);
+  white-space: nowrap;
+  transition:
+    background var(--bm-dur-base) var(--bm-ease),
+    color var(--bm-dur-base) var(--bm-ease);
+}
+
+.f1__speed svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+/* fast-forward carries the accent so the change of pace can't be missed */
+.f1__speed[data-ff='1'] {
+  background: var(--bm-accent-soft);
+  color: var(--bm-accent-text);
+}
+
+.f1__speed-paused {
+  color: var(--f1-meta);
+}
+
+.f1__lane {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding-block: 4px;
+}
+
+.f1__stage {
+  position: relative;
+  flex: 0 0 66%;
+  min-width: 0;
+  height: 268px;
+  border-radius: 16px;
+  outline: 1px solid var(--f1-panel-line);
+  overflow: clip;
+  font-size: var(--f1-fs);
+  background: var(--f1-panel);
+}
+
+/* the frame's 114px top wash, under everything else in the panel */
+.f1__stage::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 114px;
+  background: linear-gradient(var(--f1-wash), transparent);
+  pointer-events: none;
+}
+
+/* the Bowmark chip: ink with a burned-in top-to-bottom sheen */
+.f1__tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  border-radius: var(--bm-radius-btn);
+  background-color: var(--bm-tile-cli-ink);
+  background-image: linear-gradient(#fff, #ccc);
+  background-blend-mode: color-burn;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--bm-paper);
+}
+
+.f1__tag svg {
+  color: var(--bm-accent);
+}
+
+/* --- windows: a fixed composition inside the 532×268 panel ---------------------- */
+
+.f1__win {
+  position: absolute;
+  box-sizing: border-box;
+  border-radius: var(--bm-radius-card);
+  overflow: hidden;
+  z-index: 2;
+  cursor: pointer;
+  box-shadow: var(--bm-shadow-float);
+  /* the unfocused window steps back a little */
+  filter: brightness(0.975) saturate(0.9);
+  transition:
+    filter 0.22s var(--bm-ease),
+    box-shadow 0.22s var(--bm-ease);
+}
+
+.f1__win[data-focused='1'] {
+  z-index: 3;
+  cursor: default;
+  filter: none;
+  box-shadow: var(--bm-shadow-float-strong);
+}
+
+/* Bowmark: the chat clears the chip; the code sheet rises beside it */
+.f1__win[data-win='bmChat'] {
+  left: 16px;
+  top: 52px;
+  bottom: 16px;
+  width: 46%;
+}
+
+.f1__win[data-win='bmCode'] {
+  right: 16px;
+  top: 20px;
+  bottom: 24px;
+  width: 54%;
+}
+
+/* browser agent: the chat behind, the browser over most of the panel */
+.f1__win[data-win='baChat'] {
+  left: 16px;
+  top: 20px;
+  bottom: 16px;
+  width: 42%;
+}
+
+.f1__win[data-win='baBrowser'] {
+  right: 16px;
+  top: 36px;
+  bottom: 16px;
+  width: 64%;
+}
+
+/* --- stats column ---------------------------------------------------------------- */
+
+.f1__side {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 221px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.f1__side-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  height: 40px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--bm-text);
+}
+
+.f1__side-mark {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--bm-tile-cli-tone);
+  opacity: 0.66;
+}
+
+/* how the lane ended, quiet and after the name */
+.f1__outcome {
+  margin-left: auto;
+  padding-top: 4px;
+  font-size: var(--bm-size-micro);
+  line-height: 1.25;
+  color: var(--f1-meta);
+  white-space: nowrap;
+}
+
+/* "blocked at captcha" reads mid-sentence in the text narrative; capitalised here */
+.f1__outcome::first-letter {
+  text-transform: uppercase;
+}
+
+.f1__lane[data-kind='bowmark'] .f1__outcome {
+  color: var(--bm-accent-text);
+}
+
+.f1__timing {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 66px;
+  flex-shrink: 0;
+}
+
+.f1__timing strong {
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  color: var(--bm-text);
+}
+
+.f1__meter {
+  position: relative;
+  display: block;
+  height: 4px;
+  border-radius: 4px;
+  overflow: clip;
+  background: var(--bm-surface-3);
+}
+
+.f1__meter-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  transform-origin: left;
+  background: var(--bm-accent-strong);
+}
+
+.f1__lane[data-kind='agent'] .f1__meter-fill {
+  background: var(--bm-text-faint);
+}
+
+.f1__metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+}
+
+.f1__metrics > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: var(--bm-size-ui);
+  line-height: 1.25;
+  color: var(--f1-meta);
+}
+
+/* value first, in a 48px lane, then its label */
+.f1__metrics dd {
+  order: -1;
+  min-width: 48px;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.f1__metrics dt {
+  flex: 1;
+}
+
+/* --- chat surfaces ------------------------------------------------------------ */
+
+/* A Claude-style chat: warm neutral paper, the conversation's title in the
+   bar, the actual Claude mark (public/reference-assets/claude.svg). */
+.f1__app {
+  --f1-chat: #faf9f5;
+  --f1-chat-user: #efece3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--f1-chat);
+}
+
+.f1__glyph {
+  width: 1.15em;
+  height: 1.15em;
+  flex-shrink: 0;
+}
+
+.f1__app-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  height: 3em;
+  padding: 0 1em;
+  color: var(--bm-text-faint);
+}
+
+.f1__app-bar > .f1__glyph:first-child {
+  margin-right: 0.2em;
+}
+
+.f1__claude {
+  width: 1.25em;
+  height: 1.25em;
+  flex-shrink: 0;
+  background: var(--bm-agent-claude);
+  -webkit-mask: url('/reference-assets/claude.svg') center / contain no-repeat;
+  mask: url('/reference-assets/claude.svg') center / contain no-repeat;
+}
+
+.f1__app-name {
+  min-width: 0;
+  font-size: 0.95em;
+  font-weight: 500;
+  color: var(--bm-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.f1__app-name + .f1__glyph {
+  width: 0.95em;
+  height: 0.95em;
+  margin-left: -0.25em;
+}
+
+/* scrolls so the newest message stays in view; the scrollbar itself is hidden
+   because this is a depiction, not a control */
+.f1__msgs {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65em;
+  padding: 0.4em 1em 1em;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  mask-image: linear-gradient(to bottom, transparent, #000 14px);
+  overscroll-behavior: contain;
+}
+
+.f1__msgs::-webkit-scrollbar {
+  display: none;
+}
+
+.f1__reveal {
+  display: flex;
+  flex-direction: column;
+}
+
+.f1__reveal[data-align='end'] {
+  align-items: flex-end;
+}
+
+.f1__bubble {
+  max-width: 22em;
+  margin: 0;
+  padding: 0.6em 1em;
+  border-radius: 12px;
+  background: var(--f1-chat-user);
+  font-size: 1em;
+  line-height: 1.45;
+  color: var(--bm-text);
+}
+
+.f1__say {
+  margin: 0;
+  font-size: 1em;
+  line-height: 1.5;
+  color: var(--bm-text-nav);
+}
+
+.f1__grow {
+  flex: 1;
+}
+
+.f1__tool {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.6em 0.8em;
+  border-radius: var(--bm-radius-field);
+  background: var(--bm-panel-solid);
+  box-shadow: inset 0 0 0 1px var(--bm-line-faint);
+  font-size: 0.95em;
+}
+
+.f1__tool-mark {
+  width: 1.3em;
+  height: 1.3em;
+  flex-shrink: 0;
+}
+
+.f1__tool-name {
+  font-weight: 500;
+  color: var(--bm-text);
+}
+
+.f1__tool-name i {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--bm-text-faint);
+}
+
+.f1__tool-done {
+  color: var(--bm-text-muted);
+  white-space: nowrap;
+}
+
+.f1__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.f1__row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8em;
+  padding: 0.45em 0.9em;
+  border-radius: 7px;
+  background: var(--bm-surface-1);
+  font-size: 0.95em;
+  color: var(--bm-text-nav);
+}
+
+.f1__row b {
+  margin-left: auto;
+  font-weight: 500;
+  color: var(--bm-text);
+  white-space: nowrap;
+}
+
+/* The answer lands the moment the lane completes, so it eases in on mount
+   rather than riding the lane's (now stopped) clock. */
+.f1__result {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8em;
+  padding: 0.75em;
+  border-radius: var(--bm-radius-field);
+  background: var(--bm-accent-soft);
+  animation: f1-in var(--bm-dur-base) var(--bm-ease) both;
+}
+
+.f1__result-photo {
+  display: block;
+  width: 3.4em;
+  height: 3.4em;
+  flex-shrink: 0;
+  border-radius: 7px;
+  object-fit: cover;
+}
+
+.f1__result-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+}
+
+.f1__result-top {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6em;
+  font-size: 1.1em;
+  color: var(--bm-text);
+}
+
+.f1__result-top b {
+  font-weight: 500;
+}
+
+.f1__result-sub,
+.f1__result-final {
+  font-size: 0.95em;
+  line-height: 1.45;
+  color: var(--bm-text-muted);
+}
+
+/* the closing sentence, as Claude's own prose under the card */
+.f1__result-final {
+  margin-top: 0.55em;
+  font-size: 1em;
+  color: var(--bm-text);
+}
+
+/* Claude's composer: a raised white field, attach on the left, send on the right */
+.f1__composer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  margin: 0 0.8em 0.8em;
+  padding: 0.4em 0.45em;
+  border-radius: 12px;
+  background: var(--bm-panel-solid);
+  box-shadow:
+    inset 0 0 0 1px var(--bm-line-faint),
+    var(--bm-shadow-soft);
+  font-size: 1em;
+  color: var(--bm-text-faint);
+}
+
+.f1__composer-hint {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.f1__composer-btn,
+.f1__send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9em;
+  height: 1.9em;
+  flex-shrink: 0;
+  border-radius: 7px;
+}
+
+.f1__composer-btn {
+  box-shadow: inset 0 0 0 1px var(--bm-line);
+  color: var(--bm-text-muted);
+}
+
+/* nothing typed yet, so send sits at half strength */
+.f1__send {
+  background: var(--bm-agent-claude);
+  color: var(--bm-agent-glyph);
+  opacity: 0.5;
+}
+
+/* --- steps -------------------------------------------------------------------- */
+
+.f1__steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.f1__step {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-size: 0.95em;
+  letter-spacing: 0;
+  color: var(--bm-text);
+  min-width: 0;
+}
+
+.f1__step[data-done='1'] {
+  color: var(--bm-text-faint);
+}
+
+.f1__step-tick {
+  color: var(--bm-text-faint);
+  flex-shrink: 0;
+}
+
+.f1__step-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- code pane: quiet paper (actual code, so the mono face) ---------------------- */
+
+.f1__code {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bm-paper);
+  color: var(--bm-paper-ink);
+}
+
+.f1__code-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.8em;
+  height: 2.6em;
+  padding: 0 1.1em;
+  background: var(--bm-paper-top);
+}
+
+.f1__dots {
+  display: inline-flex;
+  gap: 0.35em;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+/* window controls: the real traffic-light hues, small and a touch muted */
+.f1__dots i {
+  width: 0.62em;
+  height: 0.62em;
+  border-radius: 50%;
+  background: #ff5f57;
+  box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.12);
+  opacity: 0.85;
+}
+
+.f1__dots i:nth-child(2) {
+  background: #febc2e;
+}
+
+.f1__dots i:nth-child(3) {
+  background: #28c840;
+}
+
+.f1__code-bar .f1__dots {
+  margin-right: 0.3em;
+}
+
+.f1__code-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.4em 1em 0.45em;
+  border-radius: 6px 6px 0 0;
+  background: var(--bm-paper);
+  font-family: var(--bm-font-mono);
+  font-size: 0.9em;
+  letter-spacing: 0;
+  color: var(--bm-paper-ink);
+}
+
+.f1__code-ts {
+  padding: 0.05em 0.3em;
+  border-radius: 3px;
+  background: var(--bm-paper-keyword);
+  color: var(--bm-paper-top);
+  font-size: 0.72em;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* the gutter is its own slightly lighter column */
+.f1__code-body {
+  flex: 1;
+  min-height: 0;
+  padding: 0.7em 1.1em 0.7em 0;
+  background: linear-gradient(to right, var(--bm-paper-top) 2.9em, transparent 2.9em);
+  font-family: var(--bm-font-mono);
+  font-size: 1em;
+  line-height: 1.7;
+  letter-spacing: 0;
+  overflow: hidden;
+}
+
+.f1__code-line {
+  display: flex;
+  white-space: pre;
+}
+
+.f1__code-line > span {
+  min-width: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.f1__ln {
+  width: 2.9em;
+  flex-shrink: 0;
+  padding-right: 0.9em;
+  font-style: normal;
+  text-align: right;
+  color: var(--bm-code-ln);
+}
+
+.f1__code .f1__ln {
+  color: var(--bm-paper-muted);
+  opacity: 0.55;
+}
+
+.f1__t--kw {
+  color: var(--bm-paper-keyword);
+}
+
+.f1__t--plain {
+  color: var(--bm-paper-ink);
+}
+
+.f1__t--str {
+  color: var(--bm-paper-string);
+}
+
+.f1__t--fn {
+  color: var(--bm-code-ident);
+}
+
+.f1__t--num {
+  color: var(--bm-scene-orange);
+}
+
+.f1__t--punc {
+  color: var(--bm-paper-muted);
+}
+
+.f1__code-caret {
+  display: inline-block;
+  width: 0.12em;
+  height: 1.15em;
+  margin-left: 0.1em;
+  vertical-align: text-bottom;
+  background: var(--bm-paper-ink);
+}
+
+/* the run panel: a labelled strip whose output line lands when the lane completes */
+.f1__code-out {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  padding: 0.5em 1.1em 0.65em;
+  background: var(--bm-paper-top);
+  font-family: var(--bm-font-mono);
+  letter-spacing: 0;
+}
+
+.f1__code-out-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.78em;
+  color: var(--bm-paper-muted);
+}
+
+.f1__code-out-head .f1__spin {
+  width: 0.9em;
+  height: 0.9em;
+  border-width: 1.5px;
+}
+
+.f1__code-out[data-status='done'] .f1__code-out-head {
+  color: var(--bm-accent-text);
+}
+
+.f1__code-out-line {
+  font-size: 0.88em;
+  color: var(--bm-paper-string);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity var(--bm-dur-base) var(--bm-ease);
+}
+
+/* --- browser trace -------------------------------------------------------------- */
+
+.f1__browser {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bm-browser-chrome);
+}
+
+/* tab strip: window controls, then favicon tabs; the active one joins the toolbar */
+.f1__b-tabs {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.15em;
+  height: 2.35em;
+  padding: 0 0.6em 0 0.85em;
+  background: var(--bm-surface-3);
+  overflow: hidden;
+}
+
+.f1__b-tabs .f1__dots {
+  align-self: center;
+  margin-right: 0.55em;
+}
+
+.f1__b-tab {
+  flex: 0 1 11em;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  height: 1.95em;
+  padding: 0 0.7em;
+  border-radius: 7px 7px 0 0;
+  font-size: 0.85em;
+  color: var(--bm-text-faint);
+}
+
+.f1__b-tab[data-active='1'] {
+  background: var(--bm-browser-chrome);
+  color: var(--bm-text-nav);
+}
+
+.f1__b-tab:not([data-active='1']) .rs-fav {
+  opacity: 0.75;
+}
+
+.f1__b-tab-title {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.f1__b-chrome {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.4em 0.8em;
+  background: var(--bm-browser-chrome);
+  box-shadow: inset 0 -1px 0 var(--bm-line-faint);
+}
+
+.f1__b-nav {
+  display: flex;
+  gap: 0.45em;
+  color: var(--bm-text-faint);
+}
+
+.f1__b-nav .f1__glyph {
+  width: 1.05em;
+  height: 1.05em;
+}
+
+.f1__b-nav .f1__glyph:nth-child(2) {
+  opacity: 0.45;
+}
+
+.f1__b-url {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.35em 0.8em;
+  border-radius: var(--bm-radius-pill);
+  background: var(--bm-panel-solid);
+  font-size: 0.85em;
+  letter-spacing: 0;
+  color: var(--bm-text-muted);
+}
+
+.f1__b-url .f1__glyph {
+  width: 0.95em;
+  height: 0.95em;
+  color: var(--bm-text-faint);
+}
+
+.f1__b-url > span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* page-load progress along the toolbar's lower edge, driven by the step */
+.f1__b-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  transform-origin: left;
+  background: var(--bm-text-faint);
+  opacity: 0.55;
+}
+
+.f1__b-body {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  background: var(--bm-browser-body);
+}
+
+/* The depicted pages live in ReplaySites.css. The pointer glides between the
+   targets the page marks; the drift inside it is the per-frame hover. Its tip
+   sits at the aim point. */
+.f1__b-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  pointer-events: none;
+  transition:
+    transform 0.42s var(--bm-ease),
+    opacity var(--bm-dur-base) var(--bm-ease);
+}
+
+.f1__b-cursor-drift {
+  display: block;
+}
+
+.f1__pointer {
+  display: block;
+  width: 1.15em;
+  height: 1.6em;
+  margin: -0.1em 0 0 -0.1em;
+  fill: var(--bm-text);
+  stroke: var(--bm-panel-solid);
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 1.5px rgb(var(--bm-shadow-rgb) / 0.3));
+}
+
+/* --- spinner & keyframes ---------------------------------------------------------- */
+
+.f1__spin {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid var(--bm-line-strong);
+  border-top-color: var(--bm-accent-strong);
+  animation: f1-spin 0.85s linear infinite;
+}
+
+@keyframes f1-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes f1-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* --- narrow ---------------------------------------------------------------------- */
+
+/* The rail becomes a row of task chips above the lanes. */
+@media (max-width: 1100px) {
+  .f1__body {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .f1__rail {
+    flex: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
+  }
+
+  .f1__rail-label {
+    width: 100%;
+    height: auto;
+    padding: 0 8px 4px;
+  }
+
+  .f1__tasks {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+
+  .f1__transport {
+    flex-direction: row;
+    margin-top: 0;
+    margin-left: auto;
+  }
+
+  .f1__task,
+  .f1__ctl {
+    width: auto;
+    padding-inline: 10px;
+  }
+
+  .f1__lanes {
+    flex: none;
+  }
+
+  .f1__stage {
+    flex-basis: 62%;
+  }
+}
+
+/* The figures sit under their panel. */
+@media (max-width: 820px) {
+  .f1 {
+    padding-inline: var(--bm-gutter);
+  }
+
+  .f1__lanes {
+    gap: 40px;
+  }
+
+  .f1__clock {
+    margin-bottom: -24px;
+  }
+
+  .f1__lane {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .f1__stage {
+    --f1-fs: 11.5px;
+    flex: none;
+    height: clamp(268px, 52vw, 360px);
+  }
+
+  .f1__side {
+    height: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 16px 24px;
+  }
+
+  .f1__side-title {
+    grid-column: 1 / -1;
+    height: auto;
+  }
+
+  .f1__timing {
+    height: auto;
+  }
+}
+
+/* Below this the overlapping windows would be unreadable, so the panel becomes
+   a plain stack at full width and the decorative chrome steps back. */
+@media (max-width: 620px) {
+  .f1 {
+    gap: 36px;
+    padding-top: var(--bm-space-8);
+  }
+
+  .f1__transport {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .f1__stage {
+    --f1-fs: 12px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 52px 12px 12px;
+  }
+
+  .f1__lane[data-kind='agent'] .f1__stage {
+    padding-top: 12px;
+  }
+
+  .f1__win {
+    position: static;
+    width: auto !important;
+    filter: none;
+    cursor: default;
+    box-shadow: var(--bm-shadow-panel);
+    opacity: 1 !important;
+  }
+
+  .f1__app,
+  .f1__code,
+  .f1__browser {
+    height: auto;
+    min-height: 0;
+  }
+
+  .f1__msgs {
+    overflow: visible;
+    mask-image: none;
+  }
+
+  /* room for a site's form or two result cards */
+  .f1__b-body {
+    min-height: 17em;
+  }
+
+  .f1__side {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .f1__timing strong {
+    font-size: 38px;
+  }
+}
+
+/* touch: the 32px rail rows grow to 44px targets */
+@media (max-width: 820px), (pointer: coarse) {
+  .f1__task,
+  .f1__ctl {
+    height: auto;
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .f1__spin {
+    animation: none;
+    border-top-color: var(--bm-line-strong);
+  }
+
+  .f1__result {
+    animation: none;
+  }
+
+  .f1__win,
+  .f1__speed,
+  .f1__code-out-line,
+  .f1__b-cursor {
+    transition: none;
+  }
+}

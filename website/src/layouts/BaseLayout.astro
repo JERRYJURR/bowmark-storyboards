@@ -1,0 +1,44 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title, description = '', noindex = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Light only. theme-color mirrors --bm-bg; meta tags cannot read CSS. */}
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f8f7f4" />
+    {/* The hero headline is set in it, so fetch it with the document. */}
+    <link
+      rel="preload"
+      href="/fonts/atkinson-hyperlegible-next-variable.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <title>{title}</title>
+    {description ? <meta name="description" content={description} /> : null}
+    {noindex ? <meta name="robots" content="noindex" /> : null}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

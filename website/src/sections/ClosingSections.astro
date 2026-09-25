@@ -1,0 +1,25 @@
+---
+// v5 after B4: F3 library (display:none in v5, omitted), F4 connect (Paper
+// 8JR "Install for free", still #connect — every "Get started" lands here),
+// F6 FAQ, F7 last CTA (display:none in v5, omitted). F8 is the layout's
+// SiteFooter. F5 Broadcast is paused: `BroadcastSection.tsx` and its scene
+// data stay in the tree, unrendered, until it returns between F4 and F6.
+// Both share the 1024 column and 221px rail of the comparison above.
+import ConnectSection from '../components/ConnectSection.tsx';
+import FaqSection from '../components/FaqSection.astro';
+---
+
+<div class="closing">
+  <ConnectSection client:load />
+  <FaqSection />
+</div>
+
+<style>
+  /* Sits above B4's sticky stage in stacking order, on the same ground. */
+  .closing {
+    position: relative;
+    z-index: 1;
+    background: var(--bm-bg);
+    overflow-x: clip;
+  }
+</style>

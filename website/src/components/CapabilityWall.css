@@ -1,0 +1,102 @@
+/* B4 — the capability board. Every provider as an always-expanded card on the
+   page ground: logo, headline call and its function count, then the faint
+   indent line and the provider's other calls. Heights follow the lists, so the
+   three columns read as masonry. Columns drift up / down / up at one slow pixel
+   speed and dissolve into the ground at the board's top and bottom edges. The
+   section sits in normal flow: no pinning, no scroll-driven state.
+
+   Kept from Paper 4AK: 44px / -0.05em / 100% headline with a muted second
+   line, 12/16px card padding, 20px lines, 13px Atkinson names, 16px logos at
+   full strength, ƒ glyph at 25%, call text ink at 66%, the indent line at 15%,
+   "+N more" in the shared faint ink, the open row's faint fill and 10px radius. */
+.b4 {
+  --b4-provider: rgb(35 35 33 / 0.66);
+  --b4-guide: rgb(42 45 39 / 0.15);
+  --b4-fade: 72px;
+  --b4-gap: 8px;
+  position: relative;
+  padding: 96px 0 64px;
+  background: var(--bm-bg);
+}
+.b4__head { display: flex; justify-content: center; padding: 0 var(--bm-gutter) 48px; }
+.b4__head h2 { width: min(440px, 100%); font-size: var(--bm-size-h2); font-weight: var(--bm-weight-head); line-height: 1; letter-spacing: -0.05em; text-align: center; }
+.b4__head h2 span { color: var(--bm-text-muted); }
+
+/* --- the card: shared by the board and the static list ---------------------- */
+.b4__card { display: block; min-width: 0; border-radius: 10px; background: var(--bm-surface-2); list-style: none; }
+.b4__function {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  height: 44px;
+  padding: 12px 16px;
+  font-size: var(--bm-size-micro);
+  line-height: 20px;
+  white-space: nowrap;
+  color: var(--bm-text);
+}
+.b4__name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* the box is reserved before the image loads; any aspect fits inside it */
+.b4__logo { flex-shrink: 0; display: block; width: 16px; height: 16px; object-fit: contain; }
+.b4__total { flex-shrink: 0; margin-left: auto; padding-left: 8px; font-size: var(--bm-size-micro); color: var(--bm-text-faint); font-variant-numeric: tabular-nums; }
+
+/* the list tucks 8px into the header's bottom padding */
+.b4__body { margin-top: -8px; padding: 0 16px 12px; }
+.b4__tree { display: flex; align-items: stretch; }
+.b4__guide { position: relative; flex-shrink: 0; width: 15px; }
+.b4__guide::before { content: ''; position: absolute; inset-block: 0; left: 7px; width: 1px; background: var(--b4-guide); }
+.b4__providers { display: flex; flex-direction: column; flex: 1 1 auto; min-width: 0; margin: 0; padding: 0; list-style: none; }
+.b4__providers > * { display: flex; align-items: center; gap: 8px; height: 20px; min-width: 0; font-size: var(--bm-size-micro); line-height: 20px; color: var(--b4-provider); white-space: nowrap; }
+.b4__call { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.b4__fx { flex-shrink: 0; color: var(--bm-ink-fill); opacity: .25; }
+.b4__more { display: block; padding-left: 15px; font-size: var(--bm-size-micro); line-height: 20px; color: var(--bm-text-faint); font-variant-numeric: tabular-nums; }
+
+/* --- the moving board (JS, wide screens, motion allowed) -------------------- */
+.b4__motion { display: none; width: min(1024px, calc(100% - 2 * var(--bm-gutter))); margin-inline: auto; }
+.b4__board {
+  display: flex;
+  gap: 24px;
+  height: 540px;
+  overflow: hidden;
+  mask-image: linear-gradient(transparent, #000 var(--b4-fade), #000 calc(100% - var(--b4-fade)), transparent);
+  mask-repeat: no-repeat;
+}
+.b4__column { flex: 1 1 0; min-width: 0; }
+/* Two identical groups, each ending in one gap, so -50% of the track is exactly
+   one group: the second copy lands where the first began. JS only sets
+   --b4-duration (group height / speed) so every column moves at the same px/s. */
+.b4__track {
+  --b4-duration: 90s;
+  animation: b4-up var(--b4-duration) linear infinite;
+  will-change: transform;
+}
+.b4__track[data-direction='down'] { animation-name: b4-down; }
+/* staggered phases, so the three columns never line up */
+.b4__column:nth-child(2) .b4__track { animation-delay: calc(var(--b4-duration) * -0.35); }
+.b4__column:nth-child(3) .b4__track { animation-delay: calc(var(--b4-duration) * -0.6); }
+.b4 .b4__group { display: flex; flex-direction: column; gap: var(--b4-gap); margin: 0; padding: 0 0 var(--b4-gap); list-style: none; }
+@keyframes b4-up { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(0, -50%, 0); } }
+@keyframes b4-down { from { transform: translate3d(0, -50%, 0); } to { transform: translate3d(0, 0, 0); } }
+
+/* --- static list: narrow screens, reduced motion, no JS --------------------- */
+.b4__static { columns: 3; column-gap: 24px; width: min(1024px, calc(100% - 2 * var(--bm-gutter))); margin: 0 auto; padding: 0; list-style: none; }
+.b4__static > .b4__card { break-inside: avoid; margin-bottom: var(--b4-gap); }
+
+.b4[data-mode='motion'] .b4__motion { display: block; }
+.b4[data-mode='motion'] .b4__static { display: none; }
+
+@media (max-width: 860px) {
+  .b4 { padding: 80px 0 72px; }
+  .b4__head { padding-bottom: 36px; }
+  .b4__static { columns: 2; column-gap: 16px; }
+}
+@media (max-width: 560px) {
+  .b4__static { columns: 1; max-width: 560px; }
+}
+/* belt and braces with the script's matchMedia: never animate, never clip */
+@media (max-width: 860px), (prefers-reduced-motion: reduce) {
+  .b4 .b4__motion, .b4[data-mode] .b4__motion { display: none; }
+  .b4 .b4__static, .b4[data-mode] .b4__static { display: block; }
+  .b4__track { animation: none; }
+}

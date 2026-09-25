@@ -1,0 +1,12 @@
+{
+  "note": "Images used by src/components/sites/CalendlyMock.tsx. The Calendly mark lives in ../logos (see its sources.json).",
+  "files": {
+    "aiko-tanaka.jpg": {
+      "use": "host avatar for the fictional guide 'Aiko Tanaka'",
+      "source_page": "https://unsplash.com/photos/ZoSb5J3jU28",
+      "image_url": "https://images.unsplash.com/photo-1758600587815-b654d1405e83?w=200&h=200&fit=crop&crop=faces&q=70&fm=jpg",
+      "creator": "Vitaly Gariev (@silverkblack)",
+      "license": "Unsplash License (free to use)"
+    }
+  }
+}

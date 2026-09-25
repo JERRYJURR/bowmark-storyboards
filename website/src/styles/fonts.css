@@ -1,0 +1,38 @@
+/* Brand typefaces, served locally from public/fonts. No network imports.
+
+   Atkinson Hyperlegible Next is the one sans for marketing type and controls:
+   a single variable file covering 200–800. Google Sans Code stays for text
+   that is actually code. Crimson Pro (variable, 200–900) sets the capability
+   card titles; its file is supplied alongside the others in public/fonts. */
+
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('/fonts/atkinson-hyperlegible-next-variable.ttf') format('truetype');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Crimson Pro';
+  src: url('/fonts/crimson-pro-variable.ttf') format('truetype');
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Code';
+  src: url('/fonts/google-sans-code-400.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Code';
+  src: url('/fonts/google-sans-code-500.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}

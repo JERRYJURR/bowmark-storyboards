@@ -1,0 +1,309 @@
+/* ---------------------------------------------------------------------------
+   B1 scene, first half — Paper 6O9 (surface cards) → 7K2 (capability cards).
+
+   Geometry and timing are written per frame by DecompileScene.tsx on a fixed
+   1440 x 900 canvas that is scaled to the viewport as a whole. This file owns
+   the stage and the moving parts' chrome; the artwork (mockups, capability
+   cards) lives in BentoTiles.css.
+--------------------------------------------------------------------------- */
+
+.b1 {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  contain: layout paint;
+  background: var(--bm-bg);
+}
+
+/* A barely perceptible lift of the ground behind the product scene. */
+.b1__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    110% 64% at 50% 44%,
+    rgb(var(--bm-panel-rgb) / 0.55) 0%,
+    rgb(var(--bm-panel-rgb) / 0) 70%
+  );
+}
+
+/* --- canvas -------------------------------------------------------------- */
+
+/* Paper's frame, centred and scaled (transform written by the scene). */
+.b1__canvas {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: 50% 50%;
+  perspective: 1500px;
+  perspective-origin: 50% 45%;
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* --- the site card, and the capability card it becomes -------------------------- */
+
+/* The moving frame: position, size, z and transform are written per frame.
+   It paints nothing itself — the paper sheet and the capability card inside
+   it do — so the capability card's shadow is never clipped. */
+.b1__card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 363px;
+  height: 460px;
+  border-radius: 16px;
+  /* The capability card's own depth (.cap in BentoTiles.css), carried by the
+     frame so the brand's circular flood never clips it; --sh (0 → 1, the
+     flood) brings it in as the card turns, and at 1 it is exactly the
+     resting shadow the second half's cards cast. */
+  box-shadow:
+    0 1px 2px rgb(var(--bm-shadow-rgb) / calc(0.16 * (1 - 0.7 * var(--depth-lift, 0)) * var(--sh, 0))),
+    0 4px 10px -2px rgb(var(--bm-shadow-rgb) / calc(0.12 * var(--sh, 0))),
+    0 calc(14px + 26px * var(--depth-lift, 0)) calc(32px + 44px * var(--depth-lift, 0)) -8px
+      rgb(var(--bm-shadow-rgb) / calc((0.16 + 0.06 * var(--depth-lift, 0)) * var(--sh, 0)));
+  transform-style: preserve-3d;
+  will-change: transform;
+  visibility: hidden;
+}
+
+/* the site card (6O9): soft fill, one hairline, the label at the foot */
+.b1__paper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  overflow: hidden;
+  background: var(--sc-fill);
+  border-radius: 16px;
+  outline: 1px solid var(--bm-stage-line);
+}
+
+/* scaled with the shrinking sheet, from its bottom-left anchor */
+.b1__label {
+  position: relative;
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  transform-origin: 0 100%;
+}
+
+/* the site's domain, and the provider module it turns into; stacked in one
+   box so the swap never shifts the label */
+.b1__details {
+  position: relative;
+  display: grid;
+  width: 281px;
+  max-width: 100%;
+}
+
+.b1__details > .sc__detail {
+  grid-area: 1 / 1;
+}
+
+.b1__detail-mod {
+  opacity: 0;
+  white-space: nowrap;
+}
+
+/* the capability card, over the sheet; revealed by the brand's flood */
+.b1__cap {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  visibility: hidden;
+}
+
+.b1__cap .cap {
+  width: 100%;
+  height: 100%;
+  box-shadow: none;
+}
+
+.b1__cap .cap__logo {
+  transform-origin: 70% 30%;
+}
+
+/* the provider module, over the mockup and under the fades */
+.b1__code {
+  position: absolute;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: var(--bm-radius-btn);
+  box-shadow: var(--bm-shadow-chrome);
+  opacity: 0;
+}
+
+.b1__wipe-slot {
+  position: absolute;
+  z-index: 3;
+  overflow: hidden;
+  border-radius: var(--bm-radius-btn);
+  pointer-events: none;
+}
+
+.b1__wipe {
+  position: absolute;
+  top: -10%;
+  left: 0;
+  width: 26%;
+  height: 120%;
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--bm-accent-rgb) / 0) 0%,
+    rgb(var(--bm-accent-rgb) / 0.26) 50%,
+    rgb(var(--bm-accent-rgb) / 0) 100%
+  );
+  will-change: transform;
+}
+
+/* selection ring on a card the marquee has swept */
+.b1__ring {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  border: 1px solid var(--bm-accent-strong);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- overlays -------------------------------------------------------------- */
+
+.b1__sweep {
+  position: absolute;
+  left: 0;
+  top: -6%;
+  height: 112%;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--bm-panel-rgb) / 0) 0%,
+    var(--bm-sheen) 50%,
+    rgb(var(--bm-panel-rgb) / 0) 100%
+  );
+  will-change: transform;
+}
+
+.b1__ov {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 80;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.b1__marquee {
+  fill: rgb(var(--bm-accent-rgb) / 0.08);
+  stroke: var(--bm-accent-strong);
+  stroke-width: 1;
+  opacity: 0;
+}
+
+.b1__cursor,
+.b1__tag {
+  opacity: 0;
+  will-change: transform;
+}
+
+.b1__cursor path {
+  fill: var(--bm-text);
+  stroke: var(--bm-panel-solid);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+
+/* the "Bowmark" badge that trails the cursor: a small ink pill */
+.b1__tag-bg {
+  fill: var(--bm-ink-fill);
+}
+
+.b1__tag-mark {
+  color: var(--bm-accent);
+}
+
+.b1__tag text {
+  fill: var(--bm-text-inverse);
+  font-family: var(--bm-font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion / narrow viewport: the same beats as stills — the surfaces
+   with their mockups, the conversion, and the capability they become.
+--------------------------------------------------------------------------- */
+
+.b1-static {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bm-space-5);
+  width: 100%;
+}
+
+.b1-static__sources {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.b1-static__sources .sc {
+  width: 100%;
+  height: 400px;
+}
+
+.b1-static__merge {
+  display: flex;
+  justify-content: center;
+}
+
+.b1-static__converter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  color: var(--bm-mark);
+  background: var(--bm-panel-solid);
+  box-shadow: var(--bm-shadow-soft);
+}
+
+.b1-static__converter .cap__mark {
+  height: 22px;
+  opacity: 1;
+  color: inherit;
+}
+
+.b1-static__caps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.b1-static__caps .cap {
+  width: 100%;
+  height: 340px;
+}
+
+.b1-static__caption {
+  max-width: var(--bm-measure);
+  font-size: var(--bm-size-ui-sm);
+  line-height: 1.5;
+  color: var(--bm-text-muted);
+}

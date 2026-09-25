@@ -1,4 +1,7 @@
 # internal working docs — briefs, reviews, specs stay out of the public repo
 /*.md
+website/docs/
+website/review/
+website/design-reference/
 .claude/
 .DS_Store
