@@ -1187,6 +1187,10 @@
   }
   .f1__tasks {
     grid-row: 1;
+    width: calc(100% + 40px);
+    margin-inline: -20px;
+    padding-inline: 20px;
+    scroll-padding-inline: 20px;
     gap: 8px;
     flex-wrap: nowrap;
     overflow-x: auto;

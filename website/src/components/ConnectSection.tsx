@@ -46,7 +46,11 @@ export default function ConnectSection() {
     const reveal = () => {
       if (!query.matches) return;
       const option = rootRef.current?.querySelector<HTMLElement>(`.f4__group[data-active='1'] .f4__option[data-selected='1']`);
-      if (option?.parentElement) option.parentElement.scrollLeft = option.offsetLeft;
+      if (option?.parentElement) {
+        const track = option.parentElement;
+        const inset = Number.parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
+        track.scrollLeft = option.offsetLeft - inset;
+      }
     };
     reveal();
     query.addEventListener('change', reveal);

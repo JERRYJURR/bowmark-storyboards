@@ -559,6 +559,8 @@
   .f4__rail { gap: 12px; min-width: 0; }
   .f4__categories { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .f4__category {
+    -webkit-appearance: none;
+    appearance: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -576,6 +578,7 @@
   .f4__category[aria-pressed='true'] { background: var(--bm-surface-2); color: var(--bm-text); }
   .f4__category:hover { background: var(--bm-surface-1); }
   .f4__category:focus-visible { outline-offset: 0; }
+  .f4__category, .f4__option { -webkit-tap-highlight-color: transparent; }
   .f4__group[data-active='0'] { display: none; }
   .f4__legend {
     position: absolute;
@@ -589,6 +592,10 @@
     position: relative;
     display: flex;
     flex-direction: row;
+    width: calc(100% + 40px);
+    margin-inline: -20px;
+    padding-inline: 20px;
+    scroll-padding-inline: 20px;
     gap: 8px;
     height: 44px;
     overflow-x: auto;
