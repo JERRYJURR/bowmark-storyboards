@@ -130,6 +130,21 @@ export default function ComparisonSection() {
     return stop;
   }, []);
 
+  /* M07/M08 show the original overlapping windows as one scaled screen.
+     Scale its artwork, keeping the tag, figures and controls at native size. */
+  useEffect(() => {
+    const stages = rootRef.current?.querySelectorAll<HTMLElement>('.f1__stage');
+    if (!stages) return;
+    const resize = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const scale = Math.min(entry.contentRect.width / 529.984375, entry.contentRect.height / 268);
+        (entry.target as HTMLElement).style.setProperty('--f1-screen-scale', String(scale));
+      }
+    });
+    stages.forEach(stage => resize.observe(stage));
+    return () => resize.disconnect();
+  }, []);
+
   /* --- motion preference ------------------------------------------------- */
 
   useEffect(() => {
@@ -231,6 +246,14 @@ export default function ComparisonSection() {
       ? { label: 'Replay finished', ff: false, paused: false }
       : { label: fast ? `${REPLAY.ffRate}× fast-forward` : '1× real time', ff: fast, paused: !playing };
 
+  const speedReadout = (
+    <span className="f1__speed" data-ff={speed.ff ? '1' : '0'}>
+      {speed.ff ? <FastGlyph /> : <ClockGlyph />}
+      {speed.label}
+      {speed.paused && <span className="f1__speed-paused">· paused</span>}
+    </span>
+  );
+
   return (
     <section className="f1" id="f1" ref={rootRef} aria-labelledby="f1-title">
       <h2 className="f1__title" id="f1-title">
@@ -271,6 +294,7 @@ export default function ComparisonSection() {
             <ReplayGlyph />
             Replay
           </button>
+          <span className="f1__mobile-clock">{speedReadout}</span>
         </div>
       </div>
 
@@ -278,11 +302,7 @@ export default function ComparisonSection() {
       {/* The shared clock's speed. Both timers read it, so the switch to
           fast-forward after Bowmark finishes is named, never hidden. */}
       <div className="f1__clock">
-        <span className="f1__speed" data-ff={speed.ff ? '1' : '0'}>
-          {speed.ff ? <FastGlyph /> : <ClockGlyph />}
-          {speed.label}
-          {speed.paused && <span className="f1__speed-paused">· paused</span>}
-        </span>
+        {speedReadout}
       </div>
 
       {/* The stages are decorative; this is the narrative in text. Static, not
@@ -517,17 +537,19 @@ function Lane({
             Bowmark
           </span>
         )}
-        {children}
+        <div className="f1__screen">{children}</div>
       </div>
 
       <div className="f1__side">
         <h3 className="f1__side-title" title={desc}>
-          {kind === 'bowmark' && (
-            <span className="f1__side-mark">
-              <BowmarkMark size={18} />
-            </span>
-          )}
-          {title}
+          <span className="f1__side-name">
+            {kind === 'bowmark' && (
+              <span className="f1__side-mark">
+                <BowmarkMark size={18} />
+              </span>
+            )}
+            {title}
+          </span>
           {outcome && <span className="f1__outcome">{outcome}</span>}
         </h3>
         <div className="f1__timing">
@@ -850,8 +872,9 @@ function BrowserTrace({ t, task }: { t: number; task: Task }) {
     const box = root.getBoundingClientRect();
     const el = page.querySelector<HTMLElement>('[data-cursor="1"]');
     const r = el ? el.getBoundingClientRect() : page.getBoundingClientRect();
-    const x = Math.round(r.left - box.left + r.width * (el ? 0.62 : 0.7));
-    const y = Math.round(r.top - box.top + r.height * (el ? 0.55 : 0.45));
+    const scale = box.width / root.offsetWidth || 1;
+    const x = Math.round((r.left - box.left + r.width * (el ? 0.62 : 0.7)) / scale);
+    const y = Math.round((r.top - box.top + r.height * (el ? 0.55 : 0.45)) / scale);
     setAim((prev) => (prev && prev[0] === x && prev[1] === y ? prev : [x, y]));
   }, []);
   useEffect(measure, [target, measure]);

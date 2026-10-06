@@ -581,6 +581,15 @@
 .cap[data-tone='orange'] { --cap-tone: var(--bm-scene-orange); }
 .cap[data-tone='black'] { --cap-tone: var(--bm-scene-black); }
 
+/* Expedia's yellow stays consistent through the card → import-token morph. */
+.cap[data-site='expedia'],
+.imp__chip[data-site='expedia'] {
+  --bm-scene-title: var(--bm-brand-expedia-ink);
+  --bm-scene-meta: rgb(25 30 59 / 0.72);
+  --bm-scene-row: var(--bm-brand-expedia-ink);
+  --cap-logo-ink: var(--bm-brand-expedia-ink);
+}
+
 .cap__top,
 .cap__foot {
   display: flex;
@@ -630,11 +639,11 @@
   color: var(--bm-scene-title);
 }
 
-/* the site's own logo, in white, where the Bowmark mark sat */
+/* The site's own logo; dark ink on Expedia's yellow, white on dark fills. */
 .cap__logo {
   flex-shrink: 0;
   margin-top: 1px;
-  color: #fff;
+  color: var(--cap-logo-ink, #fff);
 }
 
 .cap__foot {

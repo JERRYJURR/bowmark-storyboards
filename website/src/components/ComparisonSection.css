@@ -141,6 +141,8 @@
   margin-top: 16px;
 }
 
+.f1__mobile-clock { display: none; }
+
 .f1__ctl {
   font-size: var(--bm-size-ui-sm);
   color: var(--f1-meta);
@@ -230,6 +232,8 @@
   background: linear-gradient(var(--f1-wash), transparent);
   pointer-events: none;
 }
+
+.f1__screen { position: absolute; inset: 0; }
 
 /* the Bowmark chip: ink with a burned-in top-to-bottom sheen */
 .f1__tag {
@@ -333,6 +337,8 @@
   letter-spacing: 0;
   color: var(--bm-text);
 }
+
+.f1__side-name { display: contents; }
 
 .f1__side-mark {
   display: grid;
@@ -1157,109 +1163,86 @@
   }
 }
 
-/* The figures sit under their panel. */
+/* M07/M08: screen → its meter/figures → screen → its meter/figures. The
+   original replay stays intact inside a scaled 529.984375×268 composition. */
 @media (max-width: 820px) {
   .f1 {
-    padding-inline: var(--bm-gutter);
+    min-height: 100svh;
+    gap: 16px;
+    padding: 24px 20px 52px;
   }
-
-  .f1__lanes {
-    gap: 40px;
+  .f1__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
   }
-
-  .f1__clock {
-    margin-bottom: -24px;
+  .f1__rail { display: contents; }
+  .f1__rail-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
   }
-
-  .f1__lane {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 20px;
+  .f1__tasks {
+    grid-row: 1;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
   }
-
+  .f1__tasks::-webkit-scrollbar { display: none; }
+  .f1__task { flex: none; height: 44px; }
+  .f1__lanes { grid-row: 2; gap: 24px; }
+  .f1__clock { display: none; }
+  .f1__lane { flex-direction: column; align-items: stretch; gap: 24px; padding: 0 0 4.761px; }
   .f1__stage {
     --f1-fs: 11.5px;
     flex: none;
-    height: clamp(268px, 52vw, 360px);
+    height: clamp(88px, calc((100svh - 490.022px) / 2), calc((100vw - 40px) * 268 / 529.984375));
   }
-
+  .f1__screen {
+    inset: auto;
+    left: 50%;
+    top: 50%;
+    width: 529.984375px;
+    height: 268px;
+    transform: translate(-50%, -50%) scale(var(--f1-screen-scale, .6603968));
+  }
+  .f1__tag { top: 6px; left: 8px; background-image: var(--bm-replay-tag-sheen); }
   .f1__side {
-    height: auto;
+    position: relative;
+    flex: none;
+    height: 62.25px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 16px 24px;
+    grid-template-columns: 110px minmax(0, 1fr);
+    align-items: start;
+    gap: 22px;
   }
-
-  .f1__side-title {
-    grid-column: 1 / -1;
-    height: auto;
-  }
-
-  .f1__timing {
-    height: auto;
-  }
-}
-
-/* Below this the overlapping windows would be unreadable, so the panel becomes
-   a plain stack at full width and the decorative chrome steps back. */
-@media (max-width: 620px) {
-  .f1 {
-    gap: 36px;
-    padding-top: var(--bm-space-8);
-  }
-
+  .f1__side-title { position: absolute; top: 42px; left: 0; height: 16.25px; }
+  .f1__side-name { display: none; }
+  .f1__outcome { margin: 0; padding: 0; }
+  .f1__timing { display: contents; }
+  .f1__timing strong { grid-column: 1; font-size: 38px; }
+  .f1__meter { position: absolute; top: -12px; left: 0; width: 100%; }
+  .f1__metrics { grid-column: 2; display: grid; grid-template-columns: minmax(0, 1fr) 82px; gap: 18px; }
+  .f1__metrics > div { flex-direction: column; gap: 4px; }
+  .f1__metrics dd { min-width: 0; }
   .f1__transport {
-    width: 100%;
-    margin-left: 0;
-  }
-
-  .f1__stage {
-    --f1-fs: 12px;
-    height: auto;
+    grid-row: 3;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 52px 12px 12px;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 44px;
+    margin-left: 0;
+    margin-top: 8px;
   }
-
-  .f1__lane[data-kind='agent'] .f1__stage {
-    padding-top: 12px;
-  }
-
-  .f1__win {
-    position: static;
-    width: auto !important;
-    filter: none;
-    cursor: default;
-    box-shadow: var(--bm-shadow-panel);
-    opacity: 1 !important;
-  }
-
-  .f1__app,
-  .f1__code,
-  .f1__browser {
-    height: auto;
-    min-height: 0;
-  }
-
-  .f1__msgs {
-    overflow: visible;
-    mask-image: none;
-  }
-
-  /* room for a site's form or two result cards */
-  .f1__b-body {
-    min-height: 17em;
-  }
-
-  .f1__side {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .f1__timing strong {
-    font-size: 38px;
-  }
+  .f1__ctl { height: 44px; }
+  .f1__mobile-clock { display: inline-flex; min-width: 0; margin-left: auto; }
+  .f1__mobile-clock .f1__speed { min-width: 0; height: auto; min-height: 24px; flex-wrap: wrap; justify-content: center; }
 }
 
 /* touch: the 32px rail rows grow to 44px targets */

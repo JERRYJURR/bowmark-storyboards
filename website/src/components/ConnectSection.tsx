@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import './ConnectSection.css';
-import { COMMAND_LABEL, CONNECT_COPY, CONNECT_GROUPS, DESTINATIONS } from '../scene/connect';
+import { COMMAND_LABEL, CONNECT_COPY, CONNECT_GROUPS, DESTINATIONS, type ConnectGroup } from '../scene/connect';
 import { LINKS } from '../scene/links';
 import { alignToHash } from '../scene/hash-align';
 import { useCopy } from './useCopy';
@@ -19,15 +19,39 @@ import { BowmarkMark, CheckIcon, CopyIcon, Glyph } from './Glyphs';
 export default function ConnectSection() {
   const [selected, setSelected] = useState(DESTINATIONS[0].name);
   const rootRef = useRef<HTMLElement | null>(null);
+  const lastSelected = useRef<Record<ConnectGroup, string>>({
+    Assistants: DESTINATIONS.find(d => d.group === 'Assistants')!.name,
+    'In your code': DESTINATIONS.find(d => d.group === 'In your code')!.name,
+  });
   const uid = useId();
   const dest = DESTINATIONS.find((d) => d.name === selected) ?? DESTINATIONS[0];
   const cmdId = `${uid}-cmd`;
   const { state, copy } = useCopy(dest.command, cmdId);
 
+  const selectDestination = (name: string) => {
+    const next = DESTINATIONS.find(d => d.name === name);
+    if (!next) return;
+    lastSelected.current[next.group] = name;
+    setSelected(name);
+  };
+
   useEffect(() => {
     const root = rootRef.current;
     return root ? alignToHash(root, ['#connect', '#f4']) : undefined;
   }, []);
+
+  // Reveal the actual selection inside its track without moving the page.
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 820px)');
+    const reveal = () => {
+      if (!query.matches) return;
+      const option = rootRef.current?.querySelector<HTMLElement>(`.f4__group[data-active='1'] .f4__option[data-selected='1']`);
+      if (option?.parentElement) option.parentElement.scrollLeft = option.offsetLeft;
+    };
+    reveal();
+    query.addEventListener('change', reveal);
+    return () => query.removeEventListener('change', reveal);
+  }, [selected]);
 
   return (
     <section className="f4" id="connect" ref={rootRef} aria-labelledby={`${uid}-title`}>
@@ -39,8 +63,22 @@ export default function ConnectSection() {
 
       <div className="f4__body">
         <div className="f4__rail">
-          {CONNECT_GROUPS.map((group) => (
-            <fieldset className="f4__group" key={group}>
+          <div className="f4__categories" role="group" aria-label="Installation category">
+            {CONNECT_GROUPS.map((group, index) => (
+              <button
+                type="button"
+                className="f4__category"
+                key={group}
+                aria-pressed={dest.group === group}
+                aria-controls={`${uid}-group-${index}`}
+                onClick={() => selectDestination(lastSelected.current[group])}
+              >
+                {group}
+              </button>
+            ))}
+          </div>
+          {CONNECT_GROUPS.map((group, index) => (
+            <fieldset className="f4__group" key={group} id={`${uid}-group-${index}`} data-active={dest.group === group ? '1' : '0'}>
               <legend className="f4__legend">{group}</legend>
               <div className="f4__options" data-group={group === 'Assistants' ? 'assistants' : 'code'}>
                 {DESTINATIONS.filter((d) => d.group === group).map((d) => (
@@ -50,7 +88,7 @@ export default function ConnectSection() {
                       name={`${uid}-destination`}
                       value={d.name}
                       checked={d.name === selected}
-                      onChange={() => setSelected(d.name)}
+                      onChange={() => selectDestination(d.name)}
                     />
                     <span className="f4__option-glyph">
                       <Glyph name={d.glyph} size={16} />

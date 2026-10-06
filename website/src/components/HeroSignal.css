@@ -7,3 +7,10 @@
   z-index: 19;
   pointer-events: none;
 }
+
+@media (max-width: 860px) {
+  .hero-signal {
+    bottom: auto;
+    height: 100svh;
+  }
+}

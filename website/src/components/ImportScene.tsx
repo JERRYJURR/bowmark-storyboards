@@ -5,7 +5,7 @@ import { CANVAS, canvasStyle, fitCanvas } from './DecompileScene';
 import { CapabilityCard } from './BentoTiles';
 import { BrandMark } from './sites/logos';
 import { HANDOFF, IMPORT_BEATS as IB, importProgress } from '../scene/beats';
-import { HOTEL_RESULT, IMPORT_BODY, IMPORT_HEAD, IMPORT_SOURCE, RUN_STATUS } from '../scene/content';
+import { HEADLINE_BEATS, HOTEL_RESULT, IMPORT_BODY, IMPORT_HEAD, IMPORT_SOURCE, RUN_STATUS } from '../scene/content';
 import { CARD_PLACE, IMPORTED, PAINT_ORDER, siteById } from '../scene/sites';
 import { between, clamp01, lerp, onScrollFrame, smooth, trackProgress } from '../scene/progress';
 import { MotionBlur } from '../scene/motion-blur';
@@ -423,6 +423,8 @@ export default function ImportScene({ trackId }: { trackId: string }) {
   );
 
   return (
+    <>
+    <ImportStatic />
     <div className="imp" ref={rootRef} aria-hidden="true">
       <div className="imp__canvas" ref={canvasRef} style={canvasStyle(layout.s)}>
         {/* 7K2, handed over from the first half */}
@@ -470,6 +472,7 @@ export default function ImportScene({ trackId }: { trackId: string }) {
                     <span className="imp__seg">{typed()}</span>
                     <span
                       className="imp__chip"
+                      data-site={CHOSEN_SITE.id}
                       ref={chipRef}
                       style={{ ['--cap-tone' as string]: CHOSEN_SITE.tone }}
                     >
@@ -513,6 +516,7 @@ export default function ImportScene({ trackId }: { trackId: string }) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
@@ -549,25 +553,54 @@ function HotelResult() {
 /* --- reduced motion / narrow: the same story, in flow ----------------------- */
 
 function ImportStatic() {
+  const rootRef = useRef<HTMLElement | null>(null);
+
+  // Fit the complete native editor/result column on shorter phones as well.
+  // The surrounding well and headline still belong to one viewport.
+  useEffect(() => {
+    const wells = rootRef.current?.querySelectorAll<HTMLElement>('.imp-static__well');
+    if (!wells) return;
+    const observer = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const scale = Math.min(1, entry.contentRect.width / 350, entry.contentRect.height / 465);
+        (entry.target as HTMLElement).style.setProperty('--imp-static-scale', String(scale));
+      }
+    });
+    wells.forEach(well => observer.observe(well));
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="imp-static" aria-label="Calling a capability">
-      <div className="imp-static__well">
-        <div className="imp__editor imp-static__editor">
-          <div className="imp__file">agent.ts</div>
-          <div className="imp__frame">
-            <pre className="imp-static__code">
-              <code>{IMPORT_SOURCE}</code>
-            </pre>
+    <section className="imp-static" ref={rootRef} aria-label="Calling a capability">
+      {(['ready', 'running', 'found'] as const).map(state => (
+        <div className="imp-static__beat" data-state={state} key={state} id={`story-${state}`}>
+          <div className="imp-static__well">
+            <div className="imp-static__column">
+              <div className="imp__editor imp-static__editor">
+                <div className="imp__file">agent.ts</div>
+                <div className="imp__frame">
+                  <pre className="imp-static__code">
+                    <code>{IMPORT_SOURCE}</code>
+                  </pre>
+                </div>
+              </div>
+              {state !== 'ready' && (
+                <p className="imp__status imp-static__status">
+                  <span>{state === 'found' ? RUN_STATUS.found : RUN_STATUS.running}</span>
+                  <span className="imp__status-time">{state === 'found' ? RUN_STATUS.foundTime : '1s'}</span>
+                </p>
+              )}
+              {state === 'found' && (
+                <div className="imp__hotel imp-static__hotel">
+                  <HotelResult />
+                </div>
+              )}
+            </div>
+            <div className="imp__well-fade" />
           </div>
+          <h2 className="imp-static__heading">{HEADLINE_BEATS[3]}</h2>
         </div>
-        <p className="imp__status imp-static__status">
-          <span>{RUN_STATUS.found}</span>
-          <span className="imp__status-time">{RUN_STATUS.foundTime}</span>
-        </p>
-        <div className="imp__hotel imp-static__hotel">
-          <HotelResult />
-        </div>
-      </div>
+      ))}
     </section>
   );
 }

@@ -69,6 +69,16 @@ Section anchors (`#f1`, `#b4`, `#connect`, `#faq` and the
 height, then let go as soon as the reader scrolls, touches, clicks or types.
 Closing sections carry `scroll-margin-top` equal to the fixed header.
 
+On phones, the header stays with the six-screen opening story and scrolls away
+before the compact closing sections. Each opening composition uses `100svh`,
+keeping its height stable when the browser's address bar changes. The approved
+mobile source is [the Paper storyboard file](https://app.paper.design/file/01KXQNV0FJHT7K9HD42P8QF1K9/1-0).
+Replay previews stack with their own meter and figures immediately below;
+pause/replay controls follow both previews. Tasks scroll horizontally. The twelve
+expanded capability cards form three swipeable groups. Installation has two
+category choices and a horizontal destination track, retaining every command,
+instruction and Copy action.
+
 ## Architecture
 
 ```
@@ -116,8 +126,9 @@ animation to its end state.
 **Accessibility.** Animated B1 stages are `aria-hidden` with the narrative in
 the hero. The compact install bar has two keyboard-operable listboxes. F4's
 twelve destinations are one native radio group in two fieldsets. B4 keeps
-three continuously drifting columns of expanded cards; narrow screens and
-reduced motion use a static expanded list. Provider logos have empty alt text beside readable brand names. Copy buttons (install, F4) announce success
+three continuously drifting columns of expanded cards; phones use a native
+scrollable carousel, and wider screens with reduced motion use the static list.
+Provider logos have empty alt text beside readable brand names. Copy buttons (install, F4) announce success
 or the manual-copy fallback through `role="status"`. Under
 `prefers-reduced-motion: reduce` **or** ≤860px the B1 halves are replaced by
 static figures.
@@ -141,7 +152,6 @@ by page visitors.
   version and are imported nowhere; they can be deleted.
 - 1040vh for B1 is a proposal, not a measured choice — worth a feel check on a
   trackpad and a mouse wheel.
-- Mobile *replaces* the B1 sequence rather than adapting it.
 - Without JavaScript the ≤860px header menu cannot open; every destination is
   still in the footer.
 - F4's commands and addresses, and "No account needed", are v5's and differ

@@ -244,7 +244,7 @@
 
 .b1-static {
   margin: 0;
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: var(--bm-space-5);
   width: 100%;
@@ -306,4 +306,72 @@
   font-size: var(--bm-size-ui-sm);
   line-height: 1.5;
   color: var(--bm-text-muted);
+}
+
+.b1-static__beat { display: contents; }
+.b1-static__heading { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .b1-static { display: flex; }
+  .b1 { display: none; }
+}
+
+/* M02/M03: reuse the real site skins and capability cards inside the native
+   portrait placements. These coordinates come from the 390×844 exports. */
+@media (max-width: 860px) {
+  .b1 { display: none; }
+  .b1-static { display: block; }
+  .b1-static__beat { display: block; position: relative; height: 100svh; overflow: clip; background-color: var(--bm-bg); }
+  .b1-static__merge, .b1-static__caption { display: none; }
+  .b1-static__sources, .b1-static__caps { display: block; position: absolute; inset: 0; }
+  .b1-static__sources > li {
+    position: absolute;
+    width: 175px;
+    height: 200px;
+    transform-origin: 0 0;
+  }
+  .b1-static__sources > li[data-site='youtube'] { left: calc(100% * -18 / 390); top: calc(100svh * 100 / 844); rotate: -4.6deg; }
+  .b1-static__sources > li[data-site='amazon'] { left: calc(100% * 235 / 390); top: calc(100svh * 120 / 844); rotate: 3.2deg; }
+  .b1-static__sources > li[data-site='calendly'] { left: calc(100% * -4 / 390); top: calc(100svh * 537 / 844); rotate: 2.8deg; }
+  .b1-static__sources > li[data-site='maps'] { left: calc(100% * 212 / 390); top: calc(100svh * 565 / 844); rotate: -3.4deg; }
+  .b1-static__sources > li[data-site='expedia'] { left: calc(100% * 107 / 390); top: calc(100svh * 150 / 844); rotate: -2.2deg; z-index: 5; }
+  .b1-static__sources .sc { width: 350px; height: 400px; transform: scale(.5); transform-origin: 0 0; }
+  .b1-static__heading {
+    display: block;
+    position: absolute;
+    z-index: 6;
+    left: 50%;
+    width: calc(100% - 2 * var(--bm-stage-inset));
+    translate: -50% 0;
+    font-size: var(--bm-size-hero);
+    font-weight: var(--bm-weight-head);
+    line-height: 1;
+    letter-spacing: var(--bm-track-hero);
+    text-align: center;
+  }
+  .b1-static__beat--sources .b1-static__heading { top: 50%; width: min(324px, calc(100% - 2 * var(--bm-stage-inset))); height: 116px; translate: -50% -50%; }
+  .b1-static__beat--sources .b1-static__heading::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    top: 50%;
+    width: 617px;
+    height: 618px;
+    translate: -50% -50%;
+    background: radial-gradient(ellipse 50% 50% at 50% 50%, rgb(var(--bm-bg-rgb)), rgb(var(--bm-bg-rgb) / 0));
+  }
+  .b1-static__caps > li { position: absolute; left: 50%; width: 350px; translate: -50% 0; }
+  .b1-static__caps > li[data-site='youtube'] { top: calc(100svh * 110 / 844); z-index: 1; }
+  .b1-static__caps > li[data-site='calendly'] { top: calc(100svh * 158 / 844); z-index: 2; }
+  .b1-static__caps > li[data-site='maps'] { top: calc(100svh * 206 / 844); z-index: 3; }
+  .b1-static__caps > li[data-site='amazon'] { top: calc(100svh * 254 / 844); z-index: 4; }
+  .b1-static__caps > li[data-site='expedia'] { top: calc(100svh * 302 / 844); z-index: 5; }
+  .b1-static__caps .cap {
+    height: 340px;
+    scale: var(--b1-cap-scale, 1);
+    transform-origin: 50% 0;
+    background-blend-mode: normal;
+  }
+  .b1-static__beat--caps .b1-static__heading { top: calc(100svh * 656 / 844); height: 152px; }
 }

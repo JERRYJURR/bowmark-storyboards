@@ -10,6 +10,7 @@ import {
 import { MotionBlur } from '../scene/motion-blur';
 import { BEATS, HANDOFF, SCENE_SPLIT, convProgress, riseOrdinal } from '../scene/beats';
 import { CARD_PLACE, PAINT_ORDER, SITES, capCount } from '../scene/sites';
+import { HEADLINE_BEATS } from '../scene/content';
 import {
   between,
   clamp01,
@@ -190,6 +191,7 @@ export default function DecompileScene({ trackId }: { trackId: string }) {
     if (isStatic) {
       // Readable fallback: hero copy fully visible, no scroll-driven state.
       root.style.setProperty('--b1-hero-out', '0');
+      root.style.setProperty('--b1-p', '0');
       root.style.removeProperty('--b1-scale');
       for (let i = 0; i < 4; i++) {
         root.style.setProperty(`--b1-h${i}`, '1');
@@ -554,6 +556,8 @@ export default function DecompileScene({ trackId }: { trackId: string }) {
   if (isStatic) return <StaticFigure />;
 
   return (
+    <>
+    <StaticFigure />
     <div className="b1" aria-hidden="true">
       <div className="b1__glow" ref={glowRef} />
 
@@ -709,6 +713,7 @@ export default function DecompileScene({ trackId }: { trackId: string }) {
         </svg>
       </div>
     </div>
+    </>
   );
 }
 
@@ -719,18 +724,38 @@ export default function DecompileScene({ trackId }: { trackId: string }) {
  * conversion, and the capability card each one becomes.
  */
 function StaticFigure() {
-  /* Story order, same as the animated arrival. */
-  const order = BEATS.riseOrder.map((i) => ({ i, site: SITES[i]! }));
+  const rootRef = useRef<HTMLElement | null>(null);
+  /* M02's source order and M03's back-to-front capability stack. */
+  const order = ['youtube', 'amazon', 'calendly', 'maps', 'expedia'].map(id => {
+    const i = SITES.findIndex(site => site.id === id);
+    return { i, site: SITES[i]! };
+  });
+  const capabilities = [order[0]!, order[2]!, order[3]!, order[1]!, order[4]!];
+
+  useEffect(() => {
+    const beat = rootRef.current?.querySelector<HTMLElement>('.b1-static__beat--caps');
+    if (!beat) return;
+    const observer = new ResizeObserver(([entry]) => {
+      if (!entry || entry.contentRect.width <= 40) return;
+      const scale = Math.min((entry.contentRect.width - 40) / 350, entry.contentRect.height / 844);
+      beat.style.setProperty('--b1-cap-scale', String(scale));
+    });
+    observer.observe(beat);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <figure className="b1-static">
-      <ol className="b1-static__sources" aria-label="Five sites">
-        {order.map(({ i, site }) => (
-          <li key={site.id}>
-            <SurfaceCard surface={i} />
-          </li>
-        ))}
-      </ol>
+    <figure className="b1-static" ref={rootRef}>
+      <div className="b1-static__beat b1-static__beat--sources" id="story-sites">
+        <ol className="b1-static__sources" aria-label="Five sites">
+          {order.map(({ i, site }) => (
+            <li key={site.id} data-site={site.id}>
+              <SurfaceCard surface={i} />
+            </li>
+          ))}
+        </ol>
+        <h2 className="b1-static__heading">{HEADLINE_BEATS[1]}</h2>
+      </div>
 
       <div className="b1-static__merge" aria-hidden="true">
         <span className="b1-static__converter">
@@ -738,13 +763,16 @@ function StaticFigure() {
         </span>
       </div>
 
-      <ul className="b1-static__caps" aria-label="The capabilities they become">
-        {order.map(({ site }) => (
-          <li key={site.id}>
-            <CapabilityCard site={site} />
-          </li>
-        ))}
-      </ul>
+      <div className="b1-static__beat b1-static__beat--caps" id="story-capabilities">
+        <ul className="b1-static__caps" aria-label="The capabilities they become">
+          {capabilities.map(({ site }) => (
+            <li key={site.id} data-site={site.id}>
+              <CapabilityCard site={site} />
+            </li>
+          ))}
+        </ul>
+        <h2 className="b1-static__heading">{HEADLINE_BEATS[2]}</h2>
+      </div>
 
       <figcaption className="b1-static__caption">AI accesses the web programmatically.</figcaption>
     </figure>

@@ -116,6 +116,34 @@ const signIn = LINKS.signIn;
     window.matchMedia('(min-width: 641px)').addEventListener('change', (mq) => {
       if (mq.matches) setOpen(false);
     });
+
+    // The portrait story owns the floating header. Let the pill leave with
+    // its final viewport so the compact closing-section headings stay clear.
+    const story = document.getElementById('b1-track');
+    if (story) {
+      const portrait = window.matchMedia('(max-width: 860px)');
+      let frame = 0;
+      const updateStoryHeader = () => {
+        frame = 0;
+        const bottom = story.getBoundingClientRect().bottom;
+        const top = parseFloat(getComputedStyle(header).top);
+        const travel = header.offsetHeight + top;
+        const y = portrait.matches ? Math.max(-travel, Math.min(0, bottom - travel)) : 0;
+        const hidden = portrait.matches && bottom <= 0;
+        header.style.setProperty('--bm-header-story-y', `${y}px`);
+        header.dataset.storyVisible = hidden ? '0' : '1';
+        header.inert = hidden;
+        if (hidden && !menu.hidden) setOpen(false);
+      };
+      const schedule = () => {
+        if (!frame) frame = requestAnimationFrame(updateStoryHeader);
+      };
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      portrait.addEventListener('change', schedule);
+      new ResizeObserver(schedule).observe(story);
+      updateStoryHeader();
+    }
   }
 </script>
 
@@ -259,6 +287,16 @@ const signIn = LINKS.signIn;
   .site-menu__item:hover {
     background: var(--bm-control-fill);
     color: var(--bm-text);
+  }
+
+  @media (max-width: 860px) {
+    .site-header {
+      transform: translateY(var(--bm-header-story-y, 0px));
+    }
+
+    .site-header[data-story-visible='0'] {
+      visibility: hidden;
+    }
   }
 
   /* Phone: the pill grows from 40 to 52px so the lock-up, Get started and the

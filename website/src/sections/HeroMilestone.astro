@@ -53,4 +53,15 @@ const TRACK_ID = 'b1-track';
         var(--bm-space-8);
     }
   }
+
+  /* M01–M06: each portrait story beat owns one stable phone viewport. */
+  @media (max-width: 860px) {
+    .scene__viewport {
+      display: block;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      overflow: clip;
+    }
+  }
 </style>

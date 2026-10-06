@@ -147,5 +147,13 @@ export default function CapabilityWall() {
     <ul className="b4__static">
       {STATIC_CAPABILITIES.map(capability => <Card capability={capability} as="li" key={capability.id} />)}
     </ul>
+    <div className="b4__mobile" role="region" aria-label="Provider capabilities" aria-describedby="b4-swipe" tabIndex={0}>
+      {[0, 4, 8].map(start => (
+        <ul className="b4__mobile-group" key={start}>
+          {STATIC_CAPABILITIES.slice(start, start + 4).map(capability => <Card capability={capability} as="li" key={capability.id} />)}
+        </ul>
+      ))}
+    </div>
+    <p className="b4__swipe" id="b4-swipe">Swipe to see all 12 providers</p>
   </section>;
 }

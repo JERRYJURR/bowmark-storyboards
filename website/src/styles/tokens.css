@@ -162,7 +162,10 @@
   --bm-radius-panel: 32px;
 
   /* Soft card fill: Paper's display-p3(0.937 0.933 0.919), the command well. */
-  --bm-card: #efeeea;
+  --bm-card-srgb: #efeeea;
+  --bm-card: var(--bm-card-srgb);
+  /* M07/M08's native Bowmark pill sheen. */
+  --bm-replay-tag-sheen: linear-gradient(in oklab 180deg, oklab(100% 0 0) 0%, oklab(84.5% 0 0) 100%);
   --bm-card-line: rgb(31 31 28 / 0.08); /* #1F1F1C14 top hairline */
 
   /* Floating chrome (nav pill, install bar): #EBE9E3 with a layered lift. */
@@ -202,7 +205,8 @@
   --bm-brand-amazon: #232f3e;
   --bm-brand-calendly: #006bff;
   --bm-brand-maps: #1e8e3e;
-  --bm-brand-expedia: #191e3b;
+  --bm-brand-expedia: #fddb32;
+  --bm-brand-expedia-ink: #191e3b;
   --bm-scene-burn: linear-gradient(180deg, rgb(255 255 255 / 0), rgb(198 198 198));
   --bm-scene-burn-mode: color-burn;
   /* Type on the coloured cards. */

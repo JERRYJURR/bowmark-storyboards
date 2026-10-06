@@ -388,4 +388,37 @@ const beatStyle = (i: number) =>
       order: 2;
     }
   }
+
+  @media (max-width: 860px) {
+    .hero {
+      position: relative;
+      display: block;
+      height: 100svh;
+    }
+
+    .hero__panel {
+      display: block;
+    }
+
+    .hero__intro {
+      position: absolute;
+      inset: var(--bm-stage-inset);
+      justify-content: center;
+      padding: 0 var(--bm-space-5);
+      background: none;
+      outline: none;
+    }
+
+    .hero__beats {
+      display: none;
+    }
+
+    .hero__install {
+      position: absolute;
+      left: 50%;
+      bottom: var(--bm-space-4);
+      width: min(var(--bm-install-w), calc(100% - 2 * var(--bm-space-4)));
+      translate: -50% 0;
+    }
+  }
 </style>
