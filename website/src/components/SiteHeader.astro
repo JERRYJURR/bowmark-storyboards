@@ -129,7 +129,9 @@ const signIn = LINKS.signIn;
         const top = parseFloat(getComputedStyle(header).top);
         const travel = header.offsetHeight + top;
         const y = portrait.matches ? Math.max(-travel, Math.min(0, bottom - travel)) : 0;
-        const hidden = portrait.matches && bottom <= 0;
+        // Scroll positions can stop a fraction of a CSS pixel before the
+        // section edge. A fully departed pill must also leave the tab order.
+        const hidden = portrait.matches && bottom <= 1;
         header.style.setProperty('--bm-header-story-y', `${y}px`);
         header.dataset.storyVisible = hidden ? '0' : '1';
         header.inert = hidden;

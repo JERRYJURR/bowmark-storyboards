@@ -101,7 +101,7 @@
   .b4__track { animation: none; }
 }
 
-.b4__mobile, .b4__swipe { display: none; }
+.b4__mobile, .b4__swipe, .b4__motion-toggle, .b4__mobile-clone { display: none; }
 
 /* M09: all twelve expanded cards, in three thumb-scrollable groups of four. */
 @media (max-width: 860px) {
@@ -121,12 +121,17 @@
     scrollbar-width: none;
   }
   .b4__mobile::-webkit-scrollbar { display: none; }
+  .b4__mobile-column {
+    flex: 0 0 min(300px, 100%);
+    min-width: 0;
+    scroll-snap-align: start;
+  }
   .b4__mobile-group {
     display: flex;
-    flex: 0 0 min(300px, 100%);
     flex-direction: column;
     gap: var(--b4-gap);
-    scroll-snap-align: start;
+    margin: 0;
+    padding: 0;
   }
   .b4__swipe {
     display: block;
@@ -136,4 +141,19 @@
     text-align: center;
     color: var(--bm-text-faint);
   }
+}
+
+@media (max-width: 860px) and (prefers-reduced-motion: no-preference) {
+  .b4[data-mode='motion'] .b4__mobile { overflow-y: hidden; }
+  .b4[data-mode='motion'] .b4__mobile-column { height: 100%; overflow: hidden; mask-image: linear-gradient(transparent, #000 var(--b4-fade), #000 calc(100% - var(--b4-fade)), transparent); }
+  .b4[data-mode='motion'] .b4__mobile-track { animation: b4-up var(--b4-duration, 90s) linear infinite; }
+  .b4[data-mode='motion'] .b4__mobile-track[data-direction='down'] { animation-name: b4-down; }
+  .b4[data-mode='motion'] .b4__mobile-column:nth-child(2) .b4__mobile-track { animation-delay: calc(var(--b4-duration) * -.35); }
+  .b4[data-mode='motion'] .b4__mobile-column:nth-child(3) .b4__mobile-track { animation-delay: calc(var(--b4-duration) * -.6); }
+  .b4[data-mode='motion'] .b4__mobile-group { padding-bottom: var(--b4-gap); }
+  .b4[data-mode='motion'] .b4__mobile-clone { display: flex; }
+  .b4[data-mobile-paused='1'] .b4__mobile-track { animation-play-state: paused; }
+  .b4[data-mobile-paused='1'] .b4__mobile-column { overflow-y: auto; scrollbar-width: none; }
+  .b4__mobile-column::-webkit-scrollbar { display: none; }
+  .b4[data-mode='motion'] .b4__motion-toggle { position: absolute; left: 50%; bottom: 84px; translate: -50% 0; display: flex; height: 44px; min-height: 44px; padding-inline: 16px; color: var(--bm-text-muted); font-size: var(--bm-size-micro); }
 }

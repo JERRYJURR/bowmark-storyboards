@@ -521,7 +521,7 @@ export default function ImportScene({ trackId }: { trackId: string }) {
 }
 
 /** 80X's compact result row, with the existing actions set quietly beneath */
-function HotelResult() {
+export function HotelResult() {
   return (
     <>
       <div className="imp__hotel-row">

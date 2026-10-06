@@ -547,4 +547,5 @@
     letter-spacing: var(--bm-track-hero);
     text-align: center;
   }
+  [data-mobile-motion='1'] .imp-static { display: none; }
 }

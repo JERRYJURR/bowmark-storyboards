@@ -3,6 +3,7 @@ import DecompileScene from '../components/DecompileScene.tsx';
 import ImportScene from '../components/ImportScene.tsx';
 import Hero from '../components/Hero.astro';
 import HeroSignal from '../components/HeroSignal.tsx';
+import MobileStory from '../components/MobileStory.tsx';
 
 const TRACK_ID = 'b1-track';
 ---
@@ -12,6 +13,7 @@ const TRACK_ID = 'b1-track';
     <Hero />
     <DecompileScene client:load trackId={TRACK_ID} />
     <ImportScene client:load trackId={TRACK_ID} />
+    <MobileStory client:load trackId={TRACK_ID} />
     <!-- WebGL, so browser-only: no server render to hydrate. -->
     <HeroSignal client:only="react" />
   </div>
@@ -54,7 +56,8 @@ const TRACK_ID = 'b1-track';
     }
   }
 
-  /* M01–M06: each portrait story beat owns one stable phone viewport. */
+  /* M01–M06: readable stills by default; MobileStory activates the sticky
+     portrait track once it is ready. Both use a stable phone viewport. */
   @media (max-width: 860px) {
     .scene__viewport {
       display: block;

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CAPABILITY_COLUMNS, STATIC_CAPABILITIES, type Capability } from '../scene/capabilities';
 import './CapabilityWall.css';
 
@@ -6,8 +6,8 @@ import './CapabilityWall.css';
 const SPEED = 16;
 /** Columns drift up / down / up. */
 const DIRECTIONS = ['up', 'down', 'up'] as const;
-/** The board runs only when motion is welcome and there is room for three columns. */
-const STATIC_QUERY = '(max-width: 860px), (prefers-reduced-motion: reduce)';
+/** Width changes the composition; only the motion preference stops its drift. */
+const STATIC_QUERY = '(prefers-reduced-motion: reduce)';
 
 /* `count` is every live function for the provider, the header call included;
    `providers` are the other listed calls. */
@@ -66,13 +66,17 @@ function Card({ capability, as: Item }: { capability: Capability; as: 'li' | 'di
  * -50% of its own height (one group plus its trailing gap), so the loop has no
  * seam and needs no measuring for distance. A ResizeObserver reads one group's
  * height only to set the duration, keeping every column at SPEED px/s. Nothing
- * runs per frame. The board drifts continuously without hover, focus or
- * visibility pause logic. Narrow screens, reduced motion and
- * no-JS get a static, expanded list of STATIC_CAPABILITIES instead.
+ * runs per frame. Portrait keeps the compact, horizontally scrollable groups,
+ * with the same drift and an explicit pause control. Reading, swiping and
+ * offscreen states pause that motion; reduced motion/no-JS remain native lists.
  */
 export default function CapabilityWall() {
   const rootRef = useRef<HTMLElement>(null);
   const boardRef = useRef<HTMLDivElement>(null);
+  const mobileRef = useRef<HTMLDivElement>(null);
+  const userPaused = useRef(false);
+  const syncPlayback = useRef<() => void>(() => {});
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -91,11 +95,57 @@ export default function CapabilityWall() {
         if (height > 0) group.parentElement?.style.setProperty('--b4-duration', `${(height / SPEED).toFixed(2)}s`);
       }
     });
-    board.querySelectorAll<HTMLElement>('.b4__group:first-child').forEach(group => resize.observe(group));
+    root.querySelectorAll<HTMLElement>('.b4__group:first-child, .b4__mobile-group:first-child').forEach(group => resize.observe(group));
 
     return () => {
       query.removeEventListener('change', setMode);
       resize.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const root = rootRef.current, mobile = mobileRef.current;
+    if (!root || !mobile) return;
+    const columns = Array.from(mobile.querySelectorAll<HTMLElement>('.b4__mobile-column'));
+    let visible = false, hovered = false, focused = false, dragging = false;
+    let wasPaused = true;
+    const sync = () => {
+      const next = userPaused.current || !visible || document.hidden || hovered || focused || dragging;
+      // Reading may scroll a held column. Resume its seamless loop from the
+      // original scroll origin, rather than leaving a blank tail below it.
+      if (wasPaused && !next) for (let i = 0; i < columns.length; i++) columns[i].scrollTop = 0;
+      wasPaused = next;
+      root.dataset.mobilePaused = next ? '1' : '0';
+    };
+    syncPlayback.current = sync;
+    const seen = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
+    seen.observe(mobile);
+    const enter = (event: PointerEvent) => { hovered = event.pointerType === 'mouse'; sync(); };
+    const leave = () => { hovered = false; dragging = false; sync(); };
+    const focus = () => { focused = true; sync(); };
+    const blur = () => { focused = false; sync(); };
+    const down = () => { dragging = true; sync(); };
+    const up = () => { dragging = false; sync(); };
+    mobile.addEventListener('pointerenter', enter);
+    mobile.addEventListener('pointerleave', leave);
+    mobile.addEventListener('focusin', focus);
+    mobile.addEventListener('focusout', blur);
+    mobile.addEventListener('pointerdown', down);
+    window.addEventListener('pointerup', up);
+    window.addEventListener('pointercancel', up);
+    document.addEventListener('visibilitychange', sync);
+    sync();
+    return () => {
+      seen.disconnect();
+      mobile.removeEventListener('pointerenter', enter);
+      mobile.removeEventListener('pointerleave', leave);
+      mobile.removeEventListener('focusin', focus);
+      mobile.removeEventListener('focusout', blur);
+      mobile.removeEventListener('pointerdown', down);
+      window.removeEventListener('pointerup', up);
+      window.removeEventListener('pointercancel', up);
+      document.removeEventListener('visibilitychange', sync);
+      syncPlayback.current = () => {};
     };
   }, []);
 
@@ -147,13 +197,25 @@ export default function CapabilityWall() {
     <ul className="b4__static">
       {STATIC_CAPABILITIES.map(capability => <Card capability={capability} as="li" key={capability.id} />)}
     </ul>
-    <div className="b4__mobile" role="region" aria-label="Provider capabilities" aria-describedby="b4-swipe" tabIndex={0}>
-      {[0, 4, 8].map(start => (
-        <ul className="b4__mobile-group" key={start}>
-          {STATIC_CAPABILITIES.slice(start, start + 4).map(capability => <Card capability={capability} as="li" key={capability.id} />)}
-        </ul>
+    <div className="b4__mobile" ref={mobileRef} role="region" aria-label="Provider capabilities" aria-describedby="b4-swipe" tabIndex={0}>
+      {[0, 4, 8].map((start, c) => (
+        <div className="b4__mobile-column" key={start}>
+          <div className="b4__mobile-track" data-direction={DIRECTIONS[c]}>
+            <ul className="b4__mobile-group">
+              {STATIC_CAPABILITIES.slice(start, start + 4).map(capability => <Card capability={capability} as="li" key={capability.id} />)}
+            </ul>
+            <div className="b4__mobile-group b4__mobile-clone" aria-hidden="true" inert>
+              {STATIC_CAPABILITIES.slice(start, start + 4).map(capability => <Card capability={capability} as="div" key={capability.id} />)}
+            </div>
+          </div>
+        </div>
       ))}
     </div>
     <p className="b4__swipe" id="b4-swipe">Swipe to see all 12 providers</p>
+    <button className="bm-btn b4__motion-toggle" type="button" aria-pressed={paused} onClick={() => {
+      userPaused.current = !userPaused.current;
+      setPaused(userPaused.current);
+      syncPlayback.current();
+    }}>{paused ? 'Resume motion' : 'Pause motion'}</button>
   </section>;
 }

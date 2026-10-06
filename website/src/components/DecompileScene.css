@@ -374,4 +374,5 @@
     background-blend-mode: normal;
   }
   .b1-static__beat--caps .b1-static__heading { top: calc(100svh * 656 / 844); height: 152px; }
+  [data-mobile-motion='1'] .b1-static { display: none; }
 }

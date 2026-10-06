@@ -78,11 +78,15 @@ const beatStyle = (i: number) =>
   const track = document.getElementById('b1-track');
   const hero = track?.querySelector<HTMLElement>('.hero');
   if (track && hero) {
+    const portrait = window.matchMedia('(max-width: 860px)');
     // Retire the final bottom headline before the following section enters.
     // The result can remain on screen without two display headings stacking.
     onScrollFrame(() => {
       const remaining = track.getBoundingClientRect().bottom - window.innerHeight;
-      hero.style.setProperty('--hero-outro-visible', clamp01(remaining / 160).toFixed(3));
+      // The portrait result needs its full resting headline. Fade as its
+      // viewport actually leaves, rather than during the result's arrival.
+      const outro = portrait.matches ? remaining + 160 : remaining;
+      hero.style.setProperty('--hero-outro-visible', clamp01(outro / 160).toFixed(3));
     });
   }
 </script>
@@ -290,12 +294,12 @@ const beatStyle = (i: number) =>
     }
   }
 
-  /* --- readable fallback (reduced motion, phones) -------------------------
+  /* --- readable fallback (reduced motion) ---------------------------------
      No scroll-driven state. The hero is a normal panel: badge, headline,
      subline, CTA and the install bar in flow. The three later beats stay as
      a quiet numbered sequence under it, not three more display headlines. */
 
-  @media (prefers-reduced-motion: reduce), (max-width: 860px) {
+  @media (prefers-reduced-motion: reduce) {
     .hero {
       position: static;
       display: flex;
@@ -407,6 +411,7 @@ const beatStyle = (i: number) =>
       padding: 0 var(--bm-space-5);
       background: none;
       outline: none;
+      border-radius: var(--bm-radius-panel);
     }
 
     .hero__beats {
@@ -420,5 +425,17 @@ const beatStyle = (i: number) =>
       width: min(var(--bm-install-w), calc(100% - 2 * var(--bm-space-4)));
       translate: -50% 0;
     }
+
+    :global([data-mobile-motion='1']) .hero { position: absolute; }
+    :global([data-mobile-motion='1']) .hero__beats { display: block; }
+    :global([data-mobile-motion='1']) .hero__beat[data-index='1'] { height: 116px; }
+    :global([data-mobile-motion='1']) .hero__beat[data-index='2'],
+    :global([data-mobile-motion='1']) .hero__beat[data-index='3'] {
+      top: calc(100svh * 656 / 844);
+      width: calc(100% - 2 * var(--bm-stage-inset));
+      height: 152px;
+      font-size: var(--bm-size-hero);
+    }
+    :global([data-mobile-motion='1']) .hero__beat[data-index='3'] { top: calc(100svh * 684 / 844); height: 76px; }
   }
 </style>

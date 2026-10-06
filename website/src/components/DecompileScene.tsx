@@ -189,6 +189,9 @@ export default function DecompileScene({ trackId }: { trackId: string }) {
     const root = document.documentElement;
 
     if (isStatic) {
+      // The portrait scene owns these channels on phones. Only a real motion
+      // preference gets the still-state reset; width is not that preference.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       // Readable fallback: hero copy fully visible, no scroll-driven state.
       root.style.setProperty('--b1-hero-out', '0');
       root.style.setProperty('--b1-p', '0');

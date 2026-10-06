@@ -52,14 +52,15 @@ export function SurfaceLabel({ surface }: { surface: number }) {
   );
 }
 
-/** A complete, static site card (used by the reduced-motion figure). */
-export function SurfaceCard({ surface }: { surface: number }) {
+/** The complete site card, with an optional conversion layer over its mockup. */
+export function SurfaceCard({ surface, children }: { surface: number; children?: ReactNode }) {
   return (
     <div className="sc">
       <div className="sc__art" aria-hidden="true">
         <div className="sc__panel" data-site={siteAt(surface).id}>
           <SurfaceMock surface={surface} />
         </div>
+        {children}
       </div>
       <SurfaceLabel surface={surface} />
     </div>
