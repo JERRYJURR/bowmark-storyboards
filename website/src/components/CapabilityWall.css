@@ -101,7 +101,7 @@
   .b4__track { animation: none; }
 }
 
-.b4__mobile, .b4__swipe, .b4__motion-toggle, .b4__mobile-clone { display: none; }
+.b4__mobile, .b4__mobile-clone { display: none; }
 
 /* M09: all twelve expanded cards, in three thumb-scrollable groups of four. */
 @media (max-width: 860px) {
@@ -135,14 +135,6 @@
     margin: 0;
     padding: 0;
   }
-  .b4__swipe {
-    display: block;
-    margin: 16px 20px 0;
-    font-size: var(--bm-size-micro);
-    line-height: 20px;
-    text-align: center;
-    color: var(--bm-text-faint);
-  }
 }
 
 @media (max-width: 860px) and (prefers-reduced-motion: no-preference) {
@@ -157,5 +149,4 @@
   .b4[data-mobile-paused='1'] .b4__mobile-track { animation-play-state: paused; }
   .b4[data-mobile-paused='1'] .b4__mobile-column { overflow-y: auto; scrollbar-width: none; }
   .b4__mobile-column::-webkit-scrollbar { display: none; }
-  .b4[data-mode='motion'] .b4__motion-toggle { position: absolute; left: 50%; bottom: 84px; translate: -50% 0; display: flex; height: 44px; min-height: 44px; padding-inline: 16px; color: var(--bm-text-muted); font-size: var(--bm-size-micro); }
 }

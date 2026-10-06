@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { CAPABILITY_COLUMNS, STATIC_CAPABILITIES, type Capability } from '../scene/capabilities';
 import './CapabilityWall.css';
 
@@ -67,16 +67,13 @@ function Card({ capability, as: Item }: { capability: Capability; as: 'li' | 'di
  * seam and needs no measuring for distance. A ResizeObserver reads one group's
  * height only to set the duration, keeping every column at SPEED px/s. Nothing
  * runs per frame. Portrait keeps the compact, horizontally scrollable groups,
- * with the same drift and an explicit pause control. Reading, swiping and
+ * with the same drift. Reading, swiping and
  * offscreen states pause that motion; reduced motion/no-JS remain native lists.
  */
 export default function CapabilityWall() {
   const rootRef = useRef<HTMLElement>(null);
   const boardRef = useRef<HTMLDivElement>(null);
   const mobileRef = useRef<HTMLDivElement>(null);
-  const userPaused = useRef(false);
-  const syncPlayback = useRef<() => void>(() => {});
-  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -110,14 +107,13 @@ export default function CapabilityWall() {
     let visible = false, hovered = false, focused = false, dragging = false;
     let wasPaused = true;
     const sync = () => {
-      const next = userPaused.current || !visible || document.hidden || hovered || focused || dragging;
+      const next = !visible || document.hidden || hovered || focused || dragging;
       // Reading may scroll a held column. Resume its seamless loop from the
       // original scroll origin, rather than leaving a blank tail below it.
       if (wasPaused && !next) for (let i = 0; i < columns.length; i++) columns[i].scrollTop = 0;
       wasPaused = next;
       root.dataset.mobilePaused = next ? '1' : '0';
     };
-    syncPlayback.current = sync;
     const seen = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
     seen.observe(mobile);
     const enter = (event: PointerEvent) => { hovered = event.pointerType === 'mouse'; sync(); };
@@ -145,7 +141,6 @@ export default function CapabilityWall() {
       window.removeEventListener('pointerup', up);
       window.removeEventListener('pointercancel', up);
       document.removeEventListener('visibilitychange', sync);
-      syncPlayback.current = () => {};
     };
   }, []);
 
@@ -197,7 +192,7 @@ export default function CapabilityWall() {
     <ul className="b4__static">
       {STATIC_CAPABILITIES.map(capability => <Card capability={capability} as="li" key={capability.id} />)}
     </ul>
-    <div className="b4__mobile" ref={mobileRef} role="region" aria-label="Provider capabilities" aria-describedby="b4-swipe" tabIndex={0}>
+    <div className="b4__mobile" ref={mobileRef} role="region" aria-label="Provider capabilities" tabIndex={0}>
       {[0, 4, 8].map((start, c) => (
         <div className="b4__mobile-column" key={start}>
           <div className="b4__mobile-track" data-direction={DIRECTIONS[c]}>
@@ -211,11 +206,5 @@ export default function CapabilityWall() {
         </div>
       ))}
     </div>
-    <p className="b4__swipe" id="b4-swipe">Swipe to see all 12 providers</p>
-    <button className="bm-btn b4__motion-toggle" type="button" aria-pressed={paused} onClick={() => {
-      userPaused.current = !userPaused.current;
-      setPaused(userPaused.current);
-      syncPlayback.current();
-    }}>{paused ? 'Resume motion' : 'Pause motion'}</button>
   </section>;
 }

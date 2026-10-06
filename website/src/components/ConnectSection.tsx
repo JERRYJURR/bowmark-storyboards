@@ -43,18 +43,27 @@ export default function ConnectSection() {
   // Reveal the actual selection inside its track without moving the page.
   useEffect(() => {
     const query = window.matchMedia('(max-width: 820px)');
-    const reveal = () => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const reveal = (animate: boolean) => {
       if (!query.matches) return;
       const option = rootRef.current?.querySelector<HTMLElement>(`.f4__group[data-active='1'] .f4__option[data-selected='1']`);
       if (option?.parentElement) {
         const track = option.parentElement;
         const inset = Number.parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
-        track.scrollLeft = option.offsetLeft - inset;
+        track.scrollTo({
+          left: option.offsetLeft - inset,
+          behavior: animate && !reduced.matches ? 'smooth' : 'instant',
+        });
       }
     };
-    reveal();
-    query.addEventListener('change', reveal);
-    return () => query.removeEventListener('change', reveal);
+    reveal(true);
+    const settle = () => reveal(false);
+    query.addEventListener('change', settle);
+    reduced.addEventListener('change', settle);
+    return () => {
+      query.removeEventListener('change', settle);
+      reduced.removeEventListener('change', settle);
+    };
   }, [selected]);
 
   return (
@@ -67,7 +76,7 @@ export default function ConnectSection() {
 
       <div className="f4__body">
         <div className="f4__rail">
-          <div className="f4__categories" role="group" aria-label="Installation category">
+          <div className="f4__categories" role="group" aria-label="Installation category" data-category={dest.group === 'Assistants' ? 'assistants' : 'code'}>
             {CONNECT_GROUPS.map((group, index) => (
               <button
                 type="button"
@@ -108,7 +117,7 @@ export default function ConnectSection() {
 
         <div className="f4__main">
           <div className="f4__panel" data-soon={dest.soon ? '1' : '0'} aria-labelledby={`${uid}-dest`} role="group">
-            <div className="f4__detail">
+            <div className="f4__detail" key={dest.name}>
               <div className="f4__link" aria-hidden="true">
                 <span className="f4__tile">
                   <span className="f4__destination-icon" key={dest.name}>
@@ -151,7 +160,7 @@ export default function ConnectSection() {
                     $
                   </span>
                 )}
-                <code className="f4__code" id={cmdId}>
+                <code className="f4__code" id={cmdId} key={dest.name}>
                   {dest.command}
                 </code>
                 <button
@@ -168,8 +177,8 @@ export default function ConnectSection() {
                   {/* both labels share one grid cell, so the button is always as
                       wide as "Copied" and the command never reflows */}
                   <span className="f4__copy-label">
-                    <span data-shown={state === 'copied' ? '0' : '1'}>Copy</span>
-                    <span data-shown={state === 'copied' ? '1' : '0'}>Copied</span>
+                    <span data-shown={state === 'copied' ? '0' : '1'} aria-hidden={state === 'copied'}>Copy</span>
+                    <span data-shown={state === 'copied' ? '1' : '0'} aria-hidden={state !== 'copied'}>Copied</span>
                   </span>
                 </button>
               </div>
