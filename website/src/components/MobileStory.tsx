@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { CapabilityCard, ConvertedTile, MarkGlyph, SurfaceCard } from './BentoTiles';
+import { BrandMark } from './sites/logos';
 import { HotelResult } from './ImportScene';
 import { BEATS, IMPORT_BEATS as IB, SCENE_SPLIT, convProgress, importProgress, riseOrdinal } from '../scene/beats';
 import { IMPORT_SOURCE, RUN_STATUS } from '../scene/content';
@@ -17,6 +18,7 @@ const SOURCES: Record<SiteId, { x: number; y: number; r: number; z: number }> = 
   expedia: { x: 107, y: 150, r: -2.2, z: 5 },
 };
 const TURNS = SITES.map(site => PAINT_ORDER.indexOf(site.id));
+const CHOSEN_SITE = SITES.find(site => site.id === IMPORTED)!;
 const PREFIX = IMPORT_SOURCE.slice(0, IMPORT_SOURCE.indexOf(IMPORTED));
 const SUFFIX = IMPORT_SOURCE.slice(PREFIX.length + IMPORTED.length);
 const carry = (x: number) => {
@@ -164,13 +166,13 @@ export default function MobileStory({ trackId }: { trackId: string }) {
             top = lerp(top, 170 * height / 844, swap);
             left = lerp(left, chipX, collapse);
             top = lerp(top, chipY, collapse);
-            scale = lerp(fit * lerp(1, 1.03, swap), 1, collapse);
+            scale = lerp(fit * lerp(1, 1.03, swap), editorFit, collapse);
             w = lerp(350, chipW, collapse);
             h = lerp(340, chipH, collapse);
             rotation = 0;
             lift = swap * (1 - collapse);
             depth = 0;
-            visible = collapse < .999;
+            visible = collapse < 1;
             el.style.setProperty('--mobile-content', `${1 - between(collapse, 0, .3)}`);
             el.style.setProperty('--mobile-title', `${1 - between(collapse, .2, .34)}`);
             el.style.setProperty('--mobile-title-blur', `${3 * between(collapse, .2, .34)}px`);
@@ -200,6 +202,7 @@ export default function MobileStory({ trackId }: { trackId: string }) {
           el.style.transform = `translate3d(${left.toFixed(3)}px, ${top.toFixed(3)}px, ${depth.toFixed(1)}px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) rotate(${rotation.toFixed(3)}deg) scale(${scale.toFixed(5)})`;
           el.style.zIndex = String(q > 0 && SITES[i].id === IMPORTED && swap > .3 ? 40 : morph > 0 ? 30 + turn : source.z);
           el.style.setProperty('--depth-lift', lift.toFixed(3));
+          el.style.setProperty('--sh', `${flood}`);
           if (visible) blur.sample(el, left + w * scale / 2, top + h * scale / 2, w * scale, 6);
           else blur.hide(el);
           part.paper.style.visibility = flood >= 1 ? 'hidden' : 'inherit';
@@ -231,7 +234,7 @@ export default function MobileStory({ trackId }: { trackId: string }) {
         well.style.opacity = `${wellIn}`;
         well.style.visibility = wellIn > .004 ? 'visible' : 'hidden';
         well.style.transform = `scale(${lerp(.97, 1, wellIn)})`;
-        chip.style.opacity = collapse >= .999 ? '1' : '0';
+        chip.style.opacity = collapse >= 1 ? '1' : '0';
         const before = Math.min(PREFIX.length, Math.round(wellIn * (PREFIX.length + 1)));
         const characters = Math.min(SUFFIX.length, Math.round(between(q, ...IB.type) * (SUFFIX.length + 18)));
         const prefixText = PREFIX.slice(0, before), prefixRest = PREFIX.slice(before);
@@ -280,8 +283,13 @@ export default function MobileStory({ trackId }: { trackId: string }) {
         const stage = viewport.getBoundingClientRect(), slot = chip.getBoundingClientRect();
         chipX = slot.left - stage.left;
         chipY = slot.top - stage.top;
-        chipW = slot.width;
-        chipH = slot.height;
+        // The moving card and the editor must use the same local pill size
+        // and scale, otherwise a short phone clips the unscaled namespace.
+        chipW = slot.width / editorFit;
+        chipH = slot.height / editorFit;
+        const chipType = getComputedStyle(chip);
+        host.style.setProperty('--mobile-chip-font', chipType.fontFamily);
+        host.style.setProperty('--mobile-chip-size', chipType.fontSize);
         column.style.top = previousTop;
         well.style.transform = previousTransform;
         blur.reset();
@@ -326,7 +334,11 @@ export default function MobileStory({ trackId }: { trackId: string }) {
         <div className="mobile-story__code"><ConvertedTile surface={i} /></div>
       </SurfaceCard>
       <div className="mobile-story__cap">
-        <CapabilityCard site={site}><span className="mobile-story__face">{site.ns}</span></CapabilityCard>
+        <CapabilityCard site={site}>
+          <span className="mobile-story__face imp__chip" data-site={site.id}>
+            <BrandMark id={site.id} size={14} /><span>{site.ns}</span>
+          </span>
+        </CapabilityCard>
       </div>
     </div>)}
     <div className="mobile-story__marquee" />
@@ -340,7 +352,7 @@ export default function MobileStory({ trackId }: { trackId: string }) {
         <div className="imp__editor imp-static__editor">
           <div className="imp__file">agent.ts<span className="imp__state">⏎ Run</span></div>
           <div className="imp__frame">
-            <pre className="imp-static__code"><code><span data-typed="prefix" /><span className="imp__rest" data-rest="prefix">{PREFIX}</span><span className="mobile-story__token">{IMPORTED}</span><span data-typed="suffix" /><span className="mobile-story__caret"><span className="imp__agent">Agent</span></span><span className="imp__rest" data-rest="suffix">{SUFFIX}</span></code></pre>
+            <pre className="imp-static__code"><code><span data-typed="prefix" /><span className="imp__rest" data-rest="prefix">{PREFIX}</span><span className="mobile-story__token imp__chip" data-site={CHOSEN_SITE.id} style={{ ['--cap-tone' as string]: CHOSEN_SITE.tone }}><BrandMark id={CHOSEN_SITE.id} size={14} /><span>{CHOSEN_SITE.ns}</span></span><span data-typed="suffix" /><span className="mobile-story__caret"><span className="imp__agent">Agent</span></span><span className="imp__rest" data-rest="suffix">{SUFFIX}</span></code></pre>
           </div>
         </div>
         <div className="imp__status imp-static__status">
